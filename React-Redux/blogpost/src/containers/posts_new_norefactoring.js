@@ -5,42 +5,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createPost } from "../actions";
 
-const FIELDS = {
-  title: {
-    type: "input",
-    label: "Title for Post",
-    error: "Please enter a title",
-    validate: value => {
-      if (value && value.length < 3) {
-        return false;
-      }
-      return true;
-    }
-  },
-  categories: {
-    type: "input",
-    label: "Categories",
-    error: "Please enter a Category"
-  },
-  content: {
-    type: "textarea",
-    label: "Post Content",
-    error: "Please enter some content"
-  }
-};
-
 class PostsNew extends Component {
-  addField(fieldConfig, field) {
-    return (
-      <Field
-        label={fieldConfig.label}
-        name={field}
-        key={field}
-        component={this.renderField}
-      />
-    );
-  }
-
   renderField(field) {
     //destructuring of field.meta to access directly touched and error (ES6)
     const { meta: { touched, error } } = field;
@@ -89,7 +54,17 @@ class PostsNew extends Component {
       <div>
         <h1>Create a new Post</h1>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          {_.map(FIELDS, this.addField.bind(this))}
+          <Field label="Title" name="title" component={this.renderField} />
+          <Field
+            label="Categories"
+            name="categories"
+            component={this.renderField}
+          />
+          <Field
+            label="Post Content"
+            name="content"
+            component={this.renderField}
+          />
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -104,14 +79,15 @@ class PostsNew extends Component {
 
 function validate(values) {
   const errors = {};
-  _.each(FIELDS, (field, type) => {
-    if (!values[type]) {
-      errors[type] = field.error;
-    }
-    if (field.validate && !field.validate(values[type])) {
-      errors[type] = field.error;
-    }
-  });
+  if (!values.title) {
+    errors.title = "Enter a title!";
+  }
+  if (!values.categories) {
+    errors.categories = "Enter a category!";
+  }
+  if (!values.content) {
+    errors.categories = "Enter some content!";
+  }
   //if errors is empty, form is fine to submit
   return errors;
 }

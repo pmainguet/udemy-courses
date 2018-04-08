@@ -32,7 +32,7 @@
 \*MIDDLEWARE:
 
 * functions that stop any actions, check, let it pass, logs it ...
-* example: Promise used with Axios to handle ajax request
+* Promise used with Axios to handle ajax request => simple implementation. For more complex implementation (ie, delays, ..), use React Thunk
 
 \*ROUTER/HISTORY
 
@@ -53,3 +53,73 @@
 * callback to the action to submit data to API is history.push, that redirects to specific path
 * ownProps, set of props that is going to the target component, available in mapStateProps.
 * mapStateProps is a good place to make some intermediate calculation such as lookup in object
+
+\*THUX - DISPATCH
+
+* Use of dispatch function through Thux, in order to use onsuccess/failure action
+
+\*SELECTORS
+
+* Return calculated state from piece of states => for example, selectedPost from a big list of posts
+
+\*DATA LOADING METHODS
+
+* Possible to use component lifecycle function such as componentWillMount or componentDidMount but component are tied to states
+* Better solution is to use onEnter callback provided by React router
+
+\*ANIMATION OF COMPONENTS
+
+* ReactCSSTransitionGroup wrapper of items that need to be animated + css rules for the animation based on class created by the wrapper
+
+\*BEST WAYS TO STORE DATA IN REDUX (array vs object)
+
+* Array not a good approach
+* Example find element in array vs object
+
+state.posts.find(post => post.id === 34)
+
+state.posts[34]
+
+* Example on update elt in array / object
+
+newPost=state.posts.filter(post => post.id!==id);
+return [...state,newPost];
+
+return {...state,[newPost.id]:newPost};
+
+* example on delete elt in array/object
+
+return state.posts.filter(post => post.id!==postIdToDelete);
+
+return \_.omit(state,postIdToDelete);
+
+* \_.mapKeys(payload,'id') => function that transforms an array into an object with key 'id'
+
+\*COMMON ERRORS
+
+* Warning: React.createElement => not valid React component somewhere => check import / export statement for mispel
+* nothing happen after reducer modification => undefined action case => check import / export statement, maybe missing {} around import case name
+* action creator: uncaught in promise => check action promise and / or middleware
+* Objects are not valid as a React child => it's not possible to directly render plain javascript within react (wrapper needed)
+
+\*MODALS
+
+* warning of z-index rules only
+* better solution, is to break rootcomponent hierarchy by making a sibling element directly under document.body
+
+\*DEPLOYMENT OF REACT/WEBPACK APP
+
+* use package.json to define action to be run by 'npm run'
+* postinstall script to generate bundle.js => 'webpack -p'
+* simple webserver with express for example
+
+\*BROWSERHISTORY VS HASHHISTORY
+
+* hashhistory => example.com/#/users -> /users || example.com/users -> nothing
+* browserhistory => example.com/#/users -> /#/users || example.com/users -> /users
+* If browserhistory is used need to setup web server to always serve index.html with every url, so React can be launched and then take care of the root provided by the user
+
+\*INTEGRATING 3RD PARTY LIBRARIES
+
+* use a wrapper to render script
+* make use of ref prop to make a reference to a specific DOM element to be fed to the library
