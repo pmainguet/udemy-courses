@@ -1,0 +1,44 @@
+/* variables */
+.heading {
+  color: #212529;
+}
+.heading h3.light {
+  color: #7b4397;
+}
+
+.heading-1, body {
+  color: #ecf0f1;
+}
+.heading-1 h3.light, body h3.light {
+  color: #7b4397;
+}
+
+.bg {
+  background: url("../img/bg-pattern.png"), #7b4397;
+  background: url("../img/bg-pattern.png"), linear-gradient(to left, #7b4397, #372EBB);
+}
+
+.navbar-brand {
+  color: #ecf0f1 !important;
+}
+
+.navbar-light a {
+  color: #ecf0f1 !important;
+  /*color: $text-dark!important;*/
+}
+.navbar-light a.active {
+  color: #c29fd4 !important;
+}
+
+/* carousel controls customization */
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#7b4397' viewBox='0 0 8 8'%3E%3Cpath d='M4 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+  color: #7b4397;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#7b4397' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+  color: #7b4397;
+}
+
+/*# sourceMappingURL=custom.css.map */

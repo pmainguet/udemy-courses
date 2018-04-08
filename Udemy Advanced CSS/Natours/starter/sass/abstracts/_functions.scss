@@ -1,0 +1,6 @@
+@function calcWidth($size, $length) {
+  @return calc(
+    #{$size}* ((100% - ((#{$length} - 1) * #{$gutter-horizontal})) / #{$length}) +
+      ((#{$size} - 1) * #{$gutter-horizontal})
+  );
+}

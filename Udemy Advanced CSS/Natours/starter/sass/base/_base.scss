@@ -1,0 +1,41 @@
+/*Universal selector to reset everything*/
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+//define what a 1rem is
+html {
+  font-size: 62.5%; //10px => 10/16 = .625
+
+  @include respond(tab-land) {
+    // width < 1200 ?
+    font-size: 56.25%; // 1rem = 9px, 9/16 = .5625
+  }
+
+  @include respond(tab-port) {
+    // width < 900 ?
+    font-size: 50%; // 1rem = 8px, 8/16 = .5
+  }
+
+  @include respond(big-desktop) {
+    font-size: 75%; // 1rem = 12, 12/16 = .75
+  }
+}
+
+body {
+  padding: 3rem;
+  box-sizing: border-box;
+
+  @include respond(tab-port) {
+    padding: 0;
+  }
+}
+
+::selection{
+  background-color: $color-primary;
+  color: $color-white;
+}

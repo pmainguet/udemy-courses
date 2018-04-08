@@ -1,0 +1,135 @@
+@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);
+
+body {      
+    font-family: 'Quicksand', sans-serif;
+     position: relative;
+  }
+
+/* .bg {
+    background: url('../img/bg-mountain-clouds.jpg') 20% 40%;
+} */
+
+.bg-fixed {
+    background-attachment: fixed;
+}
+
+.bg-dark {
+    background: #212529;
+}
+
+.bg-cloud {
+    background: rgb(236, 240, 241);
+}
+
+.text-cloud {
+    color: rgb(236, 240, 241);
+}
+
+.text-dark {
+    color: #212529;
+}
+
+.h-100 {
+    height: 100px;
+}
+
+.h-250 {
+    height: 250px;
+}
+
+.paddingZero {
+    padding: 0;
+}
+
+.padding10
+ {
+    padding: 10px;
+}
+
+#map {
+    width: 100%;
+    height: 300px;
+    background-color: grey;
+  }
+
+/* utilities */
+
+.font-60 {
+    font-size: 60px;
+}
+.font-70 {
+    font-size: 70px;
+}
+.font-80 {
+   font-size: 80px;
+}
+
+/* navbar */
+
+#navbar {
+    transition: all .5s;
+    -moz-transition: all .5s;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+}
+
+.bg-clear {
+    background: transparent;
+}
+
+
+/* header */
+.padding-150 {
+    padding-top: 150px;
+    padding-bottom: 100px;
+}
+
+/*social media icons - CSS animation */
+
+section#contact a {
+    display: inline-block;
+    width: 128px;
+    height: 128px;
+    transition: all .5s;
+    -moz-transition: all .5s;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+}
+
+.bg-warning {
+    background: #fdcc52
+}
+
+a.fb {
+    background: url(../img/social_media.png) -256px top;
+}
+
+a.tw {
+    background: url(../img/social_media.png)  -512px top;
+}
+
+a.go {
+    background: url(../img/social_media.png) -768px top;
+}
+
+a.ytube {
+    background: url(../img/social_media.png) -640px top;
+}
+
+section#contact li:hover a.fb {
+    background: url(../img/social_media.png) -256px bottom;
+}
+
+section#contact li:hover a.tw {
+    background: url(../img/social_media.png) -512px bottom;
+}
+
+section#contact li:hover a.ytube {
+    background: url(../img/social_media.png) -640px bottom;
+}
+
+section#contact li:hover a.go {
+    background: url(../img/social_media.png) -768px bottom;
+}
+
+    

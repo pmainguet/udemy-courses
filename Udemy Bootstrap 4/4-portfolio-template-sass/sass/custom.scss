@@ -1,0 +1,69 @@
+/* variables */
+
+$square:'../img/bg-pattern.png';
+$black-thread: '../img/black-thread.png';
+$bg-pattern: $square;
+$text-cloud: rgb(236, 240, 241);
+$text-dark: #fff;
+$purple: #7b4397;
+$blue: #372EBB;
+$red: #dc2430;
+$yellow: rgba(218, 240, 25, 0.79);
+$primary-color: $purple;
+$secondary-color:$blue;
+@mixin gradient-y($start-color, $end-color, $start-percent: 0%, $end-percent: 100%) {
+    background: url($bg-pattern), $start-color;
+    background: url($bg-pattern), linear-gradient(to left, $start-color, $end-color);
+}
+
+.primary {
+    h3.light {
+        color: $primary-color
+    }
+}
+
+.heading {
+    @extend .primary;
+    color: $text-dark
+}
+
+.heading-1 {
+    @extend .primary;
+    color: $text-cloud
+}
+
+body {
+    @extend .heading-1;
+}
+
+.bg {
+    @include gradient-y($primary-color, $secondary-color, 0%, 100%)
+}
+
+.navbar-brand {
+    color: $text-cloud !important;
+}
+
+.navbar-light {
+    a {
+        color: $text-cloud !important;
+        /*color: $text-dark!important;*/
+        &.active {
+            color: lighten($primary-color, 30%) !important;
+        }
+    }
+}
+
+/* carousel controls customization */
+
+.carousel-control-prev-icon,
+    {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='"+$primary-color+"' viewBox='0 0 8 8'%3E%3Cpath d='M4 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+    color: $primary-color;
+}
+
+.carousel-control-next-icon,
+    {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='"+$primary-color+"' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+    color: $primary-color;
+}
