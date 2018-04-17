@@ -1,5 +1,5 @@
 # Cache, session files and logs (Symfony3)
-/"Rest API Symfony 3"/movies-app/var
+Rest\ API\ Symfony\ 3/movies-app/var/cache/*
 Rest\ API\ Symfony\ 3/movies-app/var/logs/*
 Rest\ API\ Symfony\ 3/movies-app/var/sessions/*
 !Rest\ API\ Symfony\ 3/movies-app/var/cache/.gitkeep
