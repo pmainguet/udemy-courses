@@ -1,0 +1,39 @@
+# Cache, session files and logs (Symfony3)
+/"Rest API Symfony 3"/movies-app/var
+Rest\ API\ Symfony\ 3/movies-app/var/logs/*
+Rest\ API\ Symfony\ 3/movies-app/var/sessions/*
+!Rest\ API\ Symfony\ 3/movies-app/var/cache/.gitkeep
+!Rest\ API\ Symfony\ 3/movies-app/var/logs/.gitkeep
+!Rest\ API\ Symfony\ 3/movies-app/var/sessions/.gitkeep
+
+# Parameters
+Rest\ API\ Symfony\ 3/movies-app/app/config/parameters.yml
+Rest\ API\ Symfony\ 3/movies-app/app/config/parameters.ini
+
+# Managed by Composer
+Rest\ API\ Symfony\ 3/movies-app/app/bootstrap.php.cache
+Rest\ API\ Symfony\ 3/movies-app/var/bootstrap.php.cache
+Rest\ API\ Symfony\ 3/movies-app/bin/*
+!Rest\ API\ Symfony\ 3/movies-app/bin/console
+!Rest\ API\ Symfony\ 3/movies-app/bin/symfony_requirements
+Rest\ API\ Symfony\ 3/movies-app/vendor/
+
+# Assets and user uploads
+Rest\ API\ Symfony\ 3/movies-app/web/bundles/
+Rest\ API\ Symfony\ 3/movies-app/web/uploads/
+
+# PHPUnit
+Rest\ API\ Symfony\ 3/movies-app/app/phpunit.xml
+Rest\ API\ Symfony\ 3/movies-app/phpunit.xml
+
+# Build data
+Rest\ API\ Symfony\ 3/movies-app/build/
+
+# Composer PHAR
+Rest\ API\ Symfony\ 3/movies-app/composer.phar
+
+# Backup entities generated with doctrine:generate:entities command
+**Entity/*~
+
+# Embedded web-server pid file
+Rest\ API\ Symfony\ 3/movies-app/.web-server-pid
