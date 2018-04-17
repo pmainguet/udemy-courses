@@ -1,0 +1,54 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+movies:
+    type: rest
+    resource: AppBundle\Controller\MoviesController
+
+movies_post:
+    path: /movies
+    methods: [POST]
+    defaults:
+        _controller: AppBundle\Controller\MoviesController:postMoviesAction
+        _format: json
+
+movies_patch:
+    path: /movies/{movie}
+    methods: [PATCH]
+    defaults:
+        _controller: AppBundle\Controller\MoviesController:patchMovieAction
+        _format: json
+
+movies_roles_post:
+    path: /movies/{movie}/roles
+    methods: [POST]
+    defaults:
+        _controller: AppBundle\Controller\MoviesController:postMovieRolesAction
+        _format: json
+
+humans:
+    type: rest
+    resource: AppBundle\Controller\HumansController
+
+humans_post:
+    path: /humans
+    methods: [POST]
+    defaults:
+        _controller: AppBundle\Controller\HumansController:postHumansAction
+        _format: json
+
+users:
+    type: rest
+    resource: AppBundle\Controller\UsersController
+
+users_post:
+    path: /users
+    methods: [POST]
+    defaults:
+        _controller: AppBundle\Controller\UsersController:postUsersAction
+        _format: json
+
+tokens:
+    type: rest
+    resource: AppBundle\Controller\TokensController
