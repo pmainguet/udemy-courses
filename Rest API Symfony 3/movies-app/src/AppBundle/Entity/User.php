@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
- * @UniqueEntity("username")
+ * @UniqueEntity("username", groups={"Default", "Patch"})
  *
  */
 class User implements UserInterface
@@ -44,7 +44,7 @@ class User implements UserInterface
      * @Assert\Regex(
      *      pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
      *      message="Password must be 7 characters long at least and contains at least one lowercase letter, one uppercase letter and one digit",
-     *      groups={"Default"}
+     *      groups={"Default", "Patch"}
      * )
      * @Serializer\Groups({"Deserialize"})
      * @var [type]
@@ -57,7 +57,7 @@ class User implements UserInterface
      * @Assert\Expression(
      *      "this.getPassword() === this.getRetypedPassword()",
      *      message = "Passwords does not match.",
-     *      groups={"Default"}
+     *      groups={"Default","Patch"}
      * )
      * @Serializer\Groups({"Deserialize"})
      */
@@ -196,9 +196,8 @@ class User implements UserInterface
      *
      * @return  self
      */
-    public function setRetypedPassword($retypedPassword)
+    public function setRetypedPassword(?string $retypedPassword): void
     {
         $this->retypedPassword = $retypedPassword;
-        return $this;
     }
 }

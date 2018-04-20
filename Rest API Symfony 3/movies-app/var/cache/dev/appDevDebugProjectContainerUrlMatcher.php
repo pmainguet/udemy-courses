@@ -121,6 +121,24 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\HumansController::postHumansAction',  '_route' => 'app_humans_posthumans',);
         }
 
+        // app_images_postimages
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($rawPathinfo.'/', 'app_images_postimages');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\ImagesController::postImagesAction',  '_route' => 'app_images_postimages',);
+        }
+
+        // app_images_putimageupload
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($rawPathinfo.'/', 'app_images_putimageupload');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\ImagesController::putImageUploadAction',  '_route' => 'app_images_putimageupload',);
+        }
+
         // app_movies_postmovies
         if ('' === $trimmedPathinfo) {
             if (substr($pathinfo, -1) !== '/') {
@@ -155,6 +173,15 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
 
             return array (  '_controller' => 'AppBundle\\Controller\\UsersController::postUsersAction',  '_route' => 'app_users_postusers',);
+        }
+
+        // app_users_patchusers
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($rawPathinfo.'/', 'app_users_patchusers');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\UsersController::patchUsersAction',  '_route' => 'app_users_patchusers',);
         }
 
         if (0 === strpos($pathinfo, '/movies')) {
@@ -307,6 +334,17 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
             not_users_post:
 
+            // users_patch
+            if (preg_match('#^/users/(?P<theUser>[^/]++)$#s', $pathinfo, $matches)) {
+                if ('PATCH' !== $canonicalMethod) {
+                    $allow[] = 'PATCH';
+                    goto not_users_patch;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'users_patch')), array (  '_controller' => 'AppBundle\\Controller\\UsersController:patchUsersAction',  '_format' => 'json',));
+            }
+            not_users_patch:
+
         }
 
         // post_token
@@ -319,6 +357,42 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\TokensController:postTokenAction',  '_format' => 'json',  '_route' => 'post_token',);
         }
         not_post_token:
+
+        if (0 === strpos($pathinfo, '/images')) {
+            // get_images
+            if ('/images' === $pathinfo) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_get_images;
+                }
+
+                return array (  '_controller' => 'AppBundle\\Controller\\ImagesController:getImagesAction',  '_format' => 'json',  '_route' => 'get_images',);
+            }
+            not_get_images:
+
+            // images_post
+            if ('/images' === $pathinfo) {
+                if ('POST' !== $canonicalMethod) {
+                    $allow[] = 'POST';
+                    goto not_images_post;
+                }
+
+                return array (  '_controller' => 'AppBundle\\Controller\\ImagesController:postImagesAction',  '_format' => 'json',  '_route' => 'images_post',);
+            }
+            not_images_post:
+
+            // images_upload_put
+            if (preg_match('#^/images/(?P<image>[^/]++)/upload$#s', $pathinfo, $matches)) {
+                if ('PUT' !== $canonicalMethod) {
+                    $allow[] = 'PUT';
+                    goto not_images_upload_put;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'images_upload_put')), array (  '_controller' => 'AppBundle\\Controller\\ImagesController:putImageUploadAction',));
+            }
+            not_images_upload_put:
+
+        }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }

@@ -45,6 +45,7 @@ class ComposerStaticInitb9b94a46cc2bc5e10c18616cafea48de
             'Symfony\\Bridge\\PhpUnit\\' => 23,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
+            'Snc\\RedisBundle\\' => 16,
             'Sensio\\Bundle\\GeneratorBundle\\' => 30,
             'Sensio\\Bundle\\FrameworkExtraBundle\\' => 35,
             'Sensio\\Bundle\\DistributionBundle\\' => 33,
@@ -56,6 +57,7 @@ class ComposerStaticInitb9b94a46cc2bc5e10c18616cafea48de
             'Psr\\Link\\' => 9,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'Predis\\' => 7,
         ),
         'N' => 
         array (
@@ -181,6 +183,10 @@ class ComposerStaticInitb9b94a46cc2bc5e10c18616cafea48de
         array (
             0 => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Bridge/Doctrine',
         ),
+        'Snc\\RedisBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/snc/redis-bundle',
+        ),
         'Sensio\\Bundle\\GeneratorBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/generator-bundle',
@@ -212,6 +218,10 @@ class ComposerStaticInitb9b94a46cc2bc5e10c18616cafea48de
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Predis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/predis/predis/src',
         ),
         'Negotiation\\' => 
         array (

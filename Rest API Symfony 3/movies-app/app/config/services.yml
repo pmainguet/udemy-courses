@@ -44,3 +44,9 @@ services:
     AppBundle\DataFixtures\LoadUsersData:
         tags: ['doctrine.fixture.orm']
         public: true
+
+    AppBundle\Controller\ImagesController:
+        class: AppBundle\Controller\ImagesController
+        arguments:
+            - '%image_directory%'
+            - '%image_base_url%'

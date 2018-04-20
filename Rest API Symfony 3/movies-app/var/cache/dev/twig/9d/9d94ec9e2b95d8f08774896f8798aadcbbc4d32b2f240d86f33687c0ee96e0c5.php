@@ -63,6 +63,6 @@ class __TwigTemplate_5bafb2de51bef57e0fd4706257d7c2f3509c34ac1dfa38020d14647e3a9
     C19.2,9.1,18.8,9,18.4,9h-0.3H14v2.6V14h4.1h0.3c0.4,0,0.8-0.1,1.1-0.3l1.8-1.5c0.4-0.3,0.4-0.9,0-1.3L19.5,9.4z M3.5,7
     C3.1,7,2.8,7,2.5,7.3L0.7,8.8c-0.4,0.3-0.4,0.9,0,1.3l1.8,1.6C2.8,11.9,3.1,12,3.5,12h0.3H8V9.4V7H3.9H3.5z\"/>
 </svg>
-", "@WebProfiler/Icon/router.svg", "/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views/Icon/router.svg");
+", "@WebProfiler/Icon/router.svg", "/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views/Icon/router.svg");
     }
 }

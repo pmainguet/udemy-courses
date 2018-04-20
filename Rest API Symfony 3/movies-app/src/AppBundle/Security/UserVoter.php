@@ -5,10 +5,24 @@ namespace AppBundle\Security;
 use \Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use \AppBundle\Entity\User;
 use \Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use \Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 
 class UserVoter extends Voter
 {
     const SHOW = 'show';
+    const EDIT = 'edit';
+
+    private $decisionManager;
+    /**
+     *
+     * @param AccessDecisionManager $decisionManager
+     */
+    public function __construct(AccessDecisionManager $decisionManager)
+    {
+        $this->decisionManager=$decisionManager;
+    }
+
+
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
@@ -19,7 +33,7 @@ class UserVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::SHOW])) {
+        if (!in_array($attribute, [self::SHOW, self::EDIT])) {
             return false;
         }
 
@@ -33,6 +47,7 @@ class UserVoter extends Voter
     /**
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
+     * This is where the actual "voting" takes place. This function is called if supports() return true;
      *
      * @param string         $attribute
      * @param mixed          $subject
@@ -42,8 +57,15 @@ class UserVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
+        //To allow Admin to see all routes
+        if ($this->decisionManager->decide($token, [User::ROLE_ADMIN])) {
+            return true;
+        }
+        
+        //To allow Non admin to see only their profiles
         switch ($attribute) {
             case self::SHOW:
+            case self::EDIT:
                 return $this->isUserHimself($subject, $token);
         }
 

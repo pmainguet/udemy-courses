@@ -42,6 +42,7 @@ class DoctrineEntityDeserializationSubscriber implements EventSubscriberInterfac
 
     public function onPreDeserialize(PreDeserializeEvent $event)
     {
+        /** Récupère les informations passé dans l'annotation de l'attribut $person dans Role Entity */
         $deserializedType=$event->getType()['name'];
 
         if (!class_exists($deserializedType)) {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.root_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app</parameter>
-    <parameter key="kernel.project_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app</parameter>
+    <parameter key="kernel.root_dir">/home/vagrant/movies-app/app</parameter>
+    <parameter key="kernel.project_dir">/home/vagrant/movies-app</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.debug">true</parameter>
     <parameter key="kernel.name">app</parameter>
-    <parameter key="kernel.cache_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev</parameter>
-    <parameter key="kernel.logs_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/logs</parameter>
+    <parameter key="kernel.cache_dir">/home/vagrant/movies-app/var/cache/dev</parameter>
+    <parameter key="kernel.logs_dir">/home/vagrant/movies-app/var/logs</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</parameter>
@@ -21,6 +21,7 @@
       <parameter key="FOSRestBundle">FOS\RestBundle\FOSRestBundle</parameter>
       <parameter key="BazingaHateoasBundle">Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle</parameter>
       <parameter key="LexikJWTAuthenticationBundle">Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle</parameter>
+      <parameter key="SncRedisBundle">Snc\RedisBundle\SncRedisBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
@@ -32,97 +33,102 @@
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="TwigBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
       </parameter>
       <parameter key="MonologBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/monolog-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/monolog-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\MonologBundle</parameter>
       </parameter>
       <parameter key="SwiftmailerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/swiftmailer-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/swiftmailer-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SwiftmailerBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/doctrine/doctrine-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/doctrine/doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="SensioFrameworkExtraBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/sensio/framework-extra-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/sensio/framework-extra-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\FrameworkExtraBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/doctrine/doctrine-migrations-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/doctrine/doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="JMSSerializerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/jms/serializer-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/jms/serializer-bundle</parameter>
         <parameter key="namespace">JMS\SerializerBundle</parameter>
       </parameter>
       <parameter key="FOSRestBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/friendsofsymfony/rest-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/friendsofsymfony/rest-bundle</parameter>
         <parameter key="namespace">FOS\RestBundle</parameter>
       </parameter>
       <parameter key="BazingaHateoasBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/willdurand/hateoas-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/willdurand/hateoas-bundle</parameter>
         <parameter key="namespace">Bazinga\Bundle\HateoasBundle</parameter>
       </parameter>
       <parameter key="LexikJWTAuthenticationBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/lexik/jwt-authentication-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/lexik/jwt-authentication-bundle</parameter>
         <parameter key="namespace">Lexik\Bundle\JWTAuthenticationBundle</parameter>
+      </parameter>
+      <parameter key="SncRedisBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/snc/redis-bundle</parameter>
+        <parameter key="namespace">Snc\RedisBundle</parameter>
       </parameter>
       <parameter key="AppBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/src/AppBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/src/AppBundle</parameter>
         <parameter key="namespace">AppBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\DebugBundle</parameter>
       </parameter>
       <parameter key="WebProfilerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebProfilerBundle</parameter>
       </parameter>
       <parameter key="SensioDistributionBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/sensio/distribution-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/sensio/distribution-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\DistributionBundle</parameter>
       </parameter>
       <parameter key="DoctrineFixturesBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/doctrine/doctrine-fixtures-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/doctrine/doctrine-fixtures-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\FixturesBundle</parameter>
       </parameter>
       <parameter key="SensioGeneratorBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/sensio/generator-bundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/sensio/generator-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\GeneratorBundle</parameter>
       </parameter>
       <parameter key="WebServerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebServerBundle</parameter>
+        <parameter key="path">/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebServerBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebServerBundle</parameter>
       </parameter>
     </parameter>
@@ -138,10 +144,12 @@
     <parameter key="mailer_user">null</parameter>
     <parameter key="mailer_password">null</parameter>
     <parameter key="secret">ThisTokenIsNotSoSecretChangeIt</parameter>
-    <parameter key="jwt_private_key_path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/private.pem</parameter>
-    <parameter key="jwt_public_key_path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/public.pem</parameter>
+    <parameter key="jwt_private_key_path">/home/vagrant/movies-app/app/../var/jwt/private.pem</parameter>
+    <parameter key="jwt_public_key_path">/home/vagrant/movies-app/app/../var/jwt/public.pem</parameter>
     <parameter key="jwt_key_pass_phrase">10rueOlofPalme</parameter>
     <parameter key="jwt_token_ttl">3600</parameter>
+    <parameter key="image_directory">/home/vagrant/movies-app/web/img</parameter>
+    <parameter key="image_base_url">/img/</parameter>
     <parameter key="locale">en</parameter>
     <parameter key="fragment.renderer.hinclude.global_template">null</parameter>
     <parameter key="fragment.path">/_fragment</parameter>
@@ -156,7 +164,7 @@
       <parameter key="cookie_httponly">true</parameter>
       <parameter key="gc_probability">1</parameter>
     </parameter>
-    <parameter key="session.save_path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/sessions/dev</parameter>
+    <parameter key="session.save_path">/home/vagrant/movies-app/var/sessions/dev</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="form.type_extension.csrf.enabled">true</parameter>
     <parameter key="form.type_extension.csrf.field_name">_token</parameter>
@@ -165,13 +173,13 @@
       <parameter>twig</parameter>
     </parameter>
     <parameter key="validator.mapping.cache.prefix"></parameter>
-    <parameter key="validator.mapping.cache.file">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/validation.php</parameter>
+    <parameter key="validator.mapping.cache.file">/home/vagrant/movies-app/var/cache/dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
-    <parameter key="profiler.storage.dsn">file:/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/profiler</parameter>
+    <parameter key="profiler.storage.dsn">file:/home/vagrant/movies-app/var/cache/dev/profiler</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
+    <parameter key="debug.container.dump">/home/vagrant/movies-app/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
     <parameter key="router.options.generator_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</parameter>
@@ -183,7 +191,7 @@
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
-    <parameter key="router.resource">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/config/routing_dev.yml</parameter>
+    <parameter key="router.resource">/home/vagrant/movies-app/app/config/routing_dev.yml</parameter>
     <parameter key="router.cache_class_prefix">appDevDebugProjectContainer</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
@@ -242,7 +250,7 @@
     <parameter key="swiftmailer.mailer.default.transport.smtp.timeout">30</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.source_ip">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.local_domain">null</parameter>
-    <parameter key="swiftmailer.spool.default.memory.path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/swiftmailer/spool/default</parameter>
+    <parameter key="swiftmailer.spool.default.memory.path">/home/vagrant/movies-app/var/cache/dev/swiftmailer/spool/default</parameter>
     <parameter key="swiftmailer.mailer.default.spool.enabled">true</parameter>
     <parameter key="swiftmailer.mailer.default.plugin.impersonate">null</parameter>
     <parameter key="swiftmailer.mailer.default.single_address">null</parameter>
@@ -361,9 +369,9 @@
     <parameter key="doctrine.orm.second_level_cache.cache_configuration.class">Doctrine\ORM\Cache\CacheConfiguration</parameter>
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">/home/vagrant/movies-app/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
-    <parameter key="doctrine_migrations.dir_name">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/DoctrineMigrations</parameter>
+    <parameter key="doctrine_migrations.dir_name">/home/vagrant/movies-app/app/DoctrineMigrations</parameter>
     <parameter key="doctrine_migrations.namespace">Application\Migrations</parameter>
     <parameter key="doctrine_migrations.table_name">migration_versions</parameter>
     <parameter key="doctrine_migrations.name">Application Migrations</parameter>
@@ -443,13 +451,26 @@
     <parameter key="hateoas.generator.symfony.class">Hateoas\UrlGenerator\SymfonyUrlGenerator</parameter>
     <parameter key="hateoas.helper.link.class">Hateoas\Helper\LinkHelper</parameter>
     <parameter key="hateoas.twig.link.class">Hateoas\Twig\Extension\LinkExtension</parameter>
-    <parameter key="lexik_jwt_authentication.private_key_path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/private.pem</parameter>
-    <parameter key="lexik_jwt_authentication.public_key_path">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/public.pem</parameter>
+    <parameter key="lexik_jwt_authentication.private_key_path">/home/vagrant/movies-app/app/../var/jwt/private.pem</parameter>
+    <parameter key="lexik_jwt_authentication.public_key_path">/home/vagrant/movies-app/app/../var/jwt/public.pem</parameter>
     <parameter key="lexik_jwt_authentication.pass_phrase">10rueOlofPalme</parameter>
     <parameter key="lexik_jwt_authentication.token_ttl">3600</parameter>
     <parameter key="lexik_jwt_authentication.user_identity_field">username</parameter>
     <parameter key="lexik_jwt_authentication.encoder.signature_algorithm">RS256</parameter>
     <parameter key="lexik_jwt_authentication.encoder.crypto_engine">openssl</parameter>
+    <parameter key="snc_redis.client.class">Predis\Client</parameter>
+    <parameter key="snc_redis.client_options.class">Predis\Configuration\Options</parameter>
+    <parameter key="snc_redis.connection_parameters.class">Predis\Connection\Parameters</parameter>
+    <parameter key="snc_redis.connection_factory.class">Snc\RedisBundle\Client\Predis\Connection\ConnectionFactory</parameter>
+    <parameter key="snc_redis.connection_wrapper.class">Snc\RedisBundle\Client\Predis\Connection\ConnectionWrapper</parameter>
+    <parameter key="snc_redis.phpredis_client.class">Redis</parameter>
+    <parameter key="snc_redis.phpredis_connection_wrapper.class">Snc\RedisBundle\Client\Phpredis\Client</parameter>
+    <parameter key="snc_redis.logger.class">Snc\RedisBundle\Logger\RedisLogger</parameter>
+    <parameter key="snc_redis.data_collector.class">Snc\RedisBundle\DataCollector\RedisDataCollector</parameter>
+    <parameter key="snc_redis.doctrine_cache_phpredis.class">Doctrine\Common\Cache\RedisCache</parameter>
+    <parameter key="snc_redis.doctrine_cache_predis.class">Doctrine\Common\Cache\PredisCache</parameter>
+    <parameter key="snc_redis.monolog_handler.class">Monolog\Handler\RedisHandler</parameter>
+    <parameter key="snc_redis.swiftmailer_spool.class">Snc\RedisBundle\SwiftMailer\RedisSpool</parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -514,6 +535,10 @@
         <parameter>dump</parameter>
         <parameter>@Debug/Profiler/dump.html.twig</parameter>
       </parameter>
+      <parameter key="snc_redis.data_collector" type="collection">
+        <parameter>redis</parameter>
+        <parameter>@SncRedis/Collector/redis.html.twig</parameter>
+      </parameter>
       <parameter key="data_collector.config" type="collection">
         <parameter>config</parameter>
         <parameter>@WebProfiler/Collector/config.html.twig</parameter>
@@ -553,6 +578,8 @@
       <parameter key="console.command.doctrine_bundle_migrationsbundle_command_migrationsstatusdoctrinecommand">doctrine_migrations.status_command</parameter>
       <parameter key="console.command.doctrine_bundle_migrationsbundle_command_migrationsversiondoctrinecommand">doctrine_migrations.version_command</parameter>
       <parameter key="console.command.lexik_bundle_jwtauthenticationbundle_command_checkconfigcommand">lexik_jwt_authentication.check_config_command</parameter>
+      <parameter key="console.command.snc_redisbundle_command_redisflushallcommand">snc_redis.command.flush_all</parameter>
+      <parameter key="console.command.snc_redisbundle_command_redisflushdbcommand">snc_redis.command.flush_db</parameter>
       <parameter key="console.command.sensiolabs_security_command_securitycheckercommand">sensio_distribution.security_checker.command</parameter>
       <parameter key="console.command.doctrine_bundle_fixturesbundle_command_loaddatafixturesdoctrinecommand">doctrine.fixtures_load_command</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverruncommand">console.command.symfony_bundle_webserverbundle_command_serverruncommand</parameter>
@@ -579,6 +606,16 @@
         <argument type="service" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
       </call>
     </service>
+    <service id="AppBundle\Controller\ImagesController" class="AppBundle\Controller\ImagesController" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <tag name="container.service_subscriber.locator" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
+      <argument>/home/vagrant/movies-app/web/img</argument>
+      <argument>/img/</argument>
+      <call method="setContainer">
+        <argument type="service" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
+      </call>
+    </service>
     <service id="AppBundle\Controller\MoviesController" class="AppBundle\Controller\MoviesController" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -594,6 +631,7 @@
       <tag name="container.service_subscriber.locator" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
       <argument type="service" id="security.user_password_encoder.generic"/>
       <argument type="service" id="lexik_jwt_authentication.encoder.default"/>
+      <argument type="service" id="AppBundle\Security\TokenStorage"/>
       <call method="setContainer">
         <argument type="service" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
       </call>
@@ -604,6 +642,8 @@
       <tag name="container.service_subscriber.locator" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
       <argument type="service" id="security.user_password_encoder.generic"/>
       <argument type="service" id="lexik_jwt_authentication.encoder.default"/>
+      <argument type="service" id="autowired.AppBundle\Entity\EntityMerger"/>
+      <argument type="service" id="AppBundle\Security\TokenStorage"/>
       <call method="setContainer">
         <argument type="service" id="service_locator.08a3e982b5f13142475d4e5eb1c89fa5"/>
       </call>
@@ -620,9 +660,14 @@
     <service id="AppBundle\Exception\ValidationException" class="AppBundle\Exception\ValidationException" public="false" autowire="true" autoconfigure="true"/>
     <service id="AppBundle\Security\TokenAuthenticator" class="AppBundle\Security\TokenAuthenticator" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="lexik_jwt_authentication.encoder.default"/>
+      <argument type="service" id="AppBundle\Security\TokenStorage"/>
+    </service>
+    <service id="AppBundle\Security\TokenStorage" class="AppBundle\Security\TokenStorage" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="snc_redis.default"/>
     </service>
     <service id="AppBundle\Security\UserVoter" class="AppBundle\Security\UserVoter" public="false" autowire="true" autoconfigure="true">
       <tag name="security.voter"/>
+      <argument type="service" id="debug.security.access.decision_manager.inner"/>
     </service>
     <service id="AppBundle\Serializer\DoctrineEntityDeserializationSubscriber" class="AppBundle\Serializer\DoctrineEntityDeserializationSubscriber" autowire="true" autoconfigure="true">
       <tag name="jms_serializer.event_subscriber"/>
@@ -645,7 +690,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.0f9af66659bf75845324396c93adc168"/>
+      <argument type="service" id="service_locator.18fa350c913626af1bd1f141088b0d72"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -673,10 +718,10 @@
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="controller_name_converter"/>
     </service>
-    <service id="2_8803729dd5d7ea61d2739b21faf2b4a7130c98235442d4da69accb2afe3e3527" class="Symfony\Component\Config\Resource\SelfCheckingResourceChecker" public="false">
+    <service id="2_8ce434459560d9159ed33789b67e52aca6679ccab0d0b730225a400decdf4c87" class="Symfony\Component\Config\Resource\SelfCheckingResourceChecker" public="false">
       <tag name="config_cache.resource_checker" priority="-990"/>
     </service>
-    <service id="1_8803729dd5d7ea61d2739b21faf2b4a7130c98235442d4da69accb2afe3e3527" class="Symfony\Component\DependencyInjection\Config\ContainerParametersResourceChecker" public="false">
+    <service id="1_8ce434459560d9159ed33789b67e52aca6679ccab0d0b730225a400decdf4c87" class="Symfony\Component\DependencyInjection\Config\ContainerParametersResourceChecker" public="false">
       <tag name="config_cache.resource_checker" priority="-980"/>
       <argument type="service" id="service_container"/>
     </service>
@@ -718,9 +763,9 @@
     <service id="filesystem" class="Symfony\Component\Filesystem\Filesystem"/>
     <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator">
       <argument type="service" id="kernel"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/Resources</argument>
+      <argument>/home/vagrant/movies-app/app/Resources</argument>
       <argument type="collection">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app</argument>
+        <argument>/home/vagrant/movies-app/app</argument>
       </argument>
     </service>
     <service id="uri_signer" class="Symfony\Component\HttpKernel\UriSigner">
@@ -728,8 +773,8 @@
     </service>
     <service id="config_cache_factory" class="Symfony\Component\Config\ResourceCheckerConfigCacheFactory">
       <argument type="iterator">
-        <argument type="service" id="1_8803729dd5d7ea61d2739b21faf2b4a7130c98235442d4da69accb2afe3e3527"/>
-        <argument type="service" id="2_8803729dd5d7ea61d2739b21faf2b4a7130c98235442d4da69accb2afe3e3527"/>
+        <argument type="service" id="1_8ce434459560d9159ed33789b67e52aca6679ccab0d0b730225a400decdf4c87"/>
+        <argument type="service" id="2_8ce434459560d9159ed33789b67e52aca6679ccab0d0b730225a400decdf4c87"/>
       </argument>
     </service>
     <service id="fragment.handler" class="Symfony\Component\HttpKernel\DependencyInjection\LazyLoadingFragmentHandler">
@@ -790,8 +835,8 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -800,7 +845,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -820,7 +865,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -859,7 +904,7 @@
       <argument type="service" id="translator.selector"/>
     </service>
     <service id="translator.selector" class="Symfony\Component\Translation\MessageSelector" public="false"/>
-    <service id="1_1cf8bdb48dec626f2bf5b8613d7b23a440e91947cec86f6cc8213225873022e2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="1_abfe5d3ea4034a2801749dcf83606c7c6d0ba11a56df895d22eed2d821d58c0e" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="session" type="service" id="session" on-invalid="ignore"/>
@@ -889,23 +934,23 @@
     <service id="session.flash_bag" class="Symfony\Component\HttpFoundation\Session\Flash\FlashBag" public="false"/>
     <service id="session.attribute_bag" class="Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag" public="false"/>
     <service id="session.storage.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/sessions</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service" id="session.storage.metadata_bag"/>
     </service>
     <service id="session.handler.native_file" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/sessions/dev</argument>
+      <argument>/home/vagrant/movies-app/var/sessions/dev</argument>
     </service>
     <service id="session.handler.write_check" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\WriteCheckSessionHandler" public="false"/>
     <service id="session_listener" class="Symfony\Component\HttpKernel\EventListener\SessionListener">
       <tag name="kernel.event_subscriber"/>
-      <argument type="service" id="1_1cf8bdb48dec626f2bf5b8613d7b23a440e91947cec86f6cc8213225873022e2"/>
+      <argument type="service" id="1_abfe5d3ea4034a2801749dcf83606c7c6d0ba11a56df895d22eed2d821d58c0e"/>
     </service>
     <service id="session.save_listener" class="Symfony\Component\HttpKernel\EventListener\SaveSessionListener">
       <tag name="kernel.event_subscriber"/>
     </service>
     <service id="form.resolved_type_factory" class="Symfony\Component\Form\Extension\DataCollector\Proxy\ResolvedTypeFactoryDataCollectorProxy">
-      <argument type="service" id="1_394130aa5b0578870c0e2cdb866152ae56344243fc2ae6ebec3733d10d1ec8cc"/>
+      <argument type="service" id="1_5ec1792d30aed0874814c935993e31d8c6ac7233b5b6759eed84d00cccae6d99"/>
       <argument type="service" id="data_collector.form"/>
     </service>
     <service id="form.registry" class="Symfony\Component\Form\FormRegistry">
@@ -1153,12 +1198,12 @@
     <service id="templating.filename_parser" class="Symfony\Bundle\FrameworkBundle\Templating\TemplateFilenameParser"/>
     <service id="templating.locator" class="Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator" public="false">
       <argument type="service" id="file_locator"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev</argument>
     </service>
     <service id="templating.finder" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder" public="false">
       <argument type="service" id="kernel"/>
       <argument type="service" id="templating.filename_parser"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/Resources</argument>
+      <argument>/home/vagrant/movies-app/app/Resources</argument>
     </service>
     <service id="templating.cache_warmer.template_paths" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer" public="false">
       <tag name="kernel.cache_warmer" priority="20"/>
@@ -1182,13 +1227,13 @@
         <argument type="service" id="monolog.logger.templating" on-invalid="ignore"/>
       </call>
     </service>
-    <service id="2_97f58f6159e05b08d86be386e189404925a4292f87aad56ba1ef4ce3d9df627f" class="Doctrine\Common\Cache\ApcCache" public="false">
+    <service id="2_1445d9e8a730dfb347acf4af6741e528fada650c01dc95e60b5464368ab7caee" class="Doctrine\Common\Cache\ApcCache" public="false">
       <call method="setNamespace">
         <argument></argument>
       </call>
     </service>
-    <service id="1_97f58f6159e05b08d86be386e189404925a4292f87aad56ba1ef4ce3d9df627f" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/validation.php</argument>
+    <service id="1_1445d9e8a730dfb347acf4af6741e528fada650c01dc95e60b5464368ab7caee" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
+      <argument>/home/vagrant/movies-app/var/cache/dev/validation.php</argument>
       <argument type="service" id="cache.validator"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -1207,7 +1252,7 @@
       </call>
       <call method="addXmlMappings">
         <argument type="collection">
-          <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</argument>
+          <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</argument>
         </argument>
       </call>
       <call method="enableAnnotationMapping">
@@ -1226,14 +1271,14 @@
     <service id="validator.mapping.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="validator.builder"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/validation.php</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/validation.php</argument>
       <argument type="service" id="cache.validator"/>
     </service>
     <service id="validator.mapping.cache.symfony" class="Symfony\Component\Validator\Mapping\Cache\Psr6Cache" public="false">
-      <argument type="service" id="1_97f58f6159e05b08d86be386e189404925a4292f87aad56ba1ef4ce3d9df627f"/>
+      <argument type="service" id="1_1445d9e8a730dfb347acf4af6741e528fada650c01dc95e60b5464368ab7caee"/>
     </service>
     <service id="validator.mapping.cache.doctrine.apc" class="Symfony\Component\Validator\Mapping\Cache\DoctrineCache" public="false">
-      <argument type="service" id="2_97f58f6159e05b08d86be386e189404925a4292f87aad56ba1ef4ce3d9df627f"/>
+      <argument type="service" id="2_1445d9e8a730dfb347acf4af6741e528fada650c01dc95e60b5464368ab7caee"/>
     </service>
     <service id="validator.validator_factory" class="Symfony\Component\Validator\ContainerConstraintValidatorFactory" public="false">
       <argument type="service" id="service_locator.39e66930232432ca5ba91e98fdd8a17b"/>
@@ -1300,11 +1345,14 @@
         <argument type="service" id="data_collector.dump"/>
       </call>
       <call method="add">
+        <argument type="service" id="snc_redis.data_collector"/>
+      </call>
+      <call method="add">
         <argument type="service" id="data_collector.config"/>
       </call>
     </service>
     <service id="profiler.storage" class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage" public="false">
-      <argument>file:/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/profiler</argument>
+      <argument>file:/home/vagrant/movies-app/var/cache/dev/profiler</argument>
     </service>
     <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener">
       <tag name="kernel.event_subscriber"/>
@@ -1338,7 +1386,7 @@
       <tag name="data_collector" template="@WebProfiler/Collector/logger.html.twig" id="logger" priority="300"/>
       <tag name="monolog.logger" channel="profiler"/>
       <argument type="service" id="monolog.logger.profiler" on-invalid="ignore"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/appDevDebugProjectContainer</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/appDevDebugProjectContainer</argument>
     </service>
     <service id="data_collector.time" class="Symfony\Component\HttpKernel\DataCollector\TimeDataCollector" public="false">
       <tag name="data_collector" template="@WebProfiler/Collector/time.html.twig" id="time" priority="330"/>
@@ -1375,7 +1423,7 @@
         <argument type="service" id="cache.annotations"/>
       </call>
     </service>
-    <service id="1_394130aa5b0578870c0e2cdb866152ae56344243fc2ae6ebec3733d10d1ec8cc" class="Symfony\Component\Form\ResolvedFormTypeFactory" public="false"/>
+    <service id="1_5ec1792d30aed0874814c935993e31d8c6ac7233b5b6759eed84d00cccae6d99" class="Symfony\Component\Form\ResolvedFormTypeFactory" public="false"/>
     <service id="form.type_extension.form.data_collector" class="Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension" public="false">
       <tag name="form.type_extension" extended_type="Symfony\Component\Form\Extension\Core\Type\FormType" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType"/>
       <argument type="service" id="data_collector.form"/>
@@ -1412,7 +1460,7 @@
     <service id="debug.file_link_formatter" class="Symfony\Component\HttpKernel\Debug\FileLinkFormatter" public="false">
       <argument>null</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app</argument>
+      <argument>/home/vagrant/movies-app</argument>
       <argument>/_profiler/open?file=%%f&amp;line=%%l#line%%l</argument>
     </service>
     <service id="debug.event_dispatcher" class="Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher">
@@ -1574,14 +1622,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -1863,9 +1903,9 @@
     </service>
     <service id="router.default" class="Symfony\Bundle\FrameworkBundle\Routing\Router" public="false">
       <argument type="service" id="service_container"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/config/routing_dev.yml</argument>
+      <argument>/home/vagrant/movies-app/app/config/routing_dev.yml</argument>
       <argument type="collection">
-        <argument key="cache_dir">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev</argument>
+        <argument key="cache_dir">/home/vagrant/movies-app/var/cache/dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
         <argument key="generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
@@ -1902,12 +1942,12 @@
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
     </service>
-    <service id="2_b6d5f896a8db92bbd3dea6de4a097fe288beccfa45e38993f180ba79743d8f14" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/annotations.php</argument>
+    <service id="2_ff99473a92c05f4dcbe15a596be146e2e59a0816dc5586b0c7b22b0189673108" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
+      <argument>/home/vagrant/movies-app/var/cache/dev/annotations.php</argument>
       <argument type="service" id="cache.annotations"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
-    <service id="1_b6d5f896a8db92bbd3dea6de4a097fe288beccfa45e38993f180ba79743d8f14" class="Doctrine\Common\Cache\ArrayCache" public="false"/>
+    <service id="1_ff99473a92c05f4dcbe15a596be146e2e59a0816dc5586b0c7b22b0189673108" class="Doctrine\Common\Cache\ArrayCache" public="false"/>
     <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader" public="false">
       <call method="addGlobalIgnoredName">
         <argument>required</argument>
@@ -1921,7 +1961,7 @@
     </service>
     <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
       <argument type="service" id="annotations.reader"/>
-      <argument type="service" id="1_b6d5f896a8db92bbd3dea6de4a097fe288beccfa45e38993f180ba79743d8f14"/>
+      <argument type="service" id="1_ff99473a92c05f4dcbe15a596be146e2e59a0816dc5586b0c7b22b0189673108"/>
       <argument>true</argument>
       <property name="cacheProviderBackup" type="service" id="annotations.cache"/>
     </service>
@@ -1931,11 +1971,11 @@
     <service id="annotations.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="annotations.reader"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/annotations.php</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/annotations.php</argument>
       <argument type="service" id="cache.annotations"/>
     </service>
     <service id="annotations.cache" class="Symfony\Component\Cache\DoctrineProvider" public="false">
-      <argument type="service" id="2_b6d5f896a8db92bbd3dea6de4a097fe288beccfa45e38993f180ba79743d8f14"/>
+      <argument type="service" id="2_ff99473a92c05f4dcbe15a596be146e2e59a0816dc5586b0c7b22b0189673108"/>
     </service>
     <service id="property_accessor" class="Symfony\Component\PropertyAccess\PropertyAccessor">
       <argument>false</argument>
@@ -2434,12 +2474,12 @@
     </service>
     <service id="security.authentication.listener.anonymous.main" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
       <argument type="service" id="security.token_storage"/>
-      <argument>5ad61af3f346c9.31369188</argument>
+      <argument>5ada01e863fd25.06396027</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument type="service" id="security.authentication.manager"/>
     </service>
     <service id="security.authentication.provider.anonymous.main" class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-      <argument>5ad61af3f346c9.31369188</argument>
+      <argument>5ada01e863fd25.06396027</argument>
     </service>
     <service id="security.exception_listener.main" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
@@ -2486,7 +2526,7 @@
           <argument>form_div_layout.html.twig</argument>
         </argument>
         <argument key="autoescape">name</argument>
-        <argument key="cache">/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/twig</argument>
+        <argument key="cache">/home/vagrant/movies-app/var/cache/dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="paths" type="collection"/>
         <argument key="date" type="collection">
@@ -2587,14 +2627,14 @@
       <argument type="service" id="service_locator.26ac001b3ede28481ac0de703666b4d7"/>
       <argument type="service" id="templating.finder" on-invalid="ignore"/>
       <argument type="collection">
-        <argument key="/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
+        <argument key="/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
       </argument>
     </service>
     <service id="twig.template_iterator" class="Symfony\Bundle\TwigBundle\TemplateIterator" public="false">
       <argument type="service" id="kernel"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app</argument>
+      <argument>/home/vagrant/movies-app/app</argument>
       <argument type="collection">
-        <argument key="/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
+        <argument key="/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form">null</argument>
       </argument>
     </service>
     <service id="twig.template_cache_warmer" class="Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer" public="false">
@@ -2604,40 +2644,44 @@
     </service>
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader" public="false">
       <argument type="collection"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app</argument>
+      <argument>/home/vagrant/movies-app</argument>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
         <argument>Framework</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
         <argument>Twig</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
         <argument>Swiftmailer</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/doctrine/doctrine-bundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/doctrine/doctrine-bundle/Resources/views</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/snc/redis-bundle/Resources/views</argument>
+        <argument>SncRedis</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/app/Resources/views</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
     </service>
     <service id="twig.loader.chain" class="Twig\Loader\ChainLoader" public="false"/>
@@ -2662,7 +2706,7 @@
     <service id="twig.extension.code" class="Symfony\Bridge\Twig\Extension\CodeExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="debug.file_link_formatter" on-invalid="ignore"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app</argument>
+      <argument>/home/vagrant/movies-app/app</argument>
       <argument>UTF-8</argument>
     </service>
     <service id="twig.extension.routing" class="Symfony\Bridge\Twig\Extension\RoutingExtension" public="false">
@@ -2745,40 +2789,44 @@
       <tag name="twig.loader"/>
       <argument type="service" id="templating.locator"/>
       <argument type="service" id="templating.name_parser"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app</argument>
+      <argument>/home/vagrant/movies-app</argument>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
         <argument>Framework</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
         <argument>Twig</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
         <argument>Swiftmailer</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/doctrine/doctrine-bundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/doctrine/doctrine-bundle/Resources/views</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/snc/redis-bundle/Resources/views</argument>
+        <argument>SncRedis</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/Resources/views</argument>
+        <argument>/home/vagrant/movies-app/app/Resources/views</argument>
       </call>
       <call method="addPath">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
+        <argument>/home/vagrant/movies-app/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
     </service>
     <service id="templating.engine.twig" class="Symfony\Bundle\TwigBundle\TwigEngine" public="false">
@@ -2830,7 +2878,7 @@
     </service>
     <service id="monolog.processor.psr_log_message" class="Monolog\Processor\PsrLogMessageProcessor" public="false"/>
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/logs/dev.log</argument>
+      <argument>/home/vagrant/movies-app/var/logs/dev.log</argument>
       <argument>100</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -2849,9 +2897,9 @@
       <argument>100</argument>
       <argument>true</argument>
     </service>
-    <service id="3_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250" class="Swift_Transport_Esmtp_Auth_PlainAuthenticator" public="false"/>
-    <service id="2_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250" class="Swift_Transport_Esmtp_Auth_LoginAuthenticator" public="false"/>
-    <service id="1_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250" class="Swift_Transport_Esmtp_Auth_CramMd5Authenticator" public="false"/>
+    <service id="3_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8" class="Swift_Transport_Esmtp_Auth_PlainAuthenticator" public="false"/>
+    <service id="2_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8" class="Swift_Transport_Esmtp_Auth_LoginAuthenticator" public="false"/>
+    <service id="1_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8" class="Swift_Transport_Esmtp_Auth_CramMd5Authenticator" public="false"/>
     <service id="swiftmailer.mailer.abstract" class="Swift_Mailer" abstract="true">
       <argument type="service" id="swiftmailer.transport"/>
     </service>
@@ -2868,9 +2916,9 @@
     </service>
     <service id="swiftmailer.transport.authhandler.abstract" class="Swift_Transport_Esmtp_AuthHandler" public="false" abstract="true">
       <argument type="collection">
-        <argument type="service" id="1_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
-        <argument type="service" id="2_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
-        <argument type="service" id="3_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
+        <argument type="service" id="1_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
+        <argument type="service" id="2_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
+        <argument type="service" id="3_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
       </argument>
     </service>
     <service id="swiftmailer.transport.eventdispatcher.abstract" class="Swift_Events_SimpleEventDispatcher" public="false" abstract="true"/>
@@ -2882,7 +2930,7 @@
     <service id="swiftmailer.transport.smtp.abstract" class="Swift_Transport_EsmtpTransport" public="false" abstract="true"/>
     <service id="swiftmailer.transport.spool.abstract" class="Swift_Transport_SpoolTransport" public="false" abstract="true"/>
     <service id="swiftmailer.spool.file.abstract" class="Swift_FileSpool" public="false" abstract="true">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../data/swiftmailer/spool</argument>
+      <argument>/home/vagrant/movies-app/app/../data/swiftmailer/spool</argument>
     </service>
     <service id="swiftmailer.spool.memory.abstract" class="Swift_MemorySpool" public="false" abstract="true"/>
     <service id="swiftmailer.email_sender.listener" class="Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener">
@@ -2897,9 +2945,9 @@
     <service id="swiftmailer.mailer.default.transport.eventdispatcher" class="Swift_Events_SimpleEventDispatcher" public="false"/>
     <service id="swiftmailer.mailer.default.transport.authhandler" class="Swift_Transport_Esmtp_AuthHandler" public="false">
       <argument type="collection">
-        <argument type="service" id="1_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
-        <argument type="service" id="2_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
-        <argument type="service" id="3_97d905e55c8a78c63ab933e274ad6a20f3bef563673c66284989f88257f6c250"/>
+        <argument type="service" id="1_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
+        <argument type="service" id="2_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
+        <argument type="service" id="3_91418c4c18b809f5cc44fe36b79524d15326a71c61692a66d4886c95fad602e8"/>
       </argument>
       <call method="setUsername">
         <argument>null</argument>
@@ -3186,7 +3234,7 @@
         <argument type="service" id="doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/doctrine/orm/Proxies</argument>
+        <argument>/home/vagrant/movies-app/var/cache/dev/doctrine/orm/Proxies</argument>
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -3216,7 +3264,7 @@
     <service id="doctrine.orm.default_annotation_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
       <argument type="service" id="annotations.cached_reader"/>
       <argument type="collection">
-        <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/src/AppBundle/Entity</argument>
+        <argument>/home/vagrant/movies-app/src/AppBundle/Entity</argument>
       </argument>
     </service>
     <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false">
@@ -3227,17 +3275,17 @@
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf_orm_default_70c79d46d6f211afb6d2cea1f8106a4814819ee374bff7508817b06bc69c8a0e</argument>
+        <argument>sf_orm_default_c3f838cbe7e7a073fc95854a0fa291d2c5a9bede84bf487485d21d7dd644da71</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_result_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf_orm_default_70c79d46d6f211afb6d2cea1f8106a4814819ee374bff7508817b06bc69c8a0e</argument>
+        <argument>sf_orm_default_c3f838cbe7e7a073fc95854a0fa291d2c5a9bede84bf487485d21d7dd644da71</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_query_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf_orm_default_70c79d46d6f211afb6d2cea1f8106a4814819ee374bff7508817b06bc69c8a0e</argument>
+        <argument>sf_orm_default_c3f838cbe7e7a073fc95854a0fa291d2c5a9bede84bf487485d21d7dd644da71</argument>
       </call>
     </service>
     <service id="doctrine.orm.default_entity_listener_resolver" class="Doctrine\Bundle\DoctrineBundle\Mapping\ContainerAwareEntityListenerResolver">
@@ -3810,7 +3858,7 @@
     <service id="jms_serializer.datetime_handler" class="JMS\Serializer\Handler\DateHandler">
       <tag name="jms_serializer.subscribing_handler"/>
       <argument>Y-m-d\TH:i:sP</argument>
-      <argument>Europe/Berlin</argument>
+      <argument>UTC</argument>
       <argument>true</argument>
     </service>
     <service id="jms_serializer.array_collection_handler" class="JMS\Serializer\Handler\ArrayCollectionHandler">
@@ -3864,7 +3912,7 @@
       <argument>jms_serializer.metadata_driver</argument>
     </service>
     <service id="jms_serializer.metadata.cache.file_cache" class="Metadata\Cache\FileCache" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/jms_serializer</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/jms_serializer</argument>
     </service>
     <service id="jms_serializer.metadata_factory" class="Metadata\MetadataFactory" public="false">
       <argument type="service" id="jms_serializer.metadata.lazy_loading_driver"/>
@@ -4292,7 +4340,7 @@
       </argument>
     </service>
     <service id="hateoas.configuration.metadata.cache.file_cache" class="Metadata\Cache\FileCache" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/hateoas</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/hateoas</argument>
     </service>
     <service id="hateoas.configuration.metadata_factory" class="Metadata\MetadataFactory" public="false">
       <argument type="service" id="hateoas.configuration.metadata.chain_driver"/>
@@ -4348,18 +4396,18 @@
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
     <service id="lexik_jwt_authentication.key_loader.abstract" public="false" abstract="true">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/private.pem</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/public.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/private.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/public.pem</argument>
       <argument>10rueOlofPalme</argument>
     </service>
     <service id="lexik_jwt_authentication.key_loader.openssl" class="Lexik\Bundle\JWTAuthenticationBundle\Services\KeyLoader\OpenSSLKeyLoader" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/private.pem</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/public.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/private.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/public.pem</argument>
       <argument>10rueOlofPalme</argument>
     </service>
     <service id="lexik_jwt_authentication.key_loader.raw" class="Lexik\Bundle\JWTAuthenticationBundle\Services\KeyLoader\RawKeyLoader" public="false">
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/private.pem</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/app/../var/jwt/public.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/private.pem</argument>
+      <argument>/home/vagrant/movies-app/app/../var/jwt/public.pem</argument>
       <argument>10rueOlofPalme</argument>
     </service>
     <service id="lexik_jwt_authentication.extractor.chain_extractor" class="Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\ChainTokenExtractor" public="false">
@@ -4404,6 +4452,63 @@
     <service id="lexik_jwt_authentication.security.authentication.entry_point" class="Lexik\Bundle\JWTAuthenticationBundle\Security\Http\EntryPoint\JWTEntryPoint" public="false">
       <deprecated>The "%service_id%" service is deprecated since LexikJWTAuthenticationBundle version 2.0 and will be removed in 3.0</deprecated>
     </service>
+    <service id="snc_redis.logger" class="Snc\RedisBundle\Logger\RedisLogger">
+      <tag name="monolog.logger" channel="snc_redis"/>
+      <argument type="service" id="monolog.logger.snc_redis" on-invalid="null"/>
+    </service>
+    <service id="snc_redis.data_collector" class="Snc\RedisBundle\DataCollector\RedisDataCollector" public="false">
+      <tag name="data_collector" template="@SncRedis/Collector/redis.html.twig" id="redis"/>
+      <argument type="service" id="snc_redis.logger"/>
+    </service>
+    <service id="snc_redis.command.flush_all" class="Snc\RedisBundle\Command\RedisFlushallCommand">
+      <tag name="console.command" command="redis:flushall"/>
+    </service>
+    <service id="snc_redis.command.flush_db" class="Snc\RedisBundle\Command\RedisFlushdbCommand">
+      <tag name="console.command" command="redis:flushdb"/>
+    </service>
+    <service id="snc_redis.connection.default_parameters.default" class="Predis\Connection\Parameters" public="false">
+      <tag name="snc_redis.connection_parameters" clientAlias="default"/>
+      <argument type="collection">
+        <argument key="read_write_timeout">null</argument>
+        <argument key="iterable_multibulk">false</argument>
+        <argument key="serialization">default</argument>
+        <argument key="profile">default</argument>
+        <argument key="prefix">null</argument>
+        <argument key="service">null</argument>
+        <argument key="async_connect">false</argument>
+        <argument key="timeout">5</argument>
+        <argument key="persistent">false</argument>
+        <argument key="exceptions">true</argument>
+        <argument key="logging">true</argument>
+        <argument key="alias">default</argument>
+        <argument key="scheme">tcp</argument>
+        <argument key="host">localhost</argument>
+        <argument key="port">6379</argument>
+        <argument key="password">null</argument>
+        <argument key="weight">null</argument>
+      </argument>
+    </service>
+    <service id="snc_redis.client.default_profile" class="Predis\Profile\RedisVersion320" public="false"/>
+    <service id="snc_redis.client.default_options" class="Predis\Configuration\Options" public="false">
+      <argument type="collection">
+        <argument key="read_write_timeout">null</argument>
+        <argument key="iterable_multibulk">false</argument>
+        <argument key="serialization">default</argument>
+        <argument key="profile" type="service" id="snc_redis.client.default_profile"/>
+        <argument key="prefix">null</argument>
+        <argument key="service">null</argument>
+        <argument key="async_connect">false</argument>
+        <argument key="timeout">5</argument>
+        <argument key="persistent">false</argument>
+        <argument key="exceptions">true</argument>
+        <argument key="connections" type="service" id="snc_redis.default_connectionfactory"/>
+      </argument>
+    </service>
+    <service id="snc_redis.default" class="Predis\Client">
+      <tag name="snc_redis.client" alias="default"/>
+      <argument type="service" id="snc_redis.connection.default_parameters.default"/>
+      <argument type="service" id="snc_redis.client.default_options"/>
+    </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="var_dumper.cloner"/>
@@ -4445,7 +4550,7 @@
         </argument>
       </call>
     </service>
-    <service id="2_e2d2a437295b66afa7eff89e451218c965a1ae6ae6ae638a8180dfa0bc5ea823" class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
+    <service id="2_269660558c4cb30c572b9e8d24758abfca417189bff17df129cd13febed5a0e4" class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
       <argument>null</argument>
       <argument>UTF-8</argument>
       <argument>1</argument>
@@ -4456,7 +4561,7 @@
         </argument>
       </call>
     </service>
-    <service id="1_e2d2a437295b66afa7eff89e451218c965a1ae6ae6ae638a8180dfa0bc5ea823" class="Symfony\Bundle\WebProfilerBundle\Csp\NonceGenerator" public="false"/>
+    <service id="1_269660558c4cb30c572b9e8d24758abfca417189bff17df129cd13febed5a0e4" class="Symfony\Bundle\WebProfilerBundle\Csp\NonceGenerator" public="false"/>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController">
       <argument type="service" id="router.default" on-invalid="null"/>
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -4522,6 +4627,10 @@
           <argument>dump</argument>
           <argument>@Debug/Profiler/dump.html.twig</argument>
         </argument>
+        <argument key="snc_redis.data_collector" type="collection">
+          <argument>redis</argument>
+          <argument>@SncRedis/Collector/redis.html.twig</argument>
+        </argument>
         <argument key="data_collector.config" type="collection">
           <argument>config</argument>
           <argument>@WebProfiler/Collector/config.html.twig</argument>
@@ -4529,7 +4638,7 @@
       </argument>
       <argument>bottom</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app</argument>
+      <argument>/home/vagrant/movies-app</argument>
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -4542,11 +4651,11 @@
       <argument>true</argument>
     </service>
     <service id="web_profiler.csp.handler" class="Symfony\Bundle\WebProfilerBundle\Csp\ContentSecurityPolicyHandler" public="false">
-      <argument type="service" id="1_e2d2a437295b66afa7eff89e451218c965a1ae6ae6ae638a8180dfa0bc5ea823"/>
+      <argument type="service" id="1_269660558c4cb30c572b9e8d24758abfca417189bff17df129cd13febed5a0e4"/>
     </service>
     <service id="twig.extension.webprofiler" class="Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension" public="false">
       <tag name="twig.extension"/>
-      <argument type="service" id="2_e2d2a437295b66afa7eff89e451218c965a1ae6ae6ae638a8180dfa0bc5ea823"/>
+      <argument type="service" id="2_269660558c4cb30c572b9e8d24758abfca417189bff17df129cd13febed5a0e4"/>
     </service>
     <service id="web_profiler.debug_toolbar" class="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener">
       <tag name="kernel.event_subscriber"/>
@@ -4579,12 +4688,12 @@
     </service>
     <service id="web_server.command.server_run" class="Symfony\Bundle\WebServerBundle\Command\ServerRunCommand" public="false">
       <tag name="console.command"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/public</argument>
+      <argument>/home/vagrant/movies-app/public</argument>
       <argument>dev</argument>
     </service>
     <service id="web_server.command.server_start" class="Symfony\Bundle\WebServerBundle\Command\ServerStartCommand" public="false">
       <tag name="console.command"/>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/public</argument>
+      <argument>/home/vagrant/movies-app/public</argument>
       <argument>dev</argument>
     </service>
     <service id="web_server.command.server_stop" class="Symfony\Bundle\WebServerBundle\Command\ServerStopCommand" public="false">
@@ -4600,6 +4709,9 @@
     <service id="instanceof.Symfony\Component\DependencyInjection\ServiceSubscriberInterface.0.AppBundle\Controller\HumansController" class="AppBundle\Controller\HumansController" autowire="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.AppBundle\Controller\HumansController" class="AppBundle\Controller\HumansController" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\HumansController" class="AppBundle\Controller\HumansController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\DependencyInjection\ServiceSubscriberInterface.0.AppBundle\Controller\ImagesController" class="AppBundle\Controller\ImagesController" public="false" autowire="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.AppBundle\Controller\ImagesController" class="AppBundle\Controller\ImagesController" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.AppBundle\Controller\ImagesController" class="AppBundle\Controller\ImagesController" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\DependencyInjection\ServiceSubscriberInterface.0.AppBundle\Controller\MoviesController" class="AppBundle\Controller\MoviesController" autowire="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.AppBundle\Controller\MoviesController" class="AppBundle\Controller\MoviesController" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\MoviesController" class="AppBundle\Controller\MoviesController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -4642,6 +4754,24 @@
       </argument>
     </service>
     <service id="service_locator.8d166b55caee9833168c2e2c9cd062d8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
+      </argument>
+    </service>
+    <service id="service_locator.391874000e6ce444b1959d212f0d1602" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="image" type="service" id="autowired.AppBundle\Entity\Image"/>
+      </argument>
+    </service>
+    <service id="service_locator.62b0f4d9ebeba12f84bd4c3a13b1a091" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="image" type="service" id="autowired.AppBundle\Entity\Image"/>
+      </argument>
+    </service>
+    <service id="service_locator.dbbb8525a96ab914890b2f4c0c5d3406" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
@@ -4701,7 +4831,14 @@
         <argument key="user" type="service" id="autowired.AppBundle\Entity\User"/>
       </argument>
     </service>
-    <service id="service_locator.0f9af66659bf75845324396c93adc168" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.dd8c06ccb593b3b3af20d471afa23a52" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="modifiedUser" type="service" id="autowired.AppBundle\Entity\User"/>
+        <argument key="theUser" type="service" id="autowired.AppBundle\Entity\User"/>
+      </argument>
+    </service>
+    <service id="service_locator.18fa350c913626af1bd1f141088b0d72" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="AppBundle\Controller\ExceptionController:setViewHandler" type="service" id="service_locator.cd4181b5622bd060478f5fc9c2a6605f"/>
@@ -4709,6 +4846,9 @@
         <argument key="AppBundle\Controller\HumansController:getHumanAction" type="service" id="service_locator.ffaaae3c4f81f25241d72c7238e017a7"/>
         <argument key="AppBundle\Controller\HumansController:postHumansAction" type="service" id="service_locator.e74b1289dc5e38d9d389e9a66e0698dc"/>
         <argument key="AppBundle\Controller\HumansController:setViewHandler" type="service" id="service_locator.8d166b55caee9833168c2e2c9cd062d8"/>
+        <argument key="AppBundle\Controller\ImagesController:postImagesAction" type="service" id="service_locator.391874000e6ce444b1959d212f0d1602"/>
+        <argument key="AppBundle\Controller\ImagesController:putImageUploadAction" type="service" id="service_locator.62b0f4d9ebeba12f84bd4c3a13b1a091"/>
+        <argument key="AppBundle\Controller\ImagesController:setViewHandler" type="service" id="service_locator.dbbb8525a96ab914890b2f4c0c5d3406"/>
         <argument key="AppBundle\Controller\MoviesController:deleteMovieAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
         <argument key="AppBundle\Controller\MoviesController:getMovieAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
         <argument key="AppBundle\Controller\MoviesController:getMovieRolesAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
@@ -4718,12 +4858,16 @@
         <argument key="AppBundle\Controller\MoviesController:setViewHandler" type="service" id="service_locator.05ced11be0c8fe7b09ea1cd2e886a3e9"/>
         <argument key="AppBundle\Controller\TokensController:setViewHandler" type="service" id="service_locator.c6d7dea0913a97b322ff7f91b4742932"/>
         <argument key="AppBundle\Controller\UsersController:getUserAction" type="service" id="service_locator.a438e6341e3829ee9c96bfefea3a9def"/>
+        <argument key="AppBundle\Controller\UsersController:patchUsersAction" type="service" id="service_locator.dd8c06ccb593b3b3af20d471afa23a52"/>
         <argument key="AppBundle\Controller\UsersController:postUsersAction" type="service" id="service_locator.97034eab068985ef34a1e29f71f82bca"/>
         <argument key="AppBundle\Controller\ExceptionController::setViewHandler" type="service" id="service_locator.cd4181b5622bd060478f5fc9c2a6605f"/>
         <argument key="AppBundle\Controller\HumansController::deleteHumanAction" type="service" id="service_locator.ffaaae3c4f81f25241d72c7238e017a7"/>
         <argument key="AppBundle\Controller\HumansController::getHumanAction" type="service" id="service_locator.ffaaae3c4f81f25241d72c7238e017a7"/>
         <argument key="AppBundle\Controller\HumansController::postHumansAction" type="service" id="service_locator.e74b1289dc5e38d9d389e9a66e0698dc"/>
         <argument key="AppBundle\Controller\HumansController::setViewHandler" type="service" id="service_locator.8d166b55caee9833168c2e2c9cd062d8"/>
+        <argument key="AppBundle\Controller\ImagesController::postImagesAction" type="service" id="service_locator.391874000e6ce444b1959d212f0d1602"/>
+        <argument key="AppBundle\Controller\ImagesController::putImageUploadAction" type="service" id="service_locator.62b0f4d9ebeba12f84bd4c3a13b1a091"/>
+        <argument key="AppBundle\Controller\ImagesController::setViewHandler" type="service" id="service_locator.dbbb8525a96ab914890b2f4c0c5d3406"/>
         <argument key="AppBundle\Controller\MoviesController::deleteMovieAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
         <argument key="AppBundle\Controller\MoviesController::getMovieAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
         <argument key="AppBundle\Controller\MoviesController::getMovieRolesAction" type="service" id="service_locator.a0ec01764ab5a2b04a3bd21e95a5322e"/>
@@ -4733,6 +4877,7 @@
         <argument key="AppBundle\Controller\MoviesController::setViewHandler" type="service" id="service_locator.05ced11be0c8fe7b09ea1cd2e886a3e9"/>
         <argument key="AppBundle\Controller\TokensController::setViewHandler" type="service" id="service_locator.c6d7dea0913a97b322ff7f91b4742932"/>
         <argument key="AppBundle\Controller\UsersController::getUserAction" type="service" id="service_locator.a438e6341e3829ee9c96bfefea3a9def"/>
+        <argument key="AppBundle\Controller\UsersController::patchUsersAction" type="service" id="service_locator.dd8c06ccb593b3b3af20d471afa23a52"/>
         <argument key="AppBundle\Controller\UsersController::postUsersAction" type="service" id="service_locator.97034eab068985ef34a1e29f71f82bca"/>
       </argument>
     </service>
@@ -4867,10 +5012,34 @@
         <argument type="service" id="monolog.handler.main"/>
       </call>
     </service>
+    <service id="monolog.logger.snc_redis" class="Symfony\Bridge\Monolog\Logger">
+      <argument>snc_redis</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.server_log"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
     <service id="monolog.handler.null_internal" class="Monolog\Handler\NullHandler"/>
     <service id="service_locator.6f24348b77840ec12a20c22a3f985cf7" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
+    </service>
+    <service id="snc_redis.default_connectionfactory" class="Snc\RedisBundle\Client\Predis\Connection\ConnectionFactory" public="false">
+      <argument type="service" id="snc_redis.client.default_profile"/>
+      <call method="setConnectionWrapperClass">
+        <argument>Snc\RedisBundle\Client\Predis\Connection\ConnectionWrapper</argument>
+      </call>
+      <call method="setLogger">
+        <argument type="service" id="snc_redis.logger"/>
+      </call>
     </service>
     <service id="debug.event_dispatcher.inner" class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
       <argument type="service" id="service_container"/>
@@ -4929,6 +5098,7 @@
       <argument type="service" id="annotations.reader"/>
     </service>
     <service id="autowired.AppBundle\Entity\Person" class="AppBundle\Entity\Person" public="false" autowire="true"/>
+    <service id="autowired.AppBundle\Entity\Image" class="AppBundle\Entity\Image" public="false" autowire="true"/>
     <service id="autowired.AppBundle\Entity\Movie" class="AppBundle\Entity\Movie" public="false" autowire="true"/>
     <service id="autowired.AppBundle\Entity\Role" class="AppBundle\Entity\Role" public="false" autowire="true"/>
     <service id="autowired.AppBundle\Entity\User" class="AppBundle\Entity\User" public="false" autowire="true"/>
@@ -4945,42 +5115,42 @@
       </argument>
     </service>
     <service id="cache.app.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="false" lazy="true">
-      <argument>J365vvvyNv</argument>
+      <argument>auZ1gfPDCR</argument>
       <argument>0</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
-      <argument>czHPKw2IAt</argument>
+      <argument>jPNTM382Ju</argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
-      <argument>ROpS1zoJz4</argument>
+      <argument>gfxm7wpzc2</argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
-      <argument>uMVr2EyHTy</argument>
+      <argument>juewgMCBzE</argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
-      <argument>7bqffagOUr</argument>
+      <argument>9yDxOKYYuf</argument>
       <argument>0</argument>
-      <argument>EPVIvSL9b5nfeAo-XpbWfQ</argument>
-      <argument>/home/pmainguet/Documents/Udemy Courses/Rest API Symfony 3/movies-app/var/cache/dev/pools</argument>
+      <argument>FGuYsqvWjSAFu40qOfNdgE</argument>
+      <argument>/home/vagrant/movies-app/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -5127,6 +5297,7 @@
     <service id="lexik_jwt_authentication.encoder" alias="lexik_jwt_authentication.encoder.default"/>
     <service id="Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface" alias="lexik_jwt_authentication.encoder.default"/>
     <service id="lexik_jwt_authentication.key_loader" alias="lexik_jwt_authentication.key_loader.openssl"/>
+    <service id="snc_redis.default_client" alias="snc_redis.default"/>
     <service id="Symfony\Component\Templating\EngineInterface" alias="templating.engine.twig" public="false"/>
     <service id="Symfony\Bundle\FrameworkBundle\Templating\EngineInterface" alias="templating.engine.twig" public="false"/>
     <service id="console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand" alias="security.console.user_password_encoder_command"/>
@@ -5136,7 +5307,7 @@
     <service id="console.command.symfony_bundle_webserverbundle_command_serverstatuscommand" alias="web_server.command.server_status"/>
     <service id="twig.loader" alias="twig.loader.filesystem"/>
     <service id="fos_rest.serializer" alias="fos_rest.serializer.jms"/>
-    <service id="service_locator.b8d2046fb854cde05549fb309e1a80d2" alias="1_1cf8bdb48dec626f2bf5b8613d7b23a440e91947cec86f6cc8213225873022e2" public="false"/>
+    <service id="service_locator.b8d2046fb854cde05549fb309e1a80d2" alias="1_abfe5d3ea4034a2801749dcf83606c7c6d0ba11a56df895d22eed2d821d58c0e" public="false"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher"/>
     <service id="controller_resolver" alias="debug.controller_resolver" public="false"/>
     <service id="argument_resolver" alias="debug.argument_resolver" public="false"/>

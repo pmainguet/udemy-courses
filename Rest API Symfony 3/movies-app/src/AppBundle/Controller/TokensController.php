@@ -11,6 +11,7 @@ use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use \Symfony\Component\HttpFoundation\JsonResponse;
+use \AppBundle\Security\TokenStorage;
 
 /**
  * @Security("is_anonymous() or is_authenticated()")
@@ -21,11 +22,13 @@ class TokensController extends AbstractController
 
     private $passwordEncoder;
     private $jwtEncoder;
+    private $tokenStorage;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, JWTEncoderInterface $jwtEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, JWTEncoderInterface $jwtEncoder, TokenStorage $tokenStorage)
     {
         $this->passwordEncoder=$passwordEncoder;
         $this->jwtEncoder=$jwtEncoder;
+        $this->tokenStorage=$tokenStorage;
     }
 
     /**
@@ -50,6 +53,8 @@ class TokensController extends AbstractController
             'username' => $user->getUsername(),
             'exp' => time()+3600
         ]);
+
+        $this->tokenStorage->storeToken($user->getUsername(), $token);
 
         return new JsonResponse(['token'=>$token]);
     }
