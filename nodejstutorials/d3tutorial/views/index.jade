@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  script(type="text/javascript").
+      width = 900;
+      height = 600;
+      projection = d3.geo.mercator();
+      svg = d3.select("body").append("svg")
+      	.attr("width", width)
+      	.attr("height", height);
+      path = d3.geo.path()
+      	.projection(projection);
+      g = svg.append("g");
+      d3.json("world-110m2.json", function(error, topology) {
+          g.selectAll("path")
+            .data(topojson.object(topology, topology.objects.countries)
+                .geometries)
+          .enter()
+            .append("path")
+            .attr("d", path)
+      });
