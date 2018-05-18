@@ -1,3 +1,30 @@
+# GENERAL WORKFLOW FOR UX
+
+1.  GENERAL ARCHITECTURE
+
+    * Define the general layout of the page
+    * Decompose in components that can be reused (Atomic Design)
+    * Define animations and user workflow
+
+2.  SETUP CSS AND CONVENTIONS
+
+    * setup SASS architecture and npm / gulp scripts to process to css, put live-server in place
+    * setup basic CSS: basic reset, global font-size
+
+3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
+
+    * Code for the "first" browser
+    * use the global font-size and rem units as a way to dimension all elements that could be resized depending on the font-size
+
+          padding: 30px;    =>     padding: 3rem (if global font-size is 16px)
+
+    * Later implement media queries for responsive web design, by using the global font-size and specified breakpoints
+    * Define a float grid layout reference (number of columns, gutter width, ...)
+
+4.  Use BEM to mark-up HTML code and CSS
+
+    * Build layout in HTML and CSS with a consistent structure for naming classes
+
 # THEORY ON CSS
 
 ## Page rendering process
@@ -232,7 +259,7 @@
 * Flexible/Responsive images by using % for width + optimize images for different width
 * Media Queries to change styles on certain viewport
 
-# BUILD CUSTOM GRID WITH FLOATS
+## BUILD CUSTOM GRID WITH FLOATS
 
 * Define container width: max-width: 114 rem for example
 * Define gutter-vertical and gutter-horizontal margins and apply to row/container, and use the :not(:last-child) pseudo-class to not apply those margins to the last child
@@ -241,30 +268,3 @@
   ** make them float left
   ** use clearfix hack on parent element (row in this case) throught the use of a mixin
   ** you can use [class^="col-"] selector to apply general style
-
-# GENERAL WORKFLOW FOR UX
-
-1.  GENERAL ARCHITECTURE
-
-    * Define the general layout of the page
-    * Decompose in components that can be reused (Atomic Design)
-    * Define animations and user workflow
-
-2.  SETUP CSS AND CONVENTIONS
-
-    * setup SASS architecture and npm / gulp scripts to process to css, put live-server in place
-    * setup basic CSS: basic reset, global font-size
-
-3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
-
-    * Code for the "first" browser
-    * use the global font-size and rem units as a way to dimension all elements that could be resized depending on the font-size
-
-          padding: 30px;    =>     padding: 3rem (if global font-size is 16px)
-
-    * Later implement media queries for responsive web design, by using the global font-size and specified breakpoints
-    * Define a float grid layout reference (number of columns, gutter width, ...)
-
-4.  Use BEM to mark-up HTML code and CSS
-
-    * Build layout in HTML and CSS with a consistent structure for naming classes
