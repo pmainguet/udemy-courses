@@ -1,57 +1,270 @@
-# Course Material and FAQ for my Advanced CSS Course
+# THEORY ON CSS
 
-This repo contains starter files and the finished project files for all the projects contained in the course.
+## Page rendering process
 
-Plus, I made all the course slides available for download, to make it easier to follow along the conceptual videos.
+1.  Page load
+2.  Parse HTML
+    * Create Document Object Model (DOM)
+    * Load CSS
+3.  Parse CSS
+    * Cascade: Resolve Conficting CSS Declaration
+    * Process final CSS values
+4.  Create a CSS Object Model (CSSOM)
+5.  DOM and CSSOM are then used to create a Render Tree
+6.  Website Rendering: Visual Formatting Model
+7.  Final Rendered Website
 
-👇 ***Please read the following Frequently Asked Questions (FAQ) carefully before starting the course*** 👇
+## Parsing: Cascade and specificity
 
-## FAQ
+* CSS Rule = Selector (.my-class) and Declaration Block ({...}) with declarations (font-size:20px) which consist of a property (font-size) and its declared value (20px)
+* Source of CSS rules
+  * Author
+  * User
+  * User-agent
+* Cascade: process of combining different stylesheets and resolving conflicts between different CSS rules and declarations, when more than one rule applies to a certain element. They use three relative elements
 
-### Q1: How do I download the files?
+  * First it looks at the Importance of the rule, with the following importances:
+    1.  User !important declarations
+    2.  Author !important declarations
+    3.  Author declarations
+    4.  User declarations
+    5.  Default browser declarations
+  * If same Importance, use Specificity (calculation of the number of occurrences in each below categories)
 
-**A:** If you're new to GitHub and just want to download the complete package, hit the green button saying "Clone or download", choose the "Download ZIP" option, and you're good to go.
+    1.  Inline Styles
+    2.  IDs
+    3.  Classes, pseudo-classes, attribute
+    4.  Elements, pseudo-elements
 
-### Q2: One of the NPM packages is not working (compiling Sass, live-reload, etc). How to fix it?
+        Examples:
 
-Unfortunately, this is quite common. I listed some possible fixes [in this document](npm-fixes.md).
+        .button => specificity of (0,0,1,0) ie 0 inline styles, 0 ids, 1 class, 0 Element used as selector
+        nav#nav div.pull-right .button => specificity of (0, 1, 2, 2 )
+        a => specifificy of (0,0,0,1)
+        #nav a.button:hover => specificity of (0,1,2,1)
 
-### Q3: I'm stuck in one of the projects. Where do I get help?
+        so the highest specify gets applied hence the second one
 
-**A:** Have you extensively tried fixing the problem on your own? If you failed at fixing it, please **post a detailled description of the problem to the Q&A area of that video over at Udemy**, along with a [codepen](https://codepen.io/pen/) containing your code. You will get help as fast as possible! Please don't send me a personal message or email to fix coding problems.
+  * If same Specificity, use Source Order: the last declaration in the code will override all other declarations and will be applied
 
-### Q4: You keep mentioning your resources page. Where can I find it?
+## Parsing: Value Processing
 
-**A:** It's on my website at <http://codingheroes.io/resources>. You can subscribe for updates 😉
+* Chain of value processing
 
-### Q5: What VSCode theme are you using?
+  1.  Declared Value: author declarations
+  2.  Cascaded Value: after the cascade
+  3.  Specified Value: If there is a cascading value, use it, otherwise:
 
-**A:** I use Oceanic Next (dimmed bg) for all my coding and course production. [Here is my complete VSCode setup](vscode-setup.md).
+  * check if the property can be inherited, if so check the parent's elements (WARNING it's the calculated value that is inherited, not the relative one)
+  * if not, default to initial value of considered CSS property
 
-### Q6: You use codepens in some of the lectures. Where can I find them?
+  4.  Computed Value: converting relative values to absolute
+  5.  Used Value: Final calculations, based on layout
+  6.  Actual Value: Browser and device restrictions (round float Used Value for example)
 
-**A:** They are all available on my [public codepen profile](https://codepen.io/jonasschmedtmann/pens/public/). The ones you're looking for might be buried under some newer ones.
+  * each property as an initial value, used if nothing is declared and if there is no inheritance
+  * Browsers specify a root font-size for each page
+  * Every values will be at the end converted to PIXELS
 
-### Q7: can I see a final version of the course projects?
+## How units are converted from relative to absolute
 
-**A:** Sure, I have an online version of all three. Here they are: [Natours](https://natours.netlify.com) (advanced CSS, Sass and responsive design), [Trillo](http://trillo.netlify.com/) (flexbox) and [Nexter](https://nexter.netlify.com/) (CSS Grid).
+* % for Fonts: % of the parent's computed font-size
+* % for Lenghts: % of the parent's computed width
+* em for Fonts: x times the parent computed font-size
+* em for Lengths: x times the current element computed font-size
+* rem: x times the root computed font-size
+* vh: x times 1% of the viewport height
+* vw: x times 1% of the viewport width
 
-### Q8: The videos don't load, can you fix it?
+## Inheritance
 
-**A:** Unfortunately, there is nothing I can do about it. The course is hosted on Udemy's platform, and sometimes they have small technical issues like this one. Please just come back a bit later or [contact their support team](https://support.udemy.com/hc/en-us). Also, don't forget to select the HD option in the video player.
+* Certain css property of child elements can be inherited from their parent elements.
+* Properties related to text are inherited: font-family, font-size, color ...
+* The COMPUTED value of a property is what gets inherited, NOT the DECLARED value
+* The inherit keyword forces inheritance on a certain property
+* The initial keyword resets a property to its initial value
 
-### Q9: Are the videos downloadable as well?
+## Visual Formating Model
 
-**A:** Yes, I made all videos downloadable on the Udemy platform so you can learn even without an internet connection. To download a video, use the settings icon in the right bottom corner of the video player.
+* Algorithm that calculates boxes and determines the layout of the boxes, for each element in the render tree, in order to determine the final layout of the page
+  * Dimensions of boxes: box model (border-box so padding and border are not added to the dimensions of the box)
+  * Box type:
+    * block: 100% of parent's width, vertically one after another, box-model applies as showed
+    * inline: content is distributed in lines, occupies only content's space, no line-breaks, no heights and widths, paddings and margins only horizontal
+    * inline-blocks: occupies only content's space, no line-breaks, box-model applies as showed
+  * Positioning scheme: floats and positioning
+    * Normal flow: default positioning, elements laid out according to their source order
+    * Floats (left, right):
+      * removed from the normal flow,
+      * text and inline elements will wrap around the floated elements,
+      * the container will not adjust its height to the element => use of clearfix in this case (see below)
+    * Absolute positioning (fixed, absolute):
+      * removed from the normal flow,
+      * no impact on surrounding content or elements
+      * we use top, bottom, left and right to offset the element from its relatively positioned container
+  * stacking contexts: created by z-index, opacity, transform, filter ...
+  * other elements in the render tree (parents and siblings)
+  * viewport size, dimensions of images ...
 
-### Q10: I love your courses and want to get updates on new courses. How?
+## CSS Architecture, Components and BEM (Block Element Modifier)
 
-**A:** First, you can subscribe to my email list [at my website](http://codingheroes.io/newsletter). Plus, I make important announcements on twitter [@jonasschmedtman](https://twitter.com/jonasschmedtman), so you should definitely follow me there 🔥
+* BEM => low specificity BEM selectors
 
-### Q11: Can I connect with your other students in some way?
+      .block{}                        => component that can be reused
+      .block__element{}               => child element of a component
+      .block__element--modifier{}     => use of modifier for round element for example
 
-**A:** Yep, I thought about this! I started quite an active Discord chatroom for you to chat with other students, help each other out or just hang out with like-minded people. You can [join using this invite](https://discord.gg/0ocsLcmnIZqxMSYD).
+* 7-1 Pattern: 7 different folders for partial Sass files and 1 main Sass file to import all other files into a compiled CSS stylesheet
+  * base
+  * components
+  * layout
+  * pages
+  * themes
+  * abstracts
+  * vendors
 
-### Q12: How do I get my certificate of completion?
+# BASIC SETUP
 
-**A:** A certificate of completion is provided by Udemy after you complete 100% of the course. After completing the course, just click on the small trophy icon on the course overview page. If you want to change your name on the certificate, please [contact the Udemy support team](https://support.udemy.com/hc/en-us).
+## BASIC RESET WITH UNIVERSAL SELECTOR
+
+    *,
+    *::after,
+    *::before {
+      margin:0;
+      padding:0;
+      box-sizing: inherit;
+      }
+
+    body {
+      ...
+      box-sizing: border-box;       => in this cas total width/height = specified width/height and the padding and the border are not added to the dimensions of the box
+    }
+
+## DEFINE PROJECT-WIDE FONT DEFINITIONS
+
+* we want to use 10px to facilitate calculation (Chrome sets a global font size of 16px) but we need to set the value as a percentage of the browser font-size (best practice) => here 10/16 = .625
+
+      html{
+        font-size: 62.5%;
+      }
+
+## CLIP PARTS OF ELEMENTS USING clip-path
+
+# POSITIONNING
+
+## CENTER ELEMENTS
+
+* transform / top / left
+* center block element inside another block element => margin: 0 auto;
+
+## ABSOLUTE POSITIONING
+
+* Absolute positionning need a reference to correctly position the element => the first parent element whose position is set to relative.
+
+# PSEUDO-ELEMENTS
+
+* virtual element that can be styled, animated or used to clear float for example.
+
+::after and ::before
+
+* pseudo classes such as :first-child for list :hover, ...
+
+## CLEARFIX HACK
+
+* Problem: Parent element with floated child elements => parent element's height collapse with height = 0
+* Solution: add a pseudo element after the parent element that will clear the float options of the child elements.
+
+            &::after{           => add a pseudo element after the parent element
+              content: "";      => need an element to display but don't want to see it
+              display: table;   => standard way of the clearfix
+              clear: both;      => clear both floats, left and right.
+            }
+
+# ANIMATIONS
+
+* if you want to set the transition of an animation you need to set it on the initial state
+
+      ANIMATION:  transform: scale(1.5);
+      TRANSITION: transition: all .4s;
+
+## KEYFRAMES
+
+* You can specify an animation through keyframes
+
+  animation: moveInBottom .5s ease-out;
+
+      and
+
+      @keyframes moveInBottom {
+        0% {
+          opacity: 0,
+          transform: translateY(30px);
+        }
+
+        100% {
+          opacity:1;
+          transform: translate(0):
+        }
+      }
+
+* animation-fill-mode: backwards allow to not set the 0% keyframes before the animation starts.
+
+# SASS
+
+* CSS preprocessor with the following features:
+  ** Variables: for reusable values such as colors, font sizes, spacing ... => $color-primary
+  ** Nesting: to nest selectors inside one another, allowing us to write less code
+  ** Operators: for mathematical operations right inside of CSS
+  ** Partials and imports: to write CSS in different files and importing them all into one single file
+  ** Mixins: to write reusable pieces of CSS code, that can use variables => @mixin clearfix($var) {} ... @include clearfix("salut")
+  ** Functions: similar to mixins, with the difference that they produce a value that can be used => darkern($color-primary,15%) ... @function name($a,$b){ @return $a+$b }
+  ** Extends: to make different selectors inherit declarations that are commont to all of them, other way around compare to mixins => %btn-placeholder{} ... @extend %btn-placeholder
+  ** Control directives: for writing complex code using conditionals and loops
+* Two syntaxes:
+  ** Sass syntax: indentation of css blocks
+  ** SCSS syntax: with curly braces => the prefered one as it is similar to vanilla CSS syntax
+
+# RESPONSIVE DESIGN PRINCIPLES
+
+* fluid grids and layouts that adapt to current viewport (use % rather than px for all layout-related length)
+  ** 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
+  ** use framework grid (such as bootstrap grid) or custom grid layout
+* Flexible/Responsive images by using % for width + optimize images for different width
+* Media Queries to change styles on certain viewport
+
+# BUILD CUSTOM GRID WITH FLOATS
+
+* Define container width: max-width: 114 rem for example
+* Define gutter-vertical and gutter-horizontal margins and apply to row/container, and use the :not(:last-child) pseudo-class to not apply those margins to the last child
+* Define .col elements:
+  ** for width calculation use calc() and use #{} to wrap sass variables
+  ** make them float left
+  ** use clearfix hack on parent element (row in this case) throught the use of a mixin
+  ** you can use [class^="col-"] selector to apply general style
+
+# GENERAL WORKFLOW FOR UX
+
+1.  GENERAL ARCHITECTURE
+
+    * Define the general layout of the page
+    * Decompose in components that can be reused (Atomic Design)
+    * Define animations and user workflow
+
+2.  SETUP CSS AND CONVENTIONS
+
+    * setup SASS architecture and npm / gulp scripts to process to css, put live-server in place
+    * setup basic CSS: basic reset, global font-size
+
+3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
+
+    * Code for the "first" browser
+    * use the global font-size and rem units as a way to dimension all elements that could be resized depending on the font-size
+
+          padding: 30px;    =>     padding: 3rem (if global font-size is 16px)
+
+    * Later implement media queries for responsive web design, by using the global font-size and specified breakpoints
+    * Define a float grid layout reference (number of columns, gutter width, ...)
+
+4.  Use BEM to mark-up HTML code and CSS
+
+    * Build layout in HTML and CSS with a consistent structure for naming classes
