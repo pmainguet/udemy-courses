@@ -5,10 +5,18 @@ Rest\ API\ Symfony\ 3/movies-app/var/sessions/*
 !Rest\ API\ Symfony\ 3/movies-app/var/cache/.gitkeep
 !Rest\ API\ Symfony\ 3/movies-app/var/logs/.gitkeep
 !Rest\ API\ Symfony\ 3/movies-app/var/sessions/.gitkeep
+symfonybyexamples/var/cache/*
+symfonybyexamples/var/logs/*
+symfonybyexamples/var/sessions/*
+!symfonybyexamples/var/cache/.gitkeep
+!symfonybyexamples/var/logs/.gitkeep
+!symfonybyexamples/var/sessions/.gitkeep
 
 # Parameters
 Rest\ API\ Symfony\ 3/movies-app/app/config/parameters.yml
 Rest\ API\ Symfony\ 3/movies-app/app/config/parameters.ini
+symfonybyexample/app/config/parameters.yml
+symfonybyexample/app/config/parameters.ini
 
 # Managed by Composer
 Rest\ API\ Symfony\ 3/movies-app/app/bootstrap.php.cache
@@ -18,19 +26,32 @@ Rest\ API\ Symfony\ 3/movies-app/bin/*
 !Rest\ API\ Symfony\ 3/movies-app/bin/symfony_requirements
 Rest\ API\ Symfony\ 3/movies-app/vendor/
 
+symfonybyexample/app/bootstrap.php.cache
+symfonybyexample/var/bootstrap.php.cache
+symfonybyexample/bin/*
+!symfonybyexample/bin/console
+!symfonybyexample/bin/symfony_requirements
+symfonybyexample/vendor/
+
 # Assets and user uploads
 Rest\ API\ Symfony\ 3/movies-app/web/bundles/
 Rest\ API\ Symfony\ 3/movies-app/web/uploads/
+symfonybyexample/web/bundles/
+symfonybyexample/web/uploads/
 
 # PHPUnit
 Rest\ API\ Symfony\ 3/movies-app/app/phpunit.xml
 Rest\ API\ Symfony\ 3/movies-app/phpunit.xml
+symfonybyexample/app/phpunit.xml
+symfonybyexample/phpunit.xml
 
 # Build data
 Rest\ API\ Symfony\ 3/movies-app/build/
+symfonybyexample/build/
 
 # Composer PHAR
 Rest\ API\ Symfony\ 3/movies-app/composer.phar
+symfonybyexamplep/composer.phar
 
 # Backup entities generated with doctrine:generate:entities command
 **Entity/*~
