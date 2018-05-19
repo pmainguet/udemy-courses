@@ -1,4 +1,9 @@
-# A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS
+# TABLE OF CONTENT
+
+* [A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS](#a)
+* [B - THEORY ON CSS](#bbbb)
+
+# <a name="a">A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS</a>
 
 1.  GENERAL ARCHITECTURE
 
@@ -33,7 +38,7 @@
 * External fonts (Google Fonts) and font icon (Linea, Font Awesome ...)
 * Add stylesheet link meta and favicon
 
-# B - THEORY ON CSS
+# <a name="bbbb">B - THEORY ON CSS</a>
 
 ## Page rendering process
 
@@ -160,7 +165,7 @@
   * abstracts
   * vendors
 
-# C - BASIC SETUP
+# <a name="c"></a>C - BASIC SETUP
 
 ## BASIC RESET WITH UNIVERSAL SELECTOR
 
