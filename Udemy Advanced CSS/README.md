@@ -191,12 +191,16 @@
 
 ## CENTER ELEMENTS
 
-* Method 1: transform / top / left
+* Method 1 - for floated element or absolute: transform
 
         position:absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%,-50%);
+
+
+        float: left;
+        transform: translateX(-3rem);
 
 * center block element inside another block element => margin: 0 auto;
 
@@ -212,9 +216,10 @@
 
 * child selector
 
-& > \* => direct child selector
-
-=> adjacent siblings selector
+      class1 class2 => select class2, children of class1
+      & > \* => direct child selector
+      ... + ... => adjacent siblings selector (that comes immediatly after the first selector)
+      ... ~ ... => general sibling selector
 
 * ::input-placeholder
 
@@ -305,6 +310,11 @@ Two syntaxes:
 
 ## BROWSER SUPPORT
 
+          @supports(-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px)){
+            backdrop-filter:blur(10px);
+            background-color: rgba($color-black, .3);
+          }
+
 # I - HOW TO / RECIPES
 
 ## Create a "skewed section"
@@ -360,6 +370,8 @@ Two syntaxes:
             box-shadow: 0 1rem 2rem rgba(black,.15)
             box-shadow: 0 1.5rem 4rem rgba(black,.4)
             box-shadow: 0 2.5rem 4rem rgba(black,.5)
+            box-shadow: 0 3rem 6rem rgba(black,.1);
+            box-shadow: 0 .5rem 1rem rgba(black, .2);
 
 ## Style elements that are not hovered while others are
 
@@ -409,13 +421,79 @@ On parent element that have child element that can be hovered use
         background-blend-mode: screen;
         backgound-image: linear-gradient(...),url(...)
 
-## Text flow around shapes with shape-outside and float
+## Make two lines of text be styled like 2 different element (padding)
+
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
 
 ## filter to images
 
+      filter: blur(3px) brightness(80%);
+
+## Solid Color Gradient - add color on top of an image
+
+* alternative to clip-path with additional div
+* add another background-image to the property where the background image is defined
+* special use of linear-gradient
+
+        linear-gradient(
+            105deg,
+            rgba($color-white, 0.9) 0%,
+            rgba($color-white, 0.9) 50%,
+            transparent 50.1%
+
+        )
+
+## Round image with floating text around
+
+        <figure class="shape">
+          <img src="" alt="" class="shape__img">
+        </figure>
+
+        .shape{
+          width: 15rem;
+          height: 15rem;
+          float: left;
+          -webkit-shape-outside: circle(50% at 50% 50%);
+          shape-outside: circle(50% at 50% 50%);
+          clip-path: circle(50% at 50% 50%);
+
+          &__img{
+            height: 100%;
+          }
+
+        }
+
+# J - ADVANCED COMPONENTS EXAMPLES
+
 ## Background video
 
-## Solid Color Gradient
+        <section class="test">
+          <div class="bg-video">
+            <video class="bg-video__content" autoplay muted loop>
+              <source src="" type="video/mp4">
+              <source src="" type="video/webm">
+              Text
+            </video>
+          </div>
+        </section>
+
+        .bg-video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          opacity: 0.15;
+          overflow: hidden;
+
+          &__content {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+          }
+        }
 
 ## Rotating card
 
@@ -458,13 +536,404 @@ On parent element that have child element that can be hovered use
 
 ## Custom Form Input
 
+      <form action="" class="form">
+        <div class="form__group">   => for each input
+          <input type="text" class="form__input" placeholder="Full Name" id="name" required>
+          <label for="name" class="form__label">Text</label>
+        </div>
+      </form>
+
+      .form {
+        &__group:not(:last-child) {
+          margin-bottom: 2rem;
+        }
+
+        &__input {
+          font-family: inherit;             => have the same font as the page itself
+          color: inherit;
+          font-size: 1.5rem;
+          padding: 1.5rem 2rem;             => always a little more padding on the side
+          border-radius: 2px;
+          background-color: rgba($color-white, 0.5);
+          border: none;
+          border-bottom: 3px solid transparent;
+          width: 90%;
+          display: block;
+          transition: all 0.3s;
+          &:focus {
+            outline: none;
+            box-shadow: 0 1 rem 2rem rgba($color-black, 0.1);
+            border-bottom: 3px solid $color-primary;
+          }
+          &::-webkit-input-placeholder {      => style input placeholder
+            color: $color-grey-dark-2;
+          }
+          &:focus:invalid {                   => specific style for validation directly in CSS
+            border-bottom: 3px solid $color-secondary-dark;
+          }
+        }
+
+        &__label {
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin-left: 2rem;
+          margin-top: 0.7rem;
+          display: block;
+          transition: all 0.3s;
+        }
+
+        &__input:placeholder-shown + &__label {   => to add slide down animation on focus
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-4rem);
+        }
+      }
+
 ## Custom radio buttons
+
+* Use the checkbox hack: clicking label select the input
+* the real input element is hidden, it's a span element within the label that is styled
+* Reminder: if several radio button with same "name" attribute, only one can be selected at any given time
+
+      <form action="" class="form">
+        <div class="form__group">   => for each input
+          <input type="radio" class="form__input" placeholder="Full Name" id="name" name="size" required>
+          <label for="name" class="form__label">
+            <span class="form__radio-button">
+            Text
+          </label>
+          <input type="radio" class="form__input" placeholder="Full Name 2" id="name2" name="size" required>
+          <label for="name2" class="form__label">
+            <span class="form__radio-button">
+            Text 2
+          </label>
+        </div>
+      </form>
+
+      .form {
+        &__group:not(:last-child) {
+          margin-bottom: 2rem;
+        }
+
+        &__radio-group {
+            width: 49%;
+            display: inline-block;
+          }
+
+          &__radio-label {
+            font-size: $default-font-size;
+            cursor: pointer;
+            position: relative;
+            padding-left: 4rem;
+          }
+
+          &__radio-input {
+            display: none;      => the real input element is hidden
+          }
+
+          &__radio-button {
+            height: 3rem;
+            width: 3rem;
+            border: 5px solid $color-primary;
+            border-radius: 50%;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: -0.4rem;
+            transition: all 0.3s;
+
+            &::after {
+              content: "";
+              display: block;
+              height: 1.3rem;
+              width: 1.3rem;
+              border-radius: 50%;
+              @include centerHorizontalVertical;
+              background-color: $color-primary;
+              opacity: 0;
+            }
+          }
+
+          &__radio-input:checked + &__radio-label &__radio-button::after {
+            opacity: 1;
+          }
+        }
 
 ## Navigation
 
+* Use the checkbox hack: clicking label select the input
+* Use transform-origin to correctly animate the burget button
+
+
+        <div class="navigation">
+          <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+          <label for="navi-toggle" class="navigation__button">MENU</label>
+          <div class="navigation__background">&nbsp;</div>
+          <nav class="navigation__nav">
+            <ul class="navigation__list">
+              <li class="navigation__item"><a href="" class="navigation__link">Text</a></li>
+              ...
+            </ul>
+          </nav>
+        </div>
+
+
+        .navigation {
+            position: relative;
+            &__checkbox {
+              display: none;
+            }
+
+            &__button {
+              background-color: $color-white;
+              height: 7rem;
+              width: 7rem;
+              border-radius: 50%;
+              position: fixed;
+              top: 6rem;
+              right: 6rem;
+              z-index: 2000;
+              box-shadow: 0 1rem 3rem rgba($color-black, 0.1);
+              text-align: center;
+              cursor: pointer;
+            }
+
+            &__background {
+              height: 6rem;
+              width: 6rem;
+              border-radius: 50%;
+              position: fixed;
+              top: 6.5rem;
+              right: 6.5rem;
+              background-image: radial-gradient(
+                $color-primary-light,
+                $color-primary-dark
+              );
+              z-index: 1000;
+              transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);    => specific timing function through cubic-bezier
+            }
+
+            &__nav {
+              height: 100vh;
+              position: fixed;
+              top: 0;
+              right: 0;
+              z-index: 1500;
+              opacity: 0;
+              width: 0;
+              transition: all 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+            }
+
+            &__list {
+              @include centerHorizontalVertical;
+              list-style: none;
+              text-align: center;
+              width: 100%;
+            }
+
+            &__item {
+              margin: 1.5rem;
+            }
+
+            &__link {
+              &:link,
+              &:visited {
+                font-size: 3rem;
+                font-weight: 300;
+                color: $color-white;
+                text-decoration: none;
+                text-transform: uppercase;
+                background-image: linear-gradient(  => solid color gradient
+                  120deg,
+                  transparent 0%,
+                  transparent 50%,
+                  $color-white 51%
+                );
+                padding: 1rem 2rem;
+                background-size: 250%;
+                transition: all 0.4s;
+                display: inline-block;
+                span {
+                  margin-right: 1.5rem;
+                }
+              }
+              &:hover,
+              &:active {
+                background-position: 100%;        => animation of solid color gradient
+                color: $color-primary;
+                transform: translateX(1rem);
+              }
+            }
+
+            //BURGER ICON
+            &__icon {
+              position: relative;
+              margin-top: 3.5rem;
+              &,
+              &::before,
+              &::after {
+                width: 3rem;
+                height: 2px;
+                background-color: $color-grey-dark-3;
+                display: inline-block;
+              }
+
+              &::before,
+              &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                transition: all 0.2s;
+              }
+              &::before {
+                top: -0.8rem;
+                transform-origin: center;
+              }
+              &::after {
+                top: 0.8rem;
+                transform-origin: center;
+              }
+            }
+
+            //FUNCTIONNALITY
+            &__checkbox:checked ~ &__background {
+              transform: scale(180);
+            }
+
+            &__checkbox:checked ~ &__nav {
+              opacity: 1;
+              width: 100%;
+            }
+
+            &__checkbox:checked + &__button &__icon {
+              & {
+                background-color: transparent;
+              }
+              &::before {
+                top: 0;
+                transform: rotate(45deg);
+              }
+
+              &::after {
+                top: 0;
+                transform: rotate(-45deg);
+              }
+            }
+
+            &__button:hover &__icon::before {
+              top: -1rem;
+            }
+            &__button:hover &__icon::after {
+              top: 1rem;
+            }
+          }
+
 ## CSS Popup
 
-## Make two lines of text be styled like 2 different element (padding)
+* Use the :target pseudo-class
+* Use display: table-cell to create boxes with equal height
 
-        -webkit-box-decoration-break: clone;
-        box-decoration-break: clone;
+           <a href="#popup">Popup</a>
+
+           <div class="popup" id="popup">
+                <div class=" popup__content ">
+                    <div class="popup__left ">
+                        <img src="img/nat-8.jpg " alt="Tour Photo " class="popup__img ">
+                        <img src="img/nat-9.jpg " alt="Tour Photo " class="popup__img ">
+                    </div>
+                    <div class="popup__right ">
+                        <a href="#section-tours" class="popup__close">&times;</a>
+                        <h2 class="heading-secondary u-margin-bottom-small ">Start Booking Now</h2>
+                        <h3 class="heading-tertiary u-margin-bottom-small ">Important &ndash; Please read these terms before booking.</h3>
+                        <p class="popup__text ">... </p>
+                        <a href="# " class="btn btn--grn ">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+          .popup {
+            @include centerHorizontalVertical;
+            background-color: rgba($color-black, 0.8);
+            z-index: 3000;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+
+            &__content {
+              @include centerHorizontalVertical;
+              background-color: $color-white;
+              width: 75%;
+              z-index: 4000;
+              box-shadow: 0 2rem 4rem rgba($color-black, 0.2);
+              border-radius: 3px;
+              display: table;
+              overflow: hidden;
+              transition: all 0.4s 0.2s;
+              opacity: 0;
+              transform: translate(-50%, -50%) scale(0.25);
+            }
+
+            &__left {
+              width: 33.333333%;
+              display: table-cell;    => same height for left and right elements
+            }
+
+            &__right {
+              width: 66.6666667%;
+              display: table-cell;     => same height for left and right elements
+              vertical-align: middle;
+              padding: 3rem 5rem;
+            }
+
+            &__img {
+              display: block;
+              width: 100%;
+            }
+
+            &__text {
+              font-size: 1.4rem;
+              margin-bottom: 4rem;
+              column-count: 2;          => add columns in a text
+              column-gap: 4rem;
+              column-rule: 1px solid $color-grey-light-2;
+              -moz-hyphens: auto;
+              -ms-hyphens: auto;
+              -webkit-hyphens: auto;
+              hyphens: auto;
+            }
+
+            &__close {
+              &:link,
+              &:visited {
+                color: $color-grey-dark;
+                position: absolute;
+                line-height: 1;
+                top: 2.5rem;
+                right: 2.5rem;
+                font-size: 3rem;
+                text-decoration: none;
+                font-weight: 700;
+                display: inline-block;
+                transition: all 0.2s;
+              }
+
+              &:hover {
+                color: $color-primary;
+              }
+            }
+
+            //FUNCITONNALITY
+
+            &:target {              => use to link popup to button through anchor tag (id)
+              opacity: 1;
+              visibility: visible;
+            }
+
+            &:target &__content {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(1);
+            }
+          }
