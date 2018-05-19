@@ -2,7 +2,7 @@
 
 //Simple template for React https://github.com/stephengrider/reduxsimplestarter
 
-\*REACT COMPONENTS / CONTAINERS
+# REACT COMPONENTS / CONTAINERS
 
 * props === "arguments" of component
 * Whenever state changes, components are regenerated.
@@ -12,7 +12,7 @@
 * lifecycle mof component used to launch certain actions (ex: componentDidMount to fetch actions that fetch all posts)
 * container === smart component === component that need to talk to application state / redux
 
-\*REDUCERS
+# REDUCERS
 
 * Map Application State
 * Create generale CombineReducer
@@ -20,7 +20,7 @@
 * Bind reducer to container via mapStateProps function and connect component
 * use data from state via this.props of container to display data
 
-\*ACTIONS
+# ACTIONS
 
 * modify application state through reducers (actions are set to all reducers)
 * good place to put access to data via API
@@ -29,18 +29,18 @@
 * add action trigger in elt of container to use action
 * consume action in reducers
 
-\*MIDDLEWARE:
+# MIDDLEWARE:
 
 * functions that stop any actions, check, let it pass, logs it ...
 * Promise used with Axios to handle ajax request => simple implementation. For more complex implementation (ie, delays, ..), use React Thunk
 
-\*ROUTER/HISTORY
+# ROUTER/HISTORY
 
 * React Router parse changes made to URL and decide to update / show different sets of React Components
 * No request to the server to change page => Single Page Application
 * Switch component allows to easily handle more than one matchable route by rendering the first that matches (order of <Route> Component)
 
-\*FORM
+# FORM
 
 * via redux-form
 * similar to html form
@@ -54,24 +54,24 @@
 * ownProps, set of props that is going to the target component, available in mapStateProps.
 * mapStateProps is a good place to make some intermediate calculation such as lookup in object
 
-\*THUX - DISPATCH
+# THUX - DISPATCH
 
 * Use of dispatch function through Thux, in order to use onsuccess/failure action
 
-\*SELECTORS
+# SELECTORS
 
 * Return calculated state from piece of states => for example, selectedPost from a big list of posts
 
-\*DATA LOADING METHODS
+# DATA LOADING METHODS
 
 * Possible to use component lifecycle function such as componentWillMount or componentDidMount but component are tied to states
 * Better solution is to use onEnter callback provided by React router
 
-\*ANIMATION OF COMPONENTS
+# ANIMATION OF COMPONENTS
 
 * ReactCSSTransitionGroup wrapper of items that need to be animated + css rules for the animation based on class created by the wrapper
 
-\*BEST WAYS TO STORE DATA IN REDUX (array vs object)
+# BEST WAYS TO STORE DATA IN REDUX (array vs object)
 
 * Array not a good approach
 * Example find element in array vs object
@@ -95,31 +95,31 @@ return \_.omit(state,postIdToDelete);
 
 * \_.mapKeys(payload,'id') => function that transforms an array into an object with key 'id'
 
-\*COMMON ERRORS
+# COMMON ERRORS
 
 * Warning: React.createElement => not valid React component somewhere => check import / export statement for mispel
 * nothing happen after reducer modification => undefined action case => check import / export statement, maybe missing {} around import case name
 * action creator: uncaught in promise => check action promise and / or middleware
 * Objects are not valid as a React child => it's not possible to directly render plain javascript within react (wrapper needed)
 
-\*MODALS
+# MODALS
 
 * warning of z-index rules only
 * better solution, is to break rootcomponent hierarchy by making a sibling element directly under document.body
 
-\*DEPLOYMENT OF REACT/WEBPACK APP
+# DEPLOYMENT OF REACT/WEBPACK APP
 
 * use package.json to define action to be run by 'npm run'
 * postinstall script to generate bundle.js => 'webpack -p'
 * simple webserver with express for example
 
-\*BROWSERHISTORY VS HASHHISTORY
+# BROWSERHISTORY VS HASHHISTORY
 
 * hashhistory => example.com/#/users -> /users || example.com/users -> nothing
 * browserhistory => example.com/#/users -> /#/users || example.com/users -> /users
 * If browserhistory is used need to setup web server to always serve index.html with every url, so React can be launched and then take care of the root provided by the user
 
-\*INTEGRATING 3RD PARTY LIBRARIES
+# INTEGRATING 3RD PARTY LIBRARIES
 
 * use a wrapper to render script
 * make use of ref prop to make a reference to a specific DOM element to be fed to the library

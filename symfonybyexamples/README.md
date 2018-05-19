@@ -1,6 +1,6 @@
 # Symfony 3 by Example
 
-=> COMPOSER
+## COMPOSER
 
 * Utilisation de composer pour gestion des dépendances + installation du framework Symfony (voir doc)
   * composer create-project symfony/framework-standard-edition movies "3.3.\*"
@@ -14,26 +14,26 @@
   * fixtures (données à uploader en base)
 * build-in webserver + configuration Apache pour pointer vers le dossier du projet (pas forcément dans le dossier public d'Apache)
 
-=> BUNDLES
+## BUNDLES
 
 * génération via console
 * ou à la main en indiquant Bundle dans AppKernel, routing.yml et config.yml (lien vers le service.yml du bundle)
 * 3rd party bundles: composer + déclaration dans AppKernel
 
-=> ROUTING
+## ROUTING
 
 * annotation @Route("/", name="home") + prefix dans routing.yml
 * définition du template à utiliser:
   * via $this->render appelé en fin d'action
   * ou via annotation @Template() => dans ce cas prend en compte le nom du controller et le nom de l'action pour pointer vers le template à utiliser
 
-=> TWIG
+## TWIG
 
 * layout définit à la base du projet + template inheritance via définition des blocks
 * flashbag / $this->addFlash message pour faire apparaitre des messages globaux
 * pour des messages lié à la validation d'un formulaire possibilité d'utiliser {{ form_errors }} au niveau du twig
 
-=> DATABASE / DOCTRINE
+## DATABASE / DOCTRINE
 
 * Common (components to be used) + DBal (database abstraction on top of PDO) + ORM (object relational mapping that provide persistence)
 * Trois concepts de base:
@@ -50,7 +50,7 @@
   * et dans la targetEntity @ORM\OneToMany(targetEntity="CarBundle\Entity\Car", mappedBy="model") + doctrine:generate:entities + update database
 * Lazy Loading => attention parfois besoin de définir des custom query dans le Repository avec des clauses join plutot que de laisser faire le lazy loading de Doctrine (multiplication des requêtes à la base de données)
 
-=> FORM
+## FORM
 
 * Form sans entité (formulaire de recherche) => voir exemple dans le cours (définition directe dans le controller)
 * Création à partir d'une entité:
@@ -61,7 +61,7 @@
   * Customisation du controller du form type et des vues créé
   * En particulier, ajout de valiation dans la fonction buildForm du Form Type
 
-=> SERVICE CONTAINER
+## SERVICE CONTAINER
 
 * Création dans dossier Service + déclaration dans services.yml du bundle ou global
 * Disponible ensuite dans les controllers via $this->get('nom du service') sinon dans autres fichiers via $this->getContainer()->get('nom du service')
@@ -73,7 +73,7 @@
   * ajout d'un attribut au service correspond à l'autre service que l'on veut appeler + constructeur
   * ajout d'un argument dans services.yml arguments = ['@doctrine.orm.entity_manager']
 
-=> CONSOLE COMMAND
+## CONSOLE COMMAND
 
 * Génération d'une commande à utiliser dans la console:
 
@@ -84,7 +84,7 @@
     * changer la classe étendue de la commande en extends Command
     * comme il n'est plus ContainerAware, il faut créer des attributs correspond au service que l'on souhaite pouvoir utiliser, et les setter dans le constructeur, puis dans services.yml déclarer la classe comme un service et faire passer les services en paramètres + indiquer un tag {name: console.command}
 
-=> TEST
+## TEST
 
 * installer PHPUnit via composer + ustilisation de /vendor/bin/phpunit pour lancer les test
 * définition des tests dans le dossier tests à la racine du projet

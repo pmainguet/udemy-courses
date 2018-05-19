@@ -1,4 +1,4 @@
-# A - GENERAL WORKFLOW FOR UX
+# A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS
 
 1.  GENERAL ARCHITECTURE
 
@@ -191,7 +191,13 @@
 
 ## CENTER ELEMENTS
 
-* transform / top / left
+* Method 1: transform / top / left
+
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
 * center block element inside another block element => margin: 0 auto;
 
 ## ABSOLUTE POSITIONING
@@ -200,15 +206,19 @@
 
 # E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS
 
-* virtual element that can be styled, animated or used to clear float for example.
-
-::after and ::before
+::after and ::before virtual element that can be styled, animated or used to clear float for example.
 
 * pseudo classes such as :first-child for list :hover, ...
 
 * child selector
 
 & > \* => direct child selector
+
+=> adjacent siblings selector
+
+* ::input-placeholder
+
+* :focus, :invalid, placeholder-shown, :checked
 
 # F - ANIMATIONS
 
@@ -264,11 +274,13 @@ Two syntaxes:
 
 ## Emmet
 
-.test + Tab => <div class="test">
-section.test + Tab => <section class="test">
-.test>img.composition + Tab => <div class="test"><img src="" class="composition"/></div>
+        .test + Tab => <div class="test">
+        section.test + Tab => <section class="test">
+        .test>img.composition + Tab => <div class="test"><img src="" class="composition"/></div>
 
-# H - RESPONSIVE DESIGN PRINCIPLES
+# H - RESPONSIVE DESIGN
+
+## PRINCIPLES
 
 * fluid grids and layouts that adapt to current viewport (use % rather than px for all layout-related length)
   ** 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
@@ -276,7 +288,7 @@ section.test + Tab => <section class="test">
 * Flexible/Responsive images by using % for width + optimize images for different width
 * Media Queries to change styles on certain viewport
 
-## BUILD CUSTOM GRID WITH FLOATS
+## CUSTOM GRID WITH FLOAT LAYOUT
 
 * Define container width: max-width: 114 rem for example
 * Define gutter-vertical and gutter-horizontal margins and apply to row/container, and use the :not(:last-child) pseudo-class to not apply those margins to the last child
@@ -287,6 +299,12 @@ section.test + Tab => <section class="test">
   ** you can use [class^="col-"] selector to apply general style
 * If additional padding or animation needed, use child element inside .col element
 
+## MEDIA QUERIES WITH MIXINS
+
+## RESPONSIVE IMAGES
+
+## BROWSER SUPPORT
+
 # I - HOW TO / RECIPES
 
 ## Create a "skewed section"
@@ -294,6 +312,9 @@ section.test + Tab => <section class="test">
 * use negative margin-top to move up element if needed
 
 * Method 1 - CLIP PARTS OF ELEMENTS USING clip-path
+
+          -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
 
 * Method 2 - SKEW THE ENTIRE SECTION
 
@@ -340,7 +361,7 @@ section.test + Tab => <section class="test">
             box-shadow: 0 1.5rem 4rem rgba(black,.4)
             box-shadow: 0 2.5rem 4rem rgba(black,.5)
 
-## Style elements that are not hovered while others are
+## Style elements that are not hovered while others are
 
 On parent element that have child element that can be hovered use
 
@@ -382,3 +403,68 @@ On parent element that have child element that can be hovered use
 ## Border radius
 
 * Small border radius to look modern => border-radius: 3px;
+
+## Background Blend
+
+        background-blend-mode: screen;
+        backgound-image: linear-gradient(...),url(...)
+
+## Text flow around shapes with shape-outside and float
+
+## filter to images
+
+## Background video
+
+## Solid Color Gradient
+
+## Rotating card
+
+    <div class="card">
+      <div class="card__side card__side--front card__side--front--1"></div>
+      <div class="card__side card__side--back card__side--back--1"></div>
+    </div>
+
+    .card {
+      //FUNCTIONALITY
+      perspective: 150rem;
+      -moz-perspective: 150rem;
+      position: relative;
+      height: 52rem;
+      &__side {
+        height: 52rem;
+        transition: all 0.8s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backface-visibility: hidden;
+        overflow: hidden;
+        width: 100%;
+        border-radius: 3px;
+        box-shadow: 0 1.5rem 4rem rgba(black, .15);
+
+        &--back {
+          transform: rotateY(180deg);
+        }
+      }
+
+      &:hover &__side--front {
+        transform: rotateY(-180deg);
+      }
+
+      &:hover &__side--back {
+        transform: rotateY(0);
+      }
+    }
+
+## Custom Form Input
+
+## Custom radio buttons
+
+## Navigation
+
+## CSS Popup
+
+## Make two lines of text be styled like 2 different element (padding)
+
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
