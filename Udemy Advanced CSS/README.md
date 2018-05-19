@@ -1,4 +1,4 @@
-# GENERAL WORKFLOW FOR UX
+# A - GENERAL WORKFLOW FOR UX
 
 1.  GENERAL ARCHITECTURE
 
@@ -14,18 +14,26 @@
 3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
 
     * Code for the "first" browser
-    * use the global font-size and rem units as a way to dimension all elements that could be resized depending on the font-size
-
-          padding: 30px;    =>     padding: 3rem (if global font-size is 16px)
-
+    * use the global font-size (.625 if the standard browser font size is 16px) and rem units (divide the target width by 10 for rem conversion) as a way to dimension all elements that could be resized depending on the font-size
     * Later implement media queries for responsive web design, by using the global font-size and specified breakpoints
     * Define a float grid layout reference (number of columns, gutter width, ...)
 
 4.  Use BEM to mark-up HTML code and CSS
 
     * Build layout in HTML and CSS with a consistent structure for naming classes
+    * Use HTML5 elements for better search engine optimization
+    * Put CSS rules in the correct SASS folder/files (for ex if specific to homepage put in pages/\_home.scss)
+    * Use utility classes to center text or add margin to the bottom of text tile elements
+    * Do not use elements selector (h1, h2, h3, p ...) but instead classes. HTML5 elements are important for SEO/accessibility not styling
 
-# THEORY ON CSS
+            <h3 class="heading-tertiary"> => .heading-tertiary{...}
+
+5.  Add external libraries
+
+* External fonts (Google Fonts) and font icon (Linea, Font Awesome ...)
+* Add stylesheet link meta and favicon
+
+# B - THEORY ON CSS
 
 ## Page rendering process
 
@@ -51,11 +59,13 @@
 * Cascade: process of combining different stylesheets and resolving conflicts between different CSS rules and declarations, when more than one rule applies to a certain element. They use three relative elements
 
   * First it looks at the Importance of the rule, with the following importances:
+
     1.  User !important declarations
     2.  Author !important declarations
     3.  Author declarations
     4.  User declarations
     5.  Default browser declarations
+
   * If same Importance, use Specificity (calculation of the number of occurrences in each below categories)
 
     1.  Inline Styles
@@ -150,7 +160,7 @@
   * abstracts
   * vendors
 
-# BASIC SETUP
+# C - BASIC SETUP
 
 ## BASIC RESET WITH UNIVERSAL SELECTOR
 
@@ -175,9 +185,9 @@
         font-size: 62.5%;
       }
 
-## CLIP PARTS OF ELEMENTS USING clip-path
+* define $default-font-size variable of 1.6rem for paragraph
 
-# POSITIONNING
+# D - POSITIONNING
 
 ## CENTER ELEMENTS
 
@@ -188,7 +198,7 @@
 
 * Absolute positionning need a reference to correctly position the element => the first parent element whose position is set to relative.
 
-# PSEUDO-ELEMENTS
+# E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS
 
 * virtual element that can be styled, animated or used to clear float for example.
 
@@ -196,18 +206,11 @@
 
 * pseudo classes such as :first-child for list :hover, ...
 
-## CLEARFIX HACK
+* child selector
 
-* Problem: Parent element with floated child elements => parent element's height collapse with height = 0
-* Solution: add a pseudo element after the parent element that will clear the float options of the child elements.
+& > \* => direct child selector
 
-            &::after{           => add a pseudo element after the parent element
-              content: "";      => need an element to display but don't want to see it
-              display: table;   => standard way of the clearfix
-              clear: both;      => clear both floats, left and right.
-            }
-
-# ANIMATIONS
+# F - ANIMATIONS
 
 * if you want to set the transition of an animation you need to set it on the initial state
 
@@ -236,22 +239,36 @@
 
 * animation-fill-mode: backwards allow to not set the 0% keyframes before the animation starts.
 
-# SASS
+# G - SASS
 
-* CSS preprocessor with the following features:
-  ** Variables: for reusable values such as colors, font sizes, spacing ... => $color-primary
-  ** Nesting: to nest selectors inside one another, allowing us to write less code
-  ** Operators: for mathematical operations right inside of CSS
-  ** Partials and imports: to write CSS in different files and importing them all into one single file
-  ** Mixins: to write reusable pieces of CSS code, that can use variables => @mixin clearfix($var) {} ... @include clearfix("salut")
-  ** Functions: similar to mixins, with the difference that they produce a value that can be used => darkern($color-primary,15%) ... @function name($a,$b){ @return $a+$b }
-  ** Extends: to make different selectors inherit declarations that are commont to all of them, other way around compare to mixins => %btn-placeholder{} ... @extend %btn-placeholder
-  ** Control directives: for writing complex code using conditionals and loops
-* Two syntaxes:
-  ** Sass syntax: indentation of css blocks
-  ** SCSS syntax: with curly braces => the prefered one as it is similar to vanilla CSS syntax
+CSS preprocessor with the following features:
 
-# RESPONSIVE DESIGN PRINCIPLES
+* Variables: for reusable values such as colors, font sizes, spacing ... => $color-primary
+* Nesting: to nest selectors inside one another, allowing us to write less code
+* Operators: for mathematical operations right inside of CSS
+* Partials and imports: to write CSS in different files and importing them all into one single file
+* Mixins: to write reusable pieces of CSS code, that can use variables => @mixin clearfix($var) {} ... @include clearfix("salut")
+* Functions: similar to mixins, with the difference that they produce a value that can be used => darkern($color-primary,15%) ... @function name($a,$b){ @return $a+$b }
+* Extends: to make different selectors inherit declarations that are commont to all of them, other way around compare to mixins => %btn-placeholder{} ... @extend %btn-placeholder
+* Control directives: for writing complex code using conditionals and loops
+
+Two syntaxes:
+
+* Sass syntax: indentation of css blocks
+* SCSS syntax: with curly braces => the prefered one as it is similar to vanilla CSS syntax
+
+## Utility Classes
+
+* Use utility classes for centering element like with u-center-text class
+* It's a good idea to use utility classes to add margin-bottom for text titles for example, as it is context specific
+
+## Emmet
+
+.test + Tab => <div class="test">
+section.test + Tab => <section class="test">
+.test>img.composition + Tab => <div class="test"><img src="" class="composition"/></div>
+
+# H - RESPONSIVE DESIGN PRINCIPLES
 
 * fluid grids and layouts that adapt to current viewport (use % rather than px for all layout-related length)
   ** 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
@@ -268,3 +285,100 @@
   ** make them float left
   ** use clearfix hack on parent element (row in this case) throught the use of a mixin
   ** you can use [class^="col-"] selector to apply general style
+* If additional padding or animation needed, use child element inside .col element
+
+# I - HOW TO / RECIPES
+
+## Create a "skewed section"
+
+* use negative margin-top to move up element if needed
+
+* Method 1 - CLIP PARTS OF ELEMENTS USING clip-path
+
+* Method 2 - SKEW THE ENTIRE SECTION
+
+          .section{
+            transform: skewY(-7deg);
+            margin-top: -2rem;
+
+          & > *{
+            transform:skew(7deg);
+          }
+
+## CLEARFIX HACK
+
+* Problem: Parent element with floated child elements => parent element's height collapse with height = 0
+* Solution: add a pseudo element after the parent element that will clear the float options of the child elements.
+
+            &::after{           => add a pseudo element after the parent element
+              content: "";      => need an element to display but don't want to see it
+              display: table;   => standard way of the clearfix
+              clear: both;      => clear both floats, left and right.
+            }
+
+## Gradient Color for Text Title
+
+* Set the background of a text element (such as h2) to the gradient color
+* Set the block element to inline-block so the background only occupy the width of the text itself
+* Use background-clip property to clip the background exactly where the text is
+* Use color:transparent so we see the background instead of the text itself
+
+            display: inline-block;
+            background-image: linear-gradient(to right, $color, $color-end);
+            -webkit-background-clip: text;
+            color: transparent;
+
+## Shadow examples
+
+* Text:
+
+            text-shadow: .5rem 1rem 2rem rgba(black,20%);
+
+* Element:
+
+            box-shadow: 0 1rem 2rem rgba(black,.15)
+            box-shadow: 0 1.5rem 4rem rgba(black,.4)
+            box-shadow: 0 2.5rem 4rem rgba(black,.5)
+
+## Style elements that are not hovered while others are
+
+On parent element that have child element that can be hovered use
+
+            &:hover &__photo:not(:hover){...}
+
+## Button CSS structure
+
+            .btn-text{
+              &:link,
+              &:active{
+                ...
+              }
+
+              &.hover{
+                ...
+              }
+
+              &.active{
+                ...
+              }
+            }
+
+## Outline
+
+* use outline to have a spacing between the "border" and the content
+
+            outline: 1.5rem solid $color;
+            outline-offset: 2rem;
+
+## Background image with overlay gradient
+
+            background-image: linear-gradient(
+              to right bottom,
+              rgba($color, .0.8),
+              rgba($color-2, .0.8),
+              url(../img/hero.jpg)
+            )
+
+## Border radius
+
+* Small border radius to look modern => border-radius: 3px;
