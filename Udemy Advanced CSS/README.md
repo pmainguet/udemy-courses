@@ -1,7 +1,13 @@
 # TABLE OF CONTENT
 
 * [A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS](#a)
-* [B - THEORY ON CSS](#bbbb)
+* [B - THEORY ON CSS](#b)
+* [C - BASIC SETUP](#c)
+* [D - POSITIONING](#d)
+* [E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS](#e)
+* [G - SASS](#g)
+* [H - RESPONSIVE DESIGN](#h)
+* [I - HOW TO / RECIPES](#i) \*[J - ADVANCED COMPONENTS EXAMPLES](#j)
 
 # <a name="a">A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS</a>
 
@@ -38,7 +44,7 @@
 * External fonts (Google Fonts) and font icon (Linea, Font Awesome ...)
 * Add stylesheet link meta and favicon
 
-# <a name="bbbb">B - THEORY ON CSS</a>
+# <a name="b">B - THEORY ON CSS</a>
 
 ## Page rendering process
 
@@ -192,7 +198,7 @@
 
 * define $default-font-size variable of 1.6rem for paragraph
 
-# D - POSITIONNING
+# <a name="d"></a>D - POSITIONNING
 
 ## CENTER ELEMENTS
 
@@ -213,7 +219,7 @@
 
 * Absolute positionning need a reference to correctly position the element => the first parent element whose position is set to relative.
 
-# E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS
+# <a name="e"></a>E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS
 
 ::after and ::before virtual element that can be styled, animated or used to clear float for example.
 
@@ -259,7 +265,7 @@
 
 * animation-fill-mode: backwards allow to not set the 0% keyframes before the animation starts.
 
-# G - SASS
+# <a name="g"></a>G - SASS
 
 CSS preprocessor with the following features:
 
@@ -288,7 +294,7 @@ Two syntaxes:
         section.test + Tab => <section class="test">
         .test>img.composition + Tab => <div class="test"><img src="" class="composition"/></div>
 
-# H - RESPONSIVE DESIGN
+# <a name="h"></a>H - RESPONSIVE DESIGN
 
 ## PRINCIPLES
 
@@ -320,7 +326,7 @@ Two syntaxes:
             background-color: rgba($color-black, .3);
           }
 
-# I - HOW TO / RECIPES
+# <a name="i"></a>I - HOW TO / RECIPES
 
 ## Create a "skewed section"
 
@@ -469,7 +475,7 @@ On parent element that have child element that can be hovered use
 
         }
 
-# J - ADVANCED COMPONENTS EXAMPLES
+# <a name="j"></a>J - ADVANCED COMPONENTS EXAMPLES
 
 ## Background video
 
