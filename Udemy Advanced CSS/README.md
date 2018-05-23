@@ -7,7 +7,8 @@
 * [E - PSEUDO-ELEMENTS, PSEUDO-CLASSES and CHILD SELECTORS](#e)
 * [G - SASS](#g)
 * [H - RESPONSIVE DESIGN](#h)
-* [I - HOW TO / RECIPES](#i) \*[J - ADVANCED COMPONENTS EXAMPLES](#j)
+* [I - HOW TO / RECIPES](#i)
+* [J - ADVANCED COMPONENTS EXAMPLES](#j)
 
 # <a name="a">A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS</a>
 
@@ -24,15 +25,14 @@
 
 3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
 
-    * Code for the "first" browser
+    * Mobile first if content over aesthetic + mobile really important + leaner program
     * use the global font-size (.625 if the standard browser font size is 16px) and rem units (divide the target width by 10 for rem conversion) as a way to dimension all elements that could be resized depending on the font-size
-    * Later implement media queries for responsive web design, by using the global font-size and specified breakpoints
-    * Define a float grid layout reference (number of columns, gutter width, ...)
+    * Select an existing grid system (Bootstrap) or Select breakpoints + Define a float grid layout reference (container width, number of columns, gutter width, ...)
 
 4.  Use BEM to mark-up HTML code and CSS
 
-    * Build layout in HTML and CSS with a consistent structure for naming classes
-    * Use HTML5 elements for better search engine optimization
+    * Build layout in HTML and CSS with a consistent structure for naming classes (BEM)
+    * Use HTML5 elements for semantic (better search engine optimization)
     * Put CSS rules in the correct SASS folder/files (for ex if specific to homepage put in pages/\_home.scss)
     * Use utility classes to center text or add margin to the bottom of text tile elements
     * Do not use elements selector (h1, h2, h3, p ...) but instead classes. HTML5 elements are important for SEO/accessibility not styling
@@ -43,6 +43,17 @@
 
 * External fonts (Google Fonts) and font icon (Linea, Font Awesome ...)
 * Add stylesheet link meta and favicon
+
+6 - Implement media queries for responsive design
+
+* First-step:
+  ** Implement the media query manager, abstract generic mixin to centralize configuration /breakpoint change with @content to pass data and breakpoint variable. Don't use px in the abstracted mixin but em (not rems) so it's all related to the browser font-size (1em = 16px)
+  ** Adapt the font-size in html element as we use rems unit (so all related to the font-size)
+* Second Step: Adapt base typography, general layout and grid
+* Third Step: Adapt Page Layout
+* Fourth Step: Adapt Components
+* Fifth Step: Implement Responsive Images
+* Sixth Step: Implement Browser Support
 
 # <a name="b">B - THEORY ON CSS</a>
 
@@ -304,6 +315,42 @@ Two syntaxes:
 * Flexible/Responsive images by using % for width + optimize images for different width
 * Media Queries to change styles on certain viewport
 
+## RESPONSIVE DESIGN STRATEGIES
+
+* You write for desktop and mobile first and then add additional media queries (testing for min or max width) to adapt the design
+* Media queries don't add any importance or specificity to selectors, so code order matters => media query at the end
+
+Desktop first: start writing CSS for the desktop (large screen), then media queries to shrink design to smaller screens
+
+* write media queries that test for max-width
+* Pros: More traditional way, easier to do
+
+Mobile first: start writing CSS for the mobile, then media queries to adapt design to bigger screens
+
+* write media queries that test for min-width
+* Pros
+  ** 100% optimised for the mobile experience
+  ** Force us to reduce websites and apps to the absolute essentials
+  ** Results in smaller, faster and more efficient products
+  ** Prioritize contents over aesthetic design, which may be desirable
+* Cons
+  ** Desktop version might feel overly empty and simplistic
+  ** More difficult and counterintuitive to develop
+  \*\* Less creative freedom, making it more difficult to create distinctive products
+
+## SELECTING BREAKPOINTS
+
+* Bad way: selecting the width of popular devices
+* Good way (standard): group all devices used on internet and then use boundaries of these groups
+* Perfect way (difficult): use design break based on content and design (as soon as the design break => new breakpoint)
+
+* Example of breakpoints based on available stats (08/2016)
+  ** phone < 600px
+  ** tablet portrait < 900px
+  ** tablet landscape < 1200px
+  ** desktop < 1800px
+  \*\* big desktop > 1800px
+
 ## CUSTOM GRID WITH FLOAT LAYOUT
 
 * Define container width: max-width: 114 rem for example
@@ -315,11 +362,125 @@ Two syntaxes:
   ** you can use [class^="col-"] selector to apply general style
 * If additional padding or animation needed, use child element inside .col element
 
-## MEDIA QUERIES WITH MIXINS
+## IMPLEMENT RESPONSIVE DESIGN
 
-## RESPONSIVE IMAGES
+### FIRST STEP - IMPLEMENT MEDIA QUERIES MANAGER WITH MIXINS
 
-## BROWSER SUPPORT
+Media query manager:
+
+* Put media queries in each SASS file/selector instead of having a big media query SASS file
+* use a mixin to centralize configuration so changes can be easily done
+* use @content to pass specific code context
+* use a generic mixin to abstract that
+* Don't use px in the abstracted pixin but em (not rems) so it's all related to the browser font-size (1em = 16px)
+
+          /*
+          * $breakpoint argument choices:
+          - phone
+          - tab-port
+          - tab-land
+          - big-desktop
+
+          @mixin respond($breakpoint){
+            @if $breakpoint == phone {
+              @media(max-width:37.5em){         => 600px
+                @content
+              }
+            }
+
+            @if ...
+          }
+
+          html{
+            ...
+
+            @include respond(phone){
+              font-size:50%;
+            }
+          }
+
+* Adapt html element with media query manager: As we have used rems for all units in our first design, we just have to adjust the global font size in html elements to make all elements adaptive
+  => calculate the size you want a rem to be and then divide it by the stantard browser font-size
+
+        html{
+          font-size: 62.5%  // 1 rem = 10px,  10px/16px = 0.625
+
+          @include respond(tab-port){
+            font-size: 50%; // 1 rem = 8px,  8px/16px = 0.50
+          }
+
+          @include respond(tab-land){
+            font-size: 56.25%; // 1rem = 9px, 9px/16px = 0.5625
+          }
+
+          @include respond(big-desktop){
+            font-size: 75%; // 1rem = 12px, 12px/16px = 0.75
+          }
+
+        }
+
+* use the Toggle device option of Google Chrome Dev Tools
+* use the biggest
+
+### SECOND STEP - ADAPT BASE TYPOGRAPHY,GENERAL LAYOUT AND GRID
+
+* Most of the changes have been made throught html font-size adaptation.
+* Eliminate elements if needed (like the border below 900px)
+* Adapt headings (primary, secondary, tertiary): letter-spacing, font-size
+* Adapt grid: change width to 100% for small screen + width of gutter + add margin-bottom + container width
+
+### THIRD STEP - ADAPT PAGE LAYOUT
+
+* Adapt clip-path
+* Adapt button
+* Adapt navigation
+* Adapt vertical white space (margin / padding)
+* Adapt utilities classes
+
+### FOURTH STEP - ADAPT COMPONENTS
+
+* Adapt components that have clicked behavior so everything is shown for touch screens
+
+### FIFTH STEP - IMPLEMENT RESPONSIVE IMAGES FOR WEB PERFORMANCE
+
+* First step is to have flexible image that adapt to the viewport
+* Second step is to have responsive images, ie serving specific resolution depending on the viewport size
+* Three use-cases for responsive image in HTML:
+  ** Resolution switching: decrease image resolution on smaller screen
+  ** Density switching: half the image resolution on @1x screen compare to @2x screen (hi-res screen that use 2px to display 1 physical px).
+  \*\* Art Direction: different image on smaller screen
+* In CSS
+
+#### DENSITY SWITCHING (HTML)
+
+        <img scrset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" alt="" class="">
+
+#### ART DIRECTION (HTML)
+
+* In this case we use a small version of the logo for viewport smaller than 600px (+ density switching)
+* For Art Direction with use the srcset attribute of picture/source attribute with media queries
+
+        <picture class="">
+          <source srcset="img/logo-green-small-1x 1x, img/logo-green-small-2x.png 2x" media="(max-width: 37em)">
+          <img scrset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" alt="" class="">
+        </picture>
+
+### RESOLUTION SWITCHING (HTML)
+
+* For Resolution Switching, we use the srcset attribute with width of images and sizes attribute to define the viewport and pixel density
+* In srcset with define image and its width
+* In sizes we specify the approximate view in viewport width units for different breakpoints: here 171px (width of the image at the 900px width) => 171/900 ~ 20% & 171/600 ~ 30%, 300px is the default when conditions before does not apply
+
+          <img  scrset="img/nat-1.jpg 300w, img/nat-1.jpg 1000w"
+                sizes="(max-width: 900px) 20vw, (max-width: 600px) 30vw, 300px"
+                alt=""
+                class=""
+                src="img/nat-1.jpg"     => support for older browsers
+                >
+
+### RESPONSIVE IMAGE IN CSS
+
+### SIXTH STEP - IMPLEMENT BROWSER SUPPORT
 
           @supports(-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px)){
             backdrop-filter:blur(10px);
