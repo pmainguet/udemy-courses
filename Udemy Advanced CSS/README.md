@@ -1135,3 +1135,18 @@ On parent element that have child element that can be hovered use
 ## ONLY APPLY CSS TO SCREEN (not print)
 
           @media only screen and ...
+
+## EXAMPLE OF NPM BUILD SCRIPTS
+
+* In package.json
+
+        "scripts": {
+          "watch:sass": "node-sass sass/main.scss css/style.css -w",
+          "devserver": "live-server",
+          "start":"npm-run-all --parallel devserver watch:sass",
+          "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+          "concat:sass": "concat -o css/style.concat.css css/fonts.css css/style.comp.css",
+          "prefix:sass": "postcss --use autoprefixer -b 'last 10 versions' css/style.concat.css -o css/style.prefix.css",
+          "compress:sass":"node-sass css/style.prefix.css css/style.css --output-style compressed",
+          "build:sass":"npm-run-all compile:sass concat:sass prefix:sass compress:sass"
+        },
