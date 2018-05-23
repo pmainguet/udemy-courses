@@ -1,13 +1,32 @@
 # TABLE OF CONTENTS
 
+* [0 - GENERAL WORKFLOW FOR JS APP CREATION](#0)
 * [A- JAVASCRIPT BASICS](#a)
 * [B - JAVASCRIPT EXECUTION](#b)
 * [C - EVENTS](#c)
 * [D - DOM - Document Object Model](#d)
 * [E - PRIMITIVE & OBJECTS](#e)
 * [F - FUNCTIONS](#f)
+* [G - MODULES](#g)
+* [H - HOW-TO / RECIPES](#h)
 
 Source: https://www.udemy.com/the-complete-javascript-course
+
+# <a name="0"> 0 - GENERAL WORKFLOW FOR JS APP CREATION
+
+* Define general layout + Decompose app in reusable components + Code base HTML and CSS
+* Define user interaction workflow (list all actions/events and results to have) and make a list of all TASKS that our code need to do (make difference between data structure manipulation and UI update)
+* Structure code in modules, for example:
+  * Look at the list of TASKS and separate them in logical units (separation of concerns)
+    * one related to UI updating, the UI module
+    * one related to DATA manipulation, the DATA module
+    * one related to general CONTROL (such as event handlers) and linking modules, the CONTROLLER module
+* Add the app.js file at the bottom of the HTML file
+* Create the Controller side of the app
+  * each module with module pattern and separation of concerns (with an AppController that link all module together)
+  * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
+  * Refactor controller to only have function and create an init function as a public method of the Appcontroller
+* Define Data Models (atomic item and data collections) through the use of objects
 
 # <a name="a"> A- JAVASCRIPT BASICS
 
@@ -229,6 +248,12 @@ Source: https://www.udemy.com/the-complete-javascript-course
         $(element).on('click',callback function)
 
     * better to use JQuery bacause handle browser compatibility issue
+
+## Events on keypress
+
+* Add an Event Listener to the global document
+
+        document.addEventListener
 
 # <a name="d"> D - DOM - Document Object Model
 
@@ -492,3 +517,69 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
             var johnFriendly = john.presentation.bind(john, 'friendly')
             johnFriendly('morning')
+
+# <a name="g"> G - MODULES
+
+* Important aspect of any robust application's architecture
+* Keep the units of code for a project both cleanly separated and organized
+* Encapsulate some data into privacy and expose other data publicly
+
+## IMPLEMENTING THE MODULE PATTERN
+
+* One of the most popular design pattern in Javascript
+* Data Encapsulation allow us to hide the implementation details of a specific module, ie to hide certain variables and method while exposing a public interface (API)
+* Module pattern only use closures and IIFE: we define the module as a IIFE with private method and variables and we return an object that return all variables and function we want to be public.
+
+            var budgetController = (function () {
+
+                var x = 23;                         => is private
+                var add = function (a) {            => is private
+                    return x + a;
+                }
+
+                return {
+                    publicTest: function (b) {     => is public through budgetController.publicTest
+                        console.log(add(b));
+                    }
+                }
+
+            })();
+
+* Separation of concerns: each part of an application should only be interested in doing one thing independently
+* To link modules into our app we need an AppController and pass it other modules as arguments
+
+            document.addEventListener('keypress', function (event) {
+                    if (event.keyCode === 13 || event.which === 13) {
+                        ...
+                    }
+            });
+
+# <a name="h"> H - HOW-TO / RECIPES
+
+## Handle simple input submission
+
+### With form submission
+
+            document
+                .getElementById("budgetForm")
+                .addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    // get input data
+                    // add item to budgetController
+                    // add item to UI
+                    // calculate budget
+                    // display budget to UI
+                });
+
+        This one listener handles both the .add__btn button click and pressing enter either .add__description or .add_value.
+
+### With click / keypress event
+
+            document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
+
+            document.addEventListener('keypress', function (event) {
+                if (event.keyCode === 13 || event.which === 13) {
+                    ctrlAddItem();
+                }
+            });
