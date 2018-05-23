@@ -10,6 +10,8 @@
 * [I - HOW TO / RECIPES](#i)
 * [J - ADVANCED COMPONENTS EXAMPLES](#j)
 
+Resources page: http://codingheroes.io/resources/
+
 # <a name="a">A - GENERAL WORKFLOW FOR UX DESIGN & HTML/CSS LAYOUTS</a>
 
 1.  GENERAL ARCHITECTURE
