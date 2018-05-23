@@ -32,6 +32,7 @@
 4.  Use BEM to mark-up HTML code and CSS
 
     * Build layout in HTML and CSS with a consistent structure for naming classes (BEM)
+    * Don't forget the following meta in head <meta name="viewport" content="width=device-width, initial-scale=1.0"> for responsiveness
     * Use HTML5 elements for semantic (better search engine optimization)
     * Put CSS rules in the correct SASS folder/files (for ex if specific to homepage put in pages/\_home.scss)
     * Use utility classes to center text or add margin to the bottom of text tile elements
@@ -439,7 +440,12 @@ Media query manager:
 
 ### FOURTH STEP - ADAPT COMPONENTS
 
-* Adapt components that have clicked behavior so everything is shown for touch screens
+* Adapt components that have hover behavior so everything is shown for touch screens
+* For this case, add second conditions to media query to detect touch screen, not only small screens
+
+        @media only screen and (max-width: 56.25em), only screen and (hover:none){
+          ...
+        }
 
 ### FIFTH STEP - IMPLEMENT RESPONSIVE IMAGES FOR WEB PERFORMANCE
 
@@ -449,7 +455,7 @@ Media query manager:
   * Resolution switching: decrease image resolution on smaller screen
   * Density switching: half the image resolution on @1x screen compare to @2x screen (hi-res screen that use 2px to display 1 physical px).
   * Art Direction: different image on smaller screen
-* In CSS
+* In CSS, art direction with @media (min-resolution:192dpi)
 
 #### DENSITY SWITCHING (HTML)
 
@@ -480,7 +486,16 @@ Media query manager:
 
 ### RESPONSIVE IMAGE IN CSS
 
-### SIXTH STEP - IMPLEMENT BROWSER SUPPORT
+* add media queries based on device resolution and combine them with width
+
+          @media (min-resolution: 192dpi) and (min-width: 37.5em){  => for high res device
+              background-image: url(..);
+          }
+
+### SIXTH STEP - IMPLEMENT BROWSER SUPPORT (GRACEFUL DEGRADATION)
+
+* use http://www.caniuse.com to check browser support
+* for unsupported feature use @supports
 
           @supports(-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px)){
             backdrop-filter:blur(10px);
@@ -1109,3 +1124,14 @@ On parent element that have child element that can be hovered use
               transform: translate(-50%, -50%) scale(1);
             }
           }
+
+## CHANGE SELECT TEXT BEHAVIOR
+
+          ::selection{
+            background-color: $color-primary;
+            color: white;
+          }
+
+## ONLY APPLY CSS TO SCREEN (not print)
+
+          @media only screen and ...
