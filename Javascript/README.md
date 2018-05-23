@@ -1,6 +1,15 @@
+# TABLE OF CONTENTS
+
+* [A- JAVASCRIPT BASICS](#a)
+* [B - JAVASCRIPT EXECUTION](#b)
+* [C - EVENTS](#c)
+* [D - DOM - Document Object Model](#d)
+* [E - PRIMITIVE & OBJECTS](#e)
+* [F - FUNCTIONS](#f)
+
 Source: https://www.udemy.com/the-complete-javascript-course
 
-# JAVASCRIPT BASICS
+# <a name="a"> A- JAVASCRIPT BASICS
 
 * JS is a LIGHTWEIGHT CROSS PLATFORM OBJECT ORIENTED language
 * Analogy:
@@ -95,7 +104,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             ...
     }
 
-# Javascript Execution
+# <a name="b"> B - JAVASCRIPT EXECUTION
 
 * JS is usually hosted in the browser where it runs (but NodeJS allow to use server side)
 * Each browser has its own Javascript Engine (V8 for Chrome, SpiderMonkey, JavascriptCore, ...)
@@ -110,7 +119,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 * Execution context: a container that stores variables and where code is executed.
 * Default context = global context
-* in this the default context, every code that is not a function is executed
+* in the default context, every code that is not a function is executed
 * global context is associated with the GLOBAL OBJECT = window object
 
         window.lastName === lastName
@@ -136,7 +145,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             -----------------------------
             Global execution context: John, first, second
 
-* an execution context is removed from the top of the execution context when it returns
+* an execution context is removed from the top of the execution context when the function returns
 * Content of Execuction Context Object
 
             EXEC CONTEXT OBJECT (generated when new function)
@@ -144,7 +153,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
              --- SCOPE CHAIN (current variable objects + variable object of its parents) ---
              --- "this" variable ---
 
-## Lifecycle of Execution Context object:
+## Lifecycle of Execution Context object:
 
 1.  Creation Phase
     1.  Creation of Variable Object(VO)
@@ -152,7 +161,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
     3.  determine value of 'this' variable
 2.  Execution Phase: The code of the function that has generated the current execution context is ran line by line
 
-### Creation of Variable Object
+### Creation of Variable Object
 
 * argument object is created, containing all the arguments that were passed into the function.
 * Hoisting: functions and variables are available before the execution phase starts
@@ -179,7 +188,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * REGULAR FUNCTION CALL: the "this" keyword points at the global object ("window" in browser)
 * METHOD CALL: the "this" variable points to the object that is calling the method
 * The "this" keyword is not assigned a value until a function where it is defined is actually called.
-* If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
+* Warning: If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
 * METHOD BORROWING:
 
             john = {
@@ -191,7 +200,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
             mike.calculateAge=john.calculateAge
 
-# EVENTS
+# <a name="c"> C - EVENTS
 
 * event = notification that is set to notify the code that something happened
 * event listener = a function that performs an action based on a certain event
@@ -221,7 +230,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
     * better to use JQuery bacause handle browser compatibility issue
 
-# DOM - Document Object Model
+# <a name="d"> D - DOM - Document Object Model
 
 * Structure representation of an HTML document used to connect HTML to JS. For each HTML box, there is an object in the DOM that we can access and manipulate.
 
@@ -277,7 +286,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             // executes when complete page is fully loaded, including all frames, objects and image…
         }
 
-# PRIMITIVE & OBJECTS
+# <a name="e"> E - PRIMITIVE & OBJECTS
 
 * (Almost) everything in JS is an object
 
@@ -358,7 +367,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             job:  {value: ...}
         });
 
-# FUNCTIONS
+# <a name="f"> F - FUNCTIONS
 
 * a call to a function with parenthesis is called immediatly when code is rendered, if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
 
