@@ -47,8 +47,8 @@
 6 - Implement media queries for responsive design
 
 * First-step:
-  ** Implement the media query manager, abstract generic mixin to centralize configuration /breakpoint change with @content to pass data and breakpoint variable. Don't use px in the abstracted mixin but em (not rems) so it's all related to the browser font-size (1em = 16px)
-  ** Adapt the font-size in html element as we use rems unit (so all related to the font-size)
+  * Implement the media query manager, abstract generic mixin to centralize configuration /breakpoint change with @content to pass data and breakpoint variable. Don't use px in the abstracted mixin but em (not rems) so it's all related to the browser font-size (1em = 16px)
+  * Adapt the font-size in html element as we use rems unit (so all related to the font-size)
 * Second Step: Adapt base typography, general layout and grid
 * Third Step: Adapt Page Layout
 * Fourth Step: Adapt Components
@@ -310,8 +310,8 @@ Two syntaxes:
 ## PRINCIPLES
 
 * fluid grids and layouts that adapt to current viewport (use % rather than px for all layout-related length)
-  ** 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
-  ** use framework grid (such as bootstrap grid) or custom grid layout
+  * 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
+  * use framework grid (such as bootstrap grid) or custom grid layout
 * Flexible/Responsive images by using % for width + optimize images for different width
 * Media Queries to change styles on certain viewport
 
@@ -329,14 +329,14 @@ Mobile first: start writing CSS for the mobile, then media queries to adapt desi
 
 * write media queries that test for min-width
 * Pros
-  ** 100% optimised for the mobile experience
-  ** Force us to reduce websites and apps to the absolute essentials
-  ** Results in smaller, faster and more efficient products
-  ** Prioritize contents over aesthetic design, which may be desirable
+  * 100% optimised for the mobile experience
+  * Force us to reduce websites and apps to the absolute essentials
+  * Results in smaller, faster and more efficient products
+  * Prioritize contents over aesthetic design, which may be desirable
 * Cons
-  ** Desktop version might feel overly empty and simplistic
-  ** More difficult and counterintuitive to develop
-  \*\* Less creative freedom, making it more difficult to create distinctive products
+  * Desktop version might feel overly empty and simplistic
+  * More difficult and counterintuitive to develop
+  * Less creative freedom, making it more difficult to create distinctive products
 
 ## SELECTING BREAKPOINTS
 
@@ -345,21 +345,21 @@ Mobile first: start writing CSS for the mobile, then media queries to adapt desi
 * Perfect way (difficult): use design break based on content and design (as soon as the design break => new breakpoint)
 
 * Example of breakpoints based on available stats (08/2016)
-  ** phone < 600px
-  ** tablet portrait < 900px
-  ** tablet landscape < 1200px
-  ** desktop < 1800px
-  \*\* big desktop > 1800px
+  * phone < 600px
+  * tablet portrait < 900px
+  * tablet landscape < 1200px
+  * desktop < 1800px
+  * big desktop > 1800px
 
 ## CUSTOM GRID WITH FLOAT LAYOUT
 
 * Define container width: max-width: 114 rem for example
 * Define gutter-vertical and gutter-horizontal margins and apply to row/container, and use the :not(:last-child) pseudo-class to not apply those margins to the last child
 * Define .col elements:
-  ** for width calculation use calc() and use #{} to wrap sass variables
-  ** make them float left
-  ** use clearfix hack on parent element (row in this case) throught the use of a mixin
-  ** you can use [class^="col-"] selector to apply general style
+  * for width calculation use calc() and use #{} to wrap sass variables
+  * make them float left
+  * use clearfix hack on parent element (row in this case) throught the use of a mixin
+  * you can use [class^="col-"] selector to apply general style
 * If additional padding or animation needed, use child element inside .col element
 
 ## IMPLEMENT RESPONSIVE DESIGN
@@ -446,9 +446,9 @@ Media query manager:
 * First step is to have flexible image that adapt to the viewport
 * Second step is to have responsive images, ie serving specific resolution depending on the viewport size
 * Three use-cases for responsive image in HTML:
-  ** Resolution switching: decrease image resolution on smaller screen
-  ** Density switching: half the image resolution on @1x screen compare to @2x screen (hi-res screen that use 2px to display 1 physical px).
-  \*\* Art Direction: different image on smaller screen
+  * Resolution switching: decrease image resolution on smaller screen
+  * Density switching: half the image resolution on @1x screen compare to @2x screen (hi-res screen that use 2px to display 1 physical px).
+  * Art Direction: different image on smaller screen
 * In CSS
 
 #### DENSITY SWITCHING (HTML)
