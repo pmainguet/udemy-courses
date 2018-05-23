@@ -26,13 +26,16 @@
 3.  DECIDE WETHER YOUR DOING MOBILE OR DESKTOP FIRST
 
     * Mobile first if content over aesthetic + mobile really important + leaner program
-    * use the global font-size (.625 if the standard browser font size is 16px) and rem units (divide the target width by 10 for rem conversion) as a way to dimension all elements that could be resized depending on the font-size
+    * use the global font-size (.625 if the standard browser font size is 16px and the targeted font size is 10px) and rem units (divide the target width by 10 for rem conversion) as a way to dimension all elements that could be resized depending on the font-size
     * Select an existing grid system (Bootstrap) or Select breakpoints + Define a float grid layout reference (container width, number of columns, gutter width, ...)
 
 4.  Use BEM to mark-up HTML code and CSS
 
     * Build layout in HTML and CSS with a consistent structure for naming classes (BEM)
-    * Don't forget the following meta in head <meta name="viewport" content="width=device-width, initial-scale=1.0"> for responsiveness
+    * Don't forget the following meta in head for responsiveness
+
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     * Use HTML5 elements for semantic (better search engine optimization)
     * Put CSS rules in the correct SASS folder/files (for ex if specific to homepage put in pages/\_home.scss)
     * Use utility classes to center text or add margin to the bottom of text tile elements
@@ -240,7 +243,7 @@
 * child selector
 
       class1 class2 => select class2, children of class1
-      & > \* => direct child selector
+      ... > ... => direct child selector
       ... + ... => adjacent siblings selector (that comes immediatly after the first selector)
       ... ~ ... => general sibling selector
 
@@ -308,7 +311,7 @@ Two syntaxes:
 
 # <a name="h"></a>H - RESPONSIVE DESIGN
 
-## PRINCIPLES
+## PRINCIPLES
 
 * fluid grids and layouts that adapt to current viewport (use % rather than px for all layout-related length)
   * 3 Layout types: Float layouts (more standard), Flexbox, CSS Grid
@@ -318,26 +321,23 @@ Two syntaxes:
 
 ## RESPONSIVE DESIGN STRATEGIES
 
-* You write for desktop and mobile first and then add additional media queries (testing for min or max width) to adapt the design
+* You write for desktop or mobile first and then add additional media queries (testing for min or max width) to adapt the design to the other type of browsers
 * Media queries don't add any importance or specificity to selectors, so code order matters => media query at the end
 
-Desktop first: start writing CSS for the desktop (large screen), then media queries to shrink design to smaller screens
-
-* write media queries that test for max-width
-* Pros: More traditional way, easier to do
-
-Mobile first: start writing CSS for the mobile, then media queries to adapt design to bigger screens
-
-* write media queries that test for min-width
-* Pros
-  * 100% optimised for the mobile experience
-  * Force us to reduce websites and apps to the absolute essentials
-  * Results in smaller, faster and more efficient products
-  * Prioritize contents over aesthetic design, which may be desirable
-* Cons
-  * Desktop version might feel overly empty and simplistic
-  * More difficult and counterintuitive to develop
-  * Less creative freedom, making it more difficult to create distinctive products
+* Desktop first: start writing CSS for the desktop (large screen), then media queries to shrink design to smaller screens
+  * write media queries that test for max-width
+  * Pros: More traditional way, easier to do
+* Mobile first: start writing CSS for the mobile, then media queries to adapt design to bigger screens
+  * write media queries that test for min-width
+  * Pros
+    * 100% optimised for the mobile experience
+    * Force us to reduce websites and apps to the absolute essentials
+    * Results in smaller, faster and more efficient products
+    * Prioritize contents over aesthetic design, which may be desirable
+  * Cons
+    * Desktop version might feel overly empty and simplistic
+    * More difficult and counterintuitive to develop
+    * Less creative freedom, making it more difficult to create distinctive products
 
 ## SELECTING BREAKPOINTS
 
@@ -471,7 +471,7 @@ Media query manager:
           <img scrset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" alt="" class="">
         </picture>
 
-### RESOLUTION SWITCHING (HTML)
+#### RESOLUTION SWITCHING (HTML)
 
 * For Resolution Switching, we use the srcset attribute with width of images and sizes attribute to define the viewport and pixel density
 * In srcset with define image and its width
@@ -484,7 +484,7 @@ Media query manager:
                 src="img/nat-1.jpg"     => support for older browsers
                 >
 
-### RESPONSIVE IMAGE IN CSS
+#### RESPONSIVE IMAGE IN CSS
 
 * add media queries based on device resolution and combine them with width
 
@@ -650,6 +650,32 @@ On parent element that have child element that can be hovered use
           }
 
         }
+
+## CHANGE SELECT TEXT BEHAVIOR
+
+          ::selection{
+            background-color: $color-primary;
+            color: white;
+          }
+
+## ONLY APPLY CSS TO SCREEN (not print)
+
+          @media only screen and ...
+
+## EXAMPLE OF NPM BUILD SCRIPTS
+
+* In package.json
+
+        "scripts": {
+          "watch:sass": "node-sass sass/main.scss css/style.css -w",
+          "devserver": "live-server",
+          "start":"npm-run-all --parallel devserver watch:sass",
+          "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+          "concat:sass": "concat -o css/style.concat.css css/fonts.css css/style.comp.css",
+          "prefix:sass": "postcss --use autoprefixer -b 'last 10 versions' css/style.concat.css -o css/style.prefix.css",
+          "compress:sass":"node-sass css/style.prefix.css css/style.css --output-style compressed",
+          "build:sass":"npm-run-all compile:sass concat:sass prefix:sass compress:sass"
+        },
 
 # <a name="j"></a>J - ADVANCED COMPONENTS EXAMPLES
 
@@ -1124,29 +1150,3 @@ On parent element that have child element that can be hovered use
               transform: translate(-50%, -50%) scale(1);
             }
           }
-
-## CHANGE SELECT TEXT BEHAVIOR
-
-          ::selection{
-            background-color: $color-primary;
-            color: white;
-          }
-
-## ONLY APPLY CSS TO SCREEN (not print)
-
-          @media only screen and ...
-
-## EXAMPLE OF NPM BUILD SCRIPTS
-
-* In package.json
-
-        "scripts": {
-          "watch:sass": "node-sass sass/main.scss css/style.css -w",
-          "devserver": "live-server",
-          "start":"npm-run-all --parallel devserver watch:sass",
-          "compile:sass": "node-sass sass/main.scss css/style.comp.css",
-          "concat:sass": "concat -o css/style.concat.css css/fonts.css css/style.comp.css",
-          "prefix:sass": "postcss --use autoprefixer -b 'last 10 versions' css/style.concat.css -o css/style.prefix.css",
-          "compress:sass":"node-sass css/style.prefix.css css/style.css --output-style compressed",
-          "build:sass":"npm-run-all compile:sass concat:sass prefix:sass compress:sass"
-        },
