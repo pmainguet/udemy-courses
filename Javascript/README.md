@@ -27,6 +27,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
   * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
   * Refactor controller to only have function and create an init function as a public method of the Appcontroller
 * Define Data Models (atomic item and data collections) through the use of objects
+* Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
 
 # <a name="a"> A- JAVASCRIPT BASICS
 
@@ -583,3 +584,52 @@ Source: https://www.udemy.com/the-complete-javascript-course
                     ctrlAddItem();
                 }
             });
+
+# MANIPULATING DOM
+
+## ADD BIG CHUNKS OF HTML WITH DATA
+
+* define html placeholder as a string with %...% variable
+
+            var htmlIncome = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+
+* use replace function
+
+            var newHtml = html.replace('%id%', obj.id).replace('%description%', obj.description)
+
+* use insertAdjacentHTML method
+
+            document.querySelector('.class').insertAdjacentHTML('beforeend', newHTML);
+
+## CHANGE INNER CONTENT OF DIV BLOCK
+
+            document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
+
+# INPUTS
+
+## CLEAR INPUTS
+
+            document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue).clearFields
+
+## CONVERT FIELD INPUTS TO NUMBER
+
+            parseFloat(string);
+
+## PREVENT FALSE INPUTS
+
+* in general controller, add following test
+
+            if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+                ...
+            }
+
+# OTHERS
+
+## CONVERT A LIST TO AN ARRAY
+
+* Trick the slice method to return an array even if we feed him a list
+* use call on slice function, stored in Array.prototype
+
+            if fields is a list
+
+            Array.prototype.slice.call(fields);

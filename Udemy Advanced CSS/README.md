@@ -30,6 +30,7 @@ Resources page: http://codingheroes.io/resources/
     * Mobile first if content over aesthetic + mobile really important + leaner program
     * use the global font-size (.625 if the standard browser font size is 16px and the targeted font size is 10px) and rem units (divide the target width by 10 for rem conversion) as a way to dimension all elements that could be resized depending on the font-size
     * Select an existing grid system (Bootstrap) or Select breakpoints + Define a float grid layout reference (container width, number of columns, gutter width, ...)
+    * Use functional classes such as col-_ added to html blocks and later switch to use base semantic classes with .col-_ mixins includes
 
 4.  Use BEM to mark-up HTML code and CSS
 
@@ -364,6 +365,24 @@ Two syntaxes:
   * use clearfix hack on parent element (row in this case) throught the use of a mixin
   * you can use [class^="col-"] selector to apply general style
 * If additional padding or animation needed, use child element inside .col element
+
+### USE SEMANTIC CLASSES INSTEAD OF col-\* CLASSES
+
+* It can be interested to only use semantic classes (that describe the content of the block) instead of functional classes such as col-\*
+* In this case the best way is to implement col-\* as mixin and include them in the semantic class
+
+          @mixin col-1 {
+            ...
+            @media only screen and (min-width: ...){
+              ...
+            }
+          }
+
+          footer{
+             @include col-1
+          }
+
+* @extends SASS directive could be used but apparently as its own problems (see https://www.sitepoint.com/avoid-sass-extend/)
 
 ## IMPLEMENT RESPONSIVE DESIGN
 
