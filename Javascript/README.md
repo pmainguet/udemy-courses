@@ -570,7 +570,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 ## Handle simple input submission
 
-### With form submission
+### With form submission
 
             document
                 .getElementById("budgetForm")
@@ -596,11 +596,11 @@ Source: https://www.udemy.com/the-complete-javascript-course
                 }
             });
 
-# MANIPULATING DOM
+## MANIPULATING DOM
 
 For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
-## Add big chunck of HTML data
+### Add big chunck of HTML data
 
 * define html placeholder as a string with %...% variable
 
@@ -614,26 +614,26 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             document.querySelector('.class').insertAdjacentHTML('beforeend', newHTML);
 
-## Change inner content of DIV block
+### Change inner content of DIV block
 
             document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
 
-## Remove an element from the DOM
+### Remove an element from the DOM
 
             var el = document.getElementById(selectorId)
             el.parentNode.removeChild(el);
 
-# INPUTS
+## INPUTS
 
-## Clear inputs
+### Clear inputs
 
             document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue).clearFields
 
-## Convert field inputs to numbers
+### Convert field inputs to numbers
 
             parseFloat(string);
 
-## Prevent False Inputs
+### Prevent False Inputs
 
 * in general controller, add following test
 
@@ -641,9 +641,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
                 ...
             }
 
-# ARRAYS
+## ARRAYS
 
-## Convert a list to an array
+### Convert a list to an array
 
 * Trick the slice method to return an array even if we feed him a list
 * use call on slice function, stored in Array.prototype
@@ -652,17 +652,17 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             Array.prototype.slice.call(fields);
 
-## Remove one element from an array
+### Remove one element from an array
 
             array.splice(id,1);
 
-## Get Index of element from value
+### Get Index of element from value
 
             index = array.indexOf(value);
 
-# STRINGS
+## STRINGS
 
-## Format Number
+### Format Number
 
             formatNumber: function (type, number) {
                 var numSplit, int, dec, type;
