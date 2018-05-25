@@ -41,7 +41,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * Variable mutation: changing the value of a variable.
 * Type coercion: when there are several variable to "ouptut together" (like in a concatenate), dynamic typing auto convert all variables to the same data type.
 
-## USEFUL JS FUNCTIONS
+## Useful JS Functions
 
 * prompt() => display input box (to be associated to variable in order to manipulate input)
 
@@ -336,7 +336,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * To copy an object instead if ref, use Object.assign()
 * Nota: as soon as we use a string or a number, JS puts a wrapper around the strip and convert it to an object with methods such as .split()
 
-## OBJECT CREATIONS
+## Object Creations
 
 * Inheritance:
 
@@ -418,7 +418,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
         test1()     => is processed immediatly
         test2       => is not processed immediatly
 
-## FIRST CLASS FUNCTIONS
+## First Class Functions
 
 * When we say that a language has first-class function, it means that the language treats functions as values:
 
@@ -442,7 +442,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
             arrayCalc(array, calculateAge)
 
-## HIGH ORDER FUNCTIONS
+## High Order Functions
 
 * Higher order function are function that work on other function, which means that they take one or more function as an argument and can also return a function.
 
@@ -476,7 +476,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
   * the only way to scope code in JS is by wrapping it in a function
   * IIFE allows to create this scope and launching function without having to declare a name and hence reducing risk of collisions.
 
-## CLOSURE
+## Closure
 
 * an inner function has always acces to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
 
@@ -509,7 +509,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
                                                                     ...onclick = test2 => function only executed on event
 
-## BIND / CALL / APPLY
+## Bind / Call / Apply
 
 * Special methods for function objects, that allow to set "this" variable manually
 * To have access to a method of an object you can use inheritance or METHOD BORROWING
@@ -536,7 +536,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * Keep the units of code for a project both cleanly separated and organized
 * Encapsulate some data into privacy and expose other data publicly
 
-## IMPLEMENTING THE MODULE PATTERN
+## Implementing the Module Pattern
 
 * One of the most popular design pattern in Javascript
 * Data Encapsulation allow us to hide the implementation details of a specific module, ie to hide certain variables and method while exposing a public interface (API)
@@ -600,7 +600,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
-## ADD BIG CHUNKS OF HTML WITH DATA
+## Add big chunck of HTML data
 
 * define html placeholder as a string with %...% variable
 
@@ -614,26 +614,26 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             document.querySelector('.class').insertAdjacentHTML('beforeend', newHTML);
 
-## CHANGE INNER CONTENT OF DIV BLOCK
+## Change inner content of DIV block
 
             document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
 
-## REMOVE AN ELEMENT FROM THE DOM
+## Remove an element from the DOM
 
             var el = document.getElementById(selectorId)
             el.parentNode.removeChild(el);
 
 # INPUTS
 
-## CLEAR INPUTS
+## Clear inputs
 
             document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue).clearFields
 
-## CONVERT FIELD INPUTS TO NUMBER
+## Convert field inputs to numbers
 
             parseFloat(string);
 
-## PREVENT FALSE INPUTS
+## Prevent False Inputs
 
 * in general controller, add following test
 
@@ -643,7 +643,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 # ARRAYS
 
-## CONVERT A LIST TO AN ARRAY
+## Convert a list to an array
 
 * Trick the slice method to return an array even if we feed him a list
 * use call on slice function, stored in Array.prototype
@@ -652,17 +652,17 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             Array.prototype.slice.call(fields);
 
-## REMOVE ONE ELEMENT FROM AN ARRAY
+## Remove one element from an array
 
             array.splice(id,1);
 
-## GET INDEX OF ELEMENT FROM VALUE
+## Get Index of element from value
 
             index = array.indexOf(value);
 
 # STRINGS
 
-## FORMAT NUMBER
+## Format Number
 
             formatNumber: function (type, number) {
                 var numSplit, int, dec, type;
@@ -679,16 +679,3 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
                 return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
             }
-
-# DATE
-
-## GET CURRENT DATE AND MONTH
-
-        var christmas = new Date(2018,11,25); => it is 0 based for the month
-
-
-# EVENTS
-
-## ON CHANGE
-
-        
