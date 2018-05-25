@@ -12,7 +12,7 @@
 
 Source: https://www.udemy.com/the-complete-javascript-course
 
-# <a name="0"> 0 - GENERAL WORKFLOW FOR JS APP CREATION
+# <a name="0"></a> 0 - GENERAL WORKFLOW FOR JS APP CREATION
 
 * Define general layout + Decompose app in reusable components + Code base HTML and CSS
 * Define user interaction workflow (list all actions/events and results to have) and make a list of all TASKS that our code need to do (make difference between data structure manipulation and UI update)
@@ -29,7 +29,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * Define Data Models (atomic item and data collections) through the use of objects
 * Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
 
-# <a name="a"> A- JAVASCRIPT BASICS
+# <a name="a"></a> A- JAVASCRIPT BASICS
 
 * JS is a LIGHTWEIGHT CROSS PLATFORM OBJECT ORIENTED language
 * Analogy:
@@ -124,7 +124,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             ...
     }
 
-# <a name="b"> B - JAVASCRIPT EXECUTION
+# <a name="b"></a> B - JAVASCRIPT EXECUTION
 
 * JS is usually hosted in the browser where it runs (but NodeJS allow to use server side)
 * Each browser has its own Javascript Engine (V8 for Chrome, SpiderMonkey, JavascriptCore, ...)
@@ -220,7 +220,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
             mike.calculateAge=john.calculateAge
 
-# <a name="c"> C - EVENTS
+# <a name="c"></a> C - EVENTS
 
 * event = notification that is set to notify the code that something happened
 * event listener = a function that performs an action based on a certain event
@@ -256,7 +256,17 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
         document.addEventListener
 
-# <a name="d"> D - DOM - Document Object Model
+## Event Delegation
+
+* Event Bubbling: when an event is triggered on an element (example: clicking on a button), the exact same element is triggered on all of its parent elements.
+* Target Element: the first element where the event first happened.
+* The target element is stored as a property in the event object, so every parent elements knows about the target element.
+* Event delegation: as we know where the event first happen (target element in event object), we can attach an event handler to a parent element and wait for the event to bubble up. Event delegation is to not setup the event handler on the target element but on a its parents.
+* Use cases:
+  * When we have an element with lots of child elements that we are interested in.
+  * When we want an event handler attached to an element that is not yet in the DOM when our page is loaded.
+
+# <a name="d"></a> D - DOM - Document Object Model
 
 * Structure representation of an HTML document used to connect HTML to JS. For each HTML box, there is an object in the DOM that we can access and manipulate.
 
@@ -312,7 +322,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             // executes when complete page is fully loaded, including all frames, objects and image…
         }
 
-# <a name="e"> E - PRIMITIVE & OBJECTS
+# <a name="e"></a> E - PRIMITIVE & OBJECTS
 
 * (Almost) everything in JS is an object
 
@@ -324,6 +334,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * when we make var obj2 = obj1, no copy is actually created but both obj1 et obj2 point to the same object in memory.
 * in function the same happens, function create a new ref to objects passed as parameters and create a new copy for primitive passed as parameters.
 * To copy an object instead if ref, use Object.assign()
+* Nota: as soon as we use a string or a number, JS puts a wrapper around the strip and convert it to an object with methods such as .split()
 
 ## OBJECT CREATIONS
 
@@ -393,7 +404,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             job:  {value: ...}
         });
 
-# <a name="f"> F - FUNCTIONS
+# <a name="f"></a> F - FUNCTIONS
 
 * a call to a function with parenthesis is called immediatly when code is rendered, if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
 
@@ -519,7 +530,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
             var johnFriendly = john.presentation.bind(john, 'friendly')
             johnFriendly('morning')
 
-# <a name="g"> G - MODULES
+# <a name="g"></a> G - MODULES
 
 * Important aspect of any robust application's architecture
 * Keep the units of code for a project both cleanly separated and organized
@@ -555,7 +566,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
                     }
             });
 
-# <a name="h"> H - HOW-TO / RECIPES
+# <a name="h"></a> H - HOW-TO / RECIPES
 
 ## Handle simple input submission
 
@@ -587,6 +598,8 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 # MANIPULATING DOM
 
+For a list of DOM manipulation, see http://youmightnotneedjquery.com
+
 ## ADD BIG CHUNKS OF HTML WITH DATA
 
 * define html placeholder as a string with %...% variable
@@ -604,6 +617,11 @@ Source: https://www.udemy.com/the-complete-javascript-course
 ## CHANGE INNER CONTENT OF DIV BLOCK
 
             document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
+
+## REMOVE AN ELEMENT FROM THE DOM
+
+            var el = document.getElementById(selectorId)
+            el.parentNode.removeChild(el);
 
 # INPUTS
 
@@ -623,7 +641,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
                 ...
             }
 
-# OTHERS
+# ARRAYS
 
 ## CONVERT A LIST TO AN ARRAY
 
@@ -633,3 +651,44 @@ Source: https://www.udemy.com/the-complete-javascript-course
             if fields is a list
 
             Array.prototype.slice.call(fields);
+
+## REMOVE ONE ELEMENT FROM AN ARRAY
+
+            array.splice(id,1);
+
+## GET INDEX OF ELEMENT FROM VALUE
+
+            index = array.indexOf(value);
+
+# STRINGS
+
+## FORMAT NUMBER
+
+            formatNumber: function (type, number) {
+                var numSplit, int, dec, type;
+                number = Math.abs(num);
+                number = number.toFixed(2);
+
+                numSplit = num.split('.');
+                int = numSplit[0];
+                if (int.length > 3) {
+                    int = int.sustr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+                }
+
+                dec = numSplit[1];
+
+                return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+            }
+
+# DATE
+
+## GET CURRENT DATE AND MONTH
+
+        var christmas = new Date(2018,11,25); => it is 0 based for the month
+
+
+# EVENTS
+
+## ON CHANGE
+
+        
