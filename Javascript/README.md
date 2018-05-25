@@ -596,7 +596,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
                 }
             });
 
-## MANIPULATING DOM
+## Manipulating DOM
 
 For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
@@ -623,7 +623,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             var el = document.getElementById(selectorId)
             el.parentNode.removeChild(el);
 
-## INPUTS
+## Inputs
 
 ### Clear inputs
 
@@ -641,7 +641,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
                 ...
             }
 
-## ARRAYS
+## Arrays
 
 ### Convert a list to an array
 
@@ -660,7 +660,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             index = array.indexOf(value);
 
-## STRINGS
+## Strings
 
 ### Format Number
 
