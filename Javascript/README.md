@@ -14,20 +14,25 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 # <a name="0"></a> 0 - GENERAL WORKFLOW FOR JS APP CREATION
 
-* Define general layout + Decompose app in reusable components + Code base HTML and CSS
-* Define user interaction workflow (list all actions/events and results to have) and make a list of all TASKS that our code need to do (make difference between data structure manipulation and UI update)
-* Structure code in modules, for example:
+* Think
+  * List user interactions (actions/events and result to have)
+  * Make a list of all TASKS that our code need to do
   * Look at the list of TASKS and separate them in logical units (separation of concerns)
+  * Define general layout
+  * Decompose app in reusable component
+* Base Code
+  * Code base html / CSS / basic app.js + Add the app.js file at the bottom of the HTML file
+  * Structure code in modules, for example:
     * one related to UI updating, the UI module
     * one related to DATA manipulation, the DATA module
-    * one related to general CONTROL (such as event handlers) and linking modules, the CONTROLLER module
-* Add the app.js file at the bottom of the HTML file
-* Create the Controller side of the app
-  * each module with module pattern and separation of concerns (with an AppController that link all module together)
-  * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
+    * one related to general CONTROL (such as event handlers) and linking modules, the CONTROLLER module (make difference between data structure manipulation and UI update)
+    * Create the Controller side of the app
+      * each module with module pattern and separation of concerns (with an AppController that link all module together)
+      * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
+* Implement actions:
   * Refactor controller to only have function and create an init function as a public method of the Appcontroller
-* Define Data Models (atomic item and data collections) through the use of objects
-* Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
+  * Define Data Models (atomic item and data collections) through the use of objects
+  * Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
 
 # <a name="a"></a> A- JAVASCRIPT BASICS
 
@@ -67,22 +72,31 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 * Arrays are ORDERED set of values.
 * Plain arrays (Array object) have specific methods like map, length, reduce, filter:
-  * .push(var) => adds an element at the end of an array (mutate array)
-  * .unshift(var) => adds an element at the beginning of an array
-  * .pop() => remove last element
-  * .shift() => remove first element
-  * .indexOf(var) => returns position of the element
+
+                .push(var) => adds an element at the end of an array (mutate array)
+                .unshift(var) => adds an element at the beginning of an array
+                .pop() => remove last element
+                .shift() => remove first element
+                .indexOf(var) => returns position of the element
+
+### ES6
+
 * SETS objects are collection of values, you can iterate its elements in insertion order. A value in a Set is unique. A Set can be converted to and from Arrays.
 
-## Objects (Collection of properties ie attributes and methods - Keyed Collection - association between key and value)
+## Objects (Keyed Collection - association between key and value)
 
-* MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects.
+* Collection of properties ie attributes and methods
 * objects are associative arrays / hashes in javascript. They don't have access to Array methods.
 * no particular orders of properties
-* object literal: var john = {} (executes faster)
-* var john = new Object(); useful if need to use a constructor (new Person(hair,age) for example)
+* Creation of object:
+  * object literal: var john = {} (executes faster)
+  * var john = new Object(); useful if need to use a constructor (new Person(hair,age) for example)
 * access to properties: john.name or john['name']
 * var: it is better to use const and let as var can add to global scope the variable.
+
+### ES6
+
+* MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects.
 
 ## Loops
 
@@ -133,7 +147,21 @@ Source: https://www.udemy.com/the-complete-javascript-course
   * Then create Abstract Syntax Tree
   * It is converted to Machine code
   * Then the code is run
-* Javascript is a single threaded single concurrent language, meaning it can handle one task at a time or a piece of code at a time. It has a single call stack which along with other parts like heap, queue constitutes the Javascript Concurrency Model
+* Javascript is a single threaded single concurrent language, meaning it can handle one task at a time or a piece of code at a time.
+
+## Javascript Concurrency Model
+
+* single call stack - execution stack: Function calls form a stack of frames, or execution contexts
+* heap: Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+* queue:
+
+  * A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
+  * At some point during the event loop, the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use.
+  * The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
+
+* A very interesting property of the event loop model is that JavaScript, unlike a lot of other languages, never blocks. Handling I/O is typically performed via events and callbacks, so when the application is waiting for an IndexedDB query to return or an XHR request to return, it can still process other things like user input. Legacy exceptions exist like alert or synchronous XHR, but it is considered as a good practice to avoid them.
+
+[js concurrency model]: https://developer.mozilla.org/files/4617/default.svg
 
 ## Execution context and execution stack
 
