@@ -9,6 +9,7 @@
 * [F - FUNCTIONS](#f)
 * [G - MODULES](#g)
 * [H - HOW-TO / RECIPES](#h)
+* [I - EXAMPLES OF CODE STRUCTURE](#i)
 
 Source: https://www.udemy.com/the-complete-javascript-course
 
@@ -30,9 +31,12 @@ Source: https://www.udemy.com/the-complete-javascript-course
       * each module with module pattern and separation of concerns (with an AppController that link all module together)
       * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
 * Implement actions:
+
   * Refactor controller to only have function and create an init function as a public method of the Appcontroller
   * Define Data Models (atomic item and data collections) through the use of objects
   * Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
+
+  See [I - EXAMPLES OF CODE STRUCTURE](#i) pour des exemples de structure de code
 
 # <a name="a"></a> A- JAVASCRIPT BASICS
 
@@ -717,3 +721,47 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 * Add an Event Listener to the global document
 
         document.addEventListener
+
+# <a name="i"></a> I - EXAMPLE OF CODE STRUCTURES
+
+## Pig Game
+
+* Simple project with DOM manipulation and few calculations/storage
+* Code structure
+  * Function declaration
+  * addEventListener pour lancement config (startup function)
+  * addEventListener pour "on click" event with callbacks
+
+## Advanced-JS
+
+* Console uniquement avec multiple instance d'un même objet (Question)
+* Code structure
+  * IIFE pour lancement immédiat
+  * Définition des objets Question et de leur prototype
+  * création d'une série de questions stored in array
+  * setup du score via closure
+  * nextQuestion loop
+
+## Budgety
+
+* Application plus complexe nécessitant la manipulation de deux types d'objet (Expense, Income) ayant des méthodes différentes, et une manipulation de multiples éléments du DOM
+* Code structure
+  * Implémentation du Module Pattern pour structure le code
+    * 3 modules (controllers): data, UI, main
+    * injection des deux premiers modules dans le main pour les lier
+    * le main servant de "tour de controle" pour l'application en utilisant les fonctions des API de data et UI
+  * structure dataController (joue le rôle de Collection, si on peut dire)
+    * Définition des objets Income / Expense et du prototype de Expense
+    * définition de l'objet data de l'app
+    * définition des fonctions privées
+    * définition de l'API: addItem, removeItem, calculateBudget, calculatePercentage, getPercentages, getBudget
+  * structure uiController:
+    * définition DOMStrings
+    * définition template HTML
+    * définition des fonctions privées
+    * définition de l'API: getDOMStrings, getInput, addListItem, removeListItem, displayBudget, displayPercentage, clearFields, updateColor
+  * structure mainController:
+    * définition de la function de setup des EventListeners
+    * updateBudget => lien entre calculateBudget de dataController et displayBudget de UIController
+    * add/removeItem => idem
+    * return init function => setup des Event Listeners => cette fonction est la seule appellée en dehors de tout module
