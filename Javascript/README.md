@@ -142,26 +142,36 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 * JS is usually hosted in the browser where it runs (but NodeJS allow to use server side)
 * Each browser has its own Javascript Engine (V8 for Chrome, SpiderMonkey, JavascriptCore, ...)
+
+## Browser Runtime
+
+* User Interface - User clicks the Do Stuff button. Simple enough.
+* Web APIs - The click event propagates thru the DOM’s Web API triggering click handlers during the capture and bubble phases on parent and child elements. Web APIs are a multi-threaded area of the browser that allows many events to trigger at once. They become accessible to JavaScript code thru the familiar window object on page load. Examples beyond the DOM’s document are AJAX’sXMLHttpRequest, and timers setTimeout() function.
+* Event Queue - Next the event’s callback is pushed into one of many event queues (also called task queues). Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, rendering, and more.
+* Event loop - Then a single event loop chooses which callback to push onto the JavaScript call stack.
+* Finally the event callback enters the JavaScript’s runtime within the browser.
+
+## Javascript Runtime
+
+* The JavaScript engine has many components such as a parser for script loading, heap for object memory allocation, garbage collection system, interpreter, and more. Like other code event handlers execute on it’s call stack.
 * code is executed by Javascript Engine:
   * A parser check if the code is OK
   * Then create Abstract Syntax Tree
   * It is converted to Machine code
   * Then the code is run
-* Javascript is a single threaded single concurrent language, meaning it can handle one task at a time or a piece of code at a time.
-
-## Javascript Concurrency Model
-
-* single call stack - execution stack: Function calls form a stack of frames, or execution contexts
-* heap: Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
-* queue:
-
-  * A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
-  * At some point during the event loop, the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use.
-  * The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
-
-* A very interesting property of the event loop model is that JavaScript, unlike a lot of other languages, never blocks. Handling I/O is typically performed via events and callbacks, so when the application is waiting for an IndexedDB query to return or an XHR request to return, it can still process other things like user input. Legacy exceptions exist like alert or synchronous XHR, but it is considered as a good practice to avoid them.
+* Javascript Concurrency Model
+  * single call stack - execution stack: Function calls form a stack of frames, or execution contexts
+  * heap: Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+  * queue: A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message. At some point during the event loop (of the browser), the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use. The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
+  * event loop: the JavaScript engine follows a very simple rule: there’s a process that constantly checks whether the call stack is empty, and whenever it’s empty, it checks if the event queue has any functions waiting to be invoked. If it does, then the first function in the queue gets invoked and moved over into the call stack. If the event queue is empty, then this monitoring process just keeps on running indefinitely. And voila — what I just described is the infamous Event Loop!
 
 ![js concurrency model](https://developer.mozilla.org/files/4617/default.svg "js concurrency model")
+
+### Characteristics of JS call stack
+
+* Single threaded - Threads are basic units of CPU utilization. As lower level OS constructs they consist of a thread ID, program counter, register set, and stack. While the JavaScript engine itself is multi-threaded it’s call stack is single threaded allowing only one piece of code to execute at a time.
+* Synchronous - JavaScript call stack carries out tasks to completion instead of task switching and the same holds for events. This isn’t a requirement by the ECMAScript or WC3 specs. But there are some exceptions like window.alert() interrupts the current executing task.
+* Non-blocking - Blocking occurs when the application state is suspended as a thread runs. Browsers are non-blocking, still accepting events like mouse clicks even though they may not execute immediately.
 
 ## Execution context and execution stack
 
@@ -193,10 +203,10 @@ Source: https://www.udemy.com/the-complete-javascript-course
             -----------------------------
             Global execution context: John, first, second
 
-* an execution context is removed from the top of the execution context when the function returns
+* an execution context is removed from the top of the execution stack when the function returns
 * Content of Execuction Context Object
 
-            EXEC CONTEXT OBJECT (generated when new function)
+            EXECUTION CONTEXT OBJECT (generated when new function)
              --- VARIABLE OBJECT (function parameters, function declaration) ---
              --- SCOPE CHAIN (current variable objects + variable object of its parents) ---
              --- "this" variable ---
@@ -224,7 +234,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 ### Creation of scoping chain
 
 * scoping answers the question "where we can access a certain variable ?"
-* each new function creates a scope: the space/environment in which the varialbes it defines are accessible. in other languages, for/if/while blocks can create scope but NOT in JS
+* each new function creates a scope: the space/environment in which the variables it defines are accessible. in other languages, for/if/while blocks can create scope but NOT in JS
 * Lexical scoping: a function that is lexically within another function gets access to the scope of the outer/parent function
 * the global scope never has access to function scope
 * execution stack != scope chain
@@ -237,16 +247,6 @@ Source: https://www.udemy.com/the-complete-javascript-course
 * METHOD CALL: the "this" variable points to the object that is calling the method
 * The "this" keyword is not assigned a value until a function where it is defined is actually called.
 * Warning: If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
-* METHOD BORROWING:
-
-            john = {
-                name:'John';
-                calculateAge: function(){}
-            }
-
-            mike = {name: 'Mike'}
-
-            mike.calculateAge=john.calculateAge
 
 # <a name="c"></a> C - EVENTS
 
@@ -278,18 +278,12 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
     * better to use JQuery bacause handle browser compatibility issue
 
-## Events on keypress
-
-* Add an Event Listener to the global document
-
-        document.addEventListener
-
 ## Event Delegation
 
 * Event Bubbling: when an event is triggered on an element (example: clicking on a button), the exact same element is triggered on all of its parent elements.
 * Target Element: the first element where the event first happened.
 * The target element is stored as a property in the event object, so every parent elements knows about the target element.
-* Event delegation: as we know where the event first happen (target element in event object), we can attach an event handler to a parent element and wait for the event to bubble up. Event delegation is to not setup the event handler on the target element but on a its parents.
+* Event delegation: as we know where the event first happen (target element in event object), we can attach an event handler to a parent element and wait for the event to bubble up. Event delegation is to not setup the event handler on the target element but on one of its parents.
 * Use cases:
   * When we have an element with lots of child elements that we are interested in.
   * When we want an event handler attached to an element that is not yet in the DOM when our page is loaded.
@@ -398,9 +392,9 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 * How does it work ?
   1.  A brand new EMPTY object is created.
-  2.  the constructor fnciton is then called
-      * Creation of a new exection context (with a "this" variable)
-      * the "this" should point to the global object (function call and not method call) but through the "new" operator, "this" points to the empty obkect that has been initially created
+  2.  the constructor function is then called
+      * Creation of a new execution context (with a "this" variable)
+      * the "this" should point to the global object (function call and not method call) but through the "new" operator, "this" points to the empty object that has been initially created
 * If you want child object to inherite a property or a method, we should put it in the prototype of the parent object (ie the CONSTRUCTOR)
 
           var Person = function (...){
@@ -434,7 +428,9 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 # <a name="f"></a> F - FUNCTIONS
 
-* a call to a function with parenthesis is called immediatly when code is rendered, if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
+* a call to a function with parenthesis is called immediatly when code is rendered.
+* if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
+* Differences between function expression & declaration: Function declarations load before any code is executed / Function expressions load only when the interpreter reaches that line of code (see above)
 
         function test1(){...}
 
@@ -488,7 +484,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 ## IIFE - Immediatly Invoked Function Expressions (Self Invocation Pattern)
 
-* Self invocation is when a funciton execute immediatly upon its definition.
+* Self invocation is when a function executes immediatly upon its definition.
 * We use self invocation when we don't want to create a function name to reduce risk of definition collision (functions with same name in same scope) and want to execute right away on declaration, so that we have private variables (not accessible from outside the scope of the function)
 
                                         |       Better to use
@@ -504,9 +500,9 @@ Source: https://www.udemy.com/the-complete-javascript-course
   * the only way to scope code in JS is by wrapping it in a function
   * IIFE allows to create this scope and launching function without having to declare a name and hence reducing risk of collisions.
 
-## Closure
+## Closure - for private variable definition
 
-* an inner function has always acces to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
+* an inner function has always access to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
 
         function retirement(retirementAge){                 => outer function
             var a = ...
@@ -519,12 +515,8 @@ Source: https://www.udemy.com/the-complete-javascript-course
         var retirementUS = retirement(66);
         retirementUS(1990);                                 => has still access to 66 and a
 
-* How doest it work:
-
-  * The scope chain always stays intact even after a function has returned ie closing in on its variable object, and its execution context has disappeared from execution stack ie not accessible anymore.
-
+* How does it work: The scope chain always stays intact even after a function has returned ie closing in on its variable object, and its execution context has disappeared from execution stack ie not accessible anymore.
 * We use a closure so a variable passed to the outer function became a private variable of the inner function and thus cannot be changed down the code outside of the function.
-
 * As a closure allow you to associate data (lexical environment of function execution) with the function that generates this data, you can use a closure whenever you can use an object with only a single method
 
         function test(var){                             |           function test2(var){
@@ -537,7 +529,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
                                                                     ...onclick = test2 => function only executed on event
 
-## Bind / Call / Apply
+## Bind / Call / Apply - set "this" variable manually
 
 * Special methods for function objects, that allow to set "this" variable manually
 * To have access to a method of an object you can use inheritance or METHOD BORROWING
@@ -552,8 +544,18 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
             john.method.call(emily, array of parameters) => john's method needs to accept arrays
 
-  2.  with emily.method = john.method (pointers to the same function object)
-  3.  CARRYING: creation of a function based on another function with some preset arguments
+  2.  with Method Borrowing (pointers to the same function object)
+
+            john = {
+                name:'John';
+                calculateAge: function(){}
+            }
+
+            mike = {name: 'Mike'}
+
+            mike.calculateAge=john.calculateAge
+
+  3.  Bind - CARRYING: creation of a function based on another function with some preset arguments
 
             var johnFriendly = john.presentation.bind(john, 'friendly')
             johnFriendly('morning')
@@ -684,7 +686,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             array.splice(id,1);
 
-### Get Index of element from value
+### Get Index of element from value (in an array)
 
             index = array.indexOf(value);
 
@@ -707,3 +709,11 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
                 return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
             }
+
+## Events
+
+### Events on keypress
+
+* Add an Event Listener to the global document
+
+        document.addEventListener
