@@ -10,6 +10,7 @@
 * [G - MODULES](#g)
 * [H - HOW-TO / RECIPES](#h)
 * [I - EXAMPLES OF CODE STRUCTURE](#i)
+* [J - ES6](#j)
 
 Source: https://www.udemy.com/the-complete-javascript-course
 
@@ -100,7 +101,7 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 ### ES6
 
-* MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects.
+* MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects (see at [J - ES6](#j))
 
 ## Loops
 
@@ -766,7 +767,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
     * add/removeItem => idem
     * return init function => setup des Event Listeners => cette fonction est la seule appellée en dehors de tout module
 
-# ES6
+# <a name="j"></a>J - ES6
 
 * ES5: fully supported (vanilla in the following)
 * ES6/ES2015: fully supported except IE11. Use Babel to transcript to old browsers. For compatibility see https://kangax.github.io/compat-table/es6
@@ -981,9 +982,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             const [age, retirement] = calcAgeRetirement(1990);
 
-# Arrays
+## Arrays
 
-## Convert list to array
+### Convert list to array
 
             const boxes = document.querySelectorAll('.box');
 
@@ -996,7 +997,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             //ES6
             Array.from(boxes).forEach(cur => cur.style.backgroundColor = 'orange');
 
-## Loop with break or continue
+### Loop with break or continue
 
 * we can't break or continue in a forEach or a map loop, solution:
 
@@ -1024,7 +1025,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             index = ages.findIndex(cur => cur >= 18);
             value = ages.find(cur => cur >= 18);
 
-# The Spread operator
+## The Spread operator
 
 * convenient operator to expand elements of an array in places like arguments and function calls.
 
@@ -1053,9 +1054,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             Array.from(all).forEach(cur => ...)
 
-# Function Parameters
+## Function Parameters
 
-## Rest Parameters
+### Rest Parameters
 
 * Allow to pass an arbitrary number of arguments into a function.
 * Same notation as spread operator but very different but are the exact opposite: the rest parameters receive a number of values and return an array ,wherea the spread operator takes an array and return the individual values.
@@ -1080,7 +1081,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             isFullAge6(18, 1990,1992,1898);
             isFullAge6(19, 1990,1992,1898,1983);
 
-## Default Parameters
+### Default Parameters
 
 * used whenever we want one of the argument to have a preset value
 
@@ -1103,7 +1104,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
                 ...
             }
 
-# Maps
+## Maps
 
 * Usually we use objects as hashmaps, ie we map string keys to values
 * Maps is a new key-value data structure, where we can use any primitive value (not only strings, like for objects) as keys, or even functions or objects
@@ -1150,7 +1151,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
              question.get(ans === question.get('correct'));
 
-# Classes
+## Classes
 
 * Syntaxic sugar to the way we define prototypal inheritance
 
@@ -1182,7 +1183,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 * We can also used static methods, that are simply attached to the class, not the class instances
 
-## Subclasses
+### Subclasses
 
             //ES5
             var Athlete5 = function (name, yoB, job, olympicGames, medals){
