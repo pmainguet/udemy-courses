@@ -765,3 +765,450 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
     * updateBudget => lien entre calculateBudget de dataController et displayBudget de UIController
     * add/removeItem => idem
     * return init function => setup des Event Listeners => cette fonction est la seule appellée en dehors de tout module
+
+# ES6
+
+* ES5: fully supported (vanilla in the following)
+* ES6/ES2015: fully supported except IE11. Use Babel to transcript to old browsers. For compatibility see https://kangax.github.io/compat-table/es6
+* ES2016+: not fully supported
+
+* New ES6 features:
+  * let / const (instead of var)
+  * Blocks and IIFEs
+  * Strings
+  * Arrow functions
+  * Destructuring
+  * Arrays
+  * Spread operator
+  * Rest and Default Parameters
+  * Maps
+  * Classes and subclasses
+  * Babel transpiler
+
+## Variable declarations with let & const
+
+* in ES6 we don't use _var_ anymore but _let_ or _const_ depending of the mutation we want to make on this variable
+
+  * _const_ is used for variable we don't want to change (changing a const variable results in an error)
+  * _let_ is the old _var_, used for variable we want to change/mutate later
+
+* Change of variable scope:
+
+  * in ES5, variable declared with _var_ are **function**-scoped
+  * in ES6, variable declared with _const_ and _let_ are **block**-scoped
+
+        //ES5
+        if (passedTest) {
+            var firstName = 'John';
+            var yoB = 1990;
+        }
+        console.log(firstName + ' is born in ' + yoB); // function scoped => no error
+
+        //ES6
+        if (passedTest) {
+            let firstName = 'John';
+            const yoB = 1990;
+        }
+        console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
+
+    * We can declare the variable outside of the block and initialize in the block, BUT ONLY FOR _LET_ NOT _CONST_
+
+            let firstName; => can be declared here and later value set
+            const yoB = 1990; => declaration and initialisation must be done at the same time
+            if (passedTest) {
+                firstName = 'John';
+            }
+            console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
+
+    * we can declare the same variable in nested block of code and we won't have collision (not the case with var)
+
+            let i = 23;
+            for (let i = 0;i<5;i++){
+                console.log(i);
+            }
+            console.log(i);
+
+            => result 0,1,2,3,4,23
+
+* Cannot use variable before it is declared:
+  * in ES5, hoisting means that before code is executed, variable are created and set to undefined
+  * in ES6, using a variable before it is declared results in an error
+
+## New way to create IIFEs / ensure Data Privacy with Blocks
+
+* In ES5 we used IIFEs to have data privacy
+* In ES6 we simply used blocks as the variable are not accessible outside of it
+* A Block of code is whenever we use curly braces: if statement, for loop, but also simply {...}
+
+            //ES5
+            (function () {
+                var c = 3;
+            })();
+
+            console.log(c); => c not accessible, error
+
+            //ES6
+            {
+                const a = 1;
+                let b = 2;
+                var c = 3;
+            }
+
+            console.log(a + b); => a and b not accessible, error
+            console.log(c); => c is accessible, no error
+
+* You can convert IIFEs To curly braces block to convert ES5 code to ES6
+
+## Strings
+
+* in ES6 there are Template Literals: backticks instead of quotation marks
+
+            // ES5
+            console.log('This is ' + firstName + '...' + yoB + ' ' + calcAge(yoB));
+
+            //ES6
+            console.log(`This is ${firstName} ... ${yoB} ${calcAge(yoB)}`);
+
+* New string methods
+  * _string.startsWith('j')_; => if the string start with 'j'
+  * _string.endsWith('j')_; => if the string ends with 'j'
+  * _string.includesWith('j')_; => if the string includes with 'j' \*_string.repeat(5)_ => repeats string 5 times
+
+## Arrow Functions
+
+* Simple syntax for simple callback functions
+
+            //ES5
+            var ages5 = years.map(function (current, index, array) {
+                return 2016 - current;
+            });
+            //ES6
+            let ages6 = years.map(current => 2016 - current);
+
+            ages6 = years.map((el,index) => `Age element ${index } ${el}`);
+
+            ages6 = years.map((el, index) => {
+                const now = new Date().getFullYear();
+                return now;
+            })
+
+* Lexical _this_ keyword: arrow functions does not have a _this_ keyword, they use the _this_ keyword of the function they are written in
+
+  * In ES6, a best practice is to always use arrow functions when we want to preserve the _this_ keyword
+
+          //ES5
+          var box5 = {
+              color: 'green',
+              position: 1,
+              clickMe: function () {
+
+                  var self = this; //if we don't do that, the regular function call used as callback in addEventListener will use the global this variable and not the current object
+
+                  document.querySelector('.green').addEventListener('click', function () {
+                      var str = 'This is box number' + self.position + 'and it is ' + self.color;
+                      alert(str);
+                  })
+              }
+          }
+          box5.clickMe();
+
+          //ES6
+          const box6 = {
+              color: 'blue',
+              position: 1,
+              clickMe: function () {
+                  document.querySelector('.blue').addEventListener('click', () => {
+                      var str = 'This is box number' + this.position + 'and it is ' + this.color;
+                      alert(str);
+                  })
+              }
+          }
+          box6.clickMe();
+
+## Destructuring
+
+* Very convenient way to extract data from object or arrays, for example if we want to store all elts of an array into a single variable
+
+            //ES5
+            var john = ['John', 26];
+            var name = john[0];
+            var age = john[1];
+
+            //ES6
+            const [name6, age6] = ['John', 26];
+
+            const obj = {
+                firstName: 'John',
+                lastName: 'Smith',
+            }
+            const {
+                firstName,
+                lastName
+            } = obj;
+
+            console.log(firstName);
+            console.log(lastName);
+
+            const {
+                firstName: a,
+                lastName: b
+            } = obj;
+
+            console.log(`${a} ${b}`);
+
+* Return multiple values from a function
+
+  * In ES5, if we wanted to return more than a value from a function we would use an object
+
+            function calcAgeRetirement(year) {
+                const age = new Date().getFullYear() - year;
+                return {
+                    age: age,
+                    retirement: 65 - age
+                }
+            }
+
+            var result = calcAgeRetirement(1990);
+            var age = result.age;
+            var retirement = result.retirement
+
+  * In ES6
+
+            function calcAgeRetirement(year) {
+                const age = new Date().getFullYear() - year;
+                return [age, 65 - age];
+            }
+
+            const [age, retirement] = calcAgeRetirement(1990);
+
+# Arrays
+
+## Convert list to array
+
+            const boxes = document.querySelectorAll('.box');
+
+            //ES5
+            var boxesArr5 = Array.prototype.slice.call(boxes);
+            boxesArr5.forEach(function (cur) {
+                cur.style.backgroundColor = 'dodgerblue';
+            })
+
+            //ES6
+            Array.from(boxes).forEach(cur => cur.style.backgroundColor = 'orange');
+
+## Loop with break or continue
+
+* we can't break or continue in a forEach or a map loop, solution:
+
+            //ES5
+            for(var i =1;i<5;i++){
+                boxesArr5[i]
+            }
+
+            //ES6
+            for (const cur of boxesArr6) {
+                ..
+            }
+
+## Find an element in arrays
+
+            //ES5
+            var ages = [12,45,89,85,11];
+            var full = ages.map(function(cur){
+                return cur >= 18;
+            });
+            index = ages.indexOf(true);
+            value = ages[index];
+
+            //ES6
+            index = ages.findIndex(cur => cur >= 18);
+            value = ages.find(cur => cur >= 18);
+
+# The Spread operator
+
+* convenient operator to expand elements of an array in places like arguments and function calls.
+
+            function (a,b,c,d){ ... }
+
+            //ES5
+            var ages = [12,23,45,89];
+            var sum = addFourAges.apply(null, ages);
+
+            //ES6
+            const sum2 = addFourAges(...ages);
+
+* for joining/merging arrays
+
+            //ES5
+            array1.concat(array2)
+
+            //ES6
+            [...array1, ...array2]
+
+* for joining/merging nodeList
+
+            const h = document.querySelector('h1');
+            const boxes = document.querySelectorAll('.box');
+            const all =[h, ...boxes];
+
+            Array.from(all).forEach(cur => ...)
+
+# Function Parameters
+
+## Rest Parameters
+
+* Allow to pass an arbitrary number of arguments into a function.
+* Same notation as spread operator but very different but are the exact opposite: the rest parameters receive a number of values and return an array ,wherea the spread operator takes an array and return the individual values.
+* The spread operator is used in a function call, whereas the rest parameter is used in a function declaration
+
+            //ES5
+            function isFullAge5(limit){
+                var artgsArr = Array.prototype.slice.call(arguments,1); => remove the first arguments 'limit'
+                argsArr.forEach(function(cur){
+                    console.log((2016-cur)>=limit);
+                });
+            }
+
+            isFullAge5(18, 1990,1992,1898);
+            isFullAge5(18, 1990,1992,1898,1983);
+
+            //ES6
+            function isFullAge6(limit, ...years){ => transforms arguments into an array
+                years.forEach( cur => (2016 - cur) >= limit);
+            }
+
+            isFullAge6(18, 1990,1992,1898);
+            isFullAge6(19, 1990,1992,1898,1983);
+
+## Default Parameters
+
+* used whenever we want one of the argument to have a preset value
+
+            //ES5
+            function SmithPerson(firstName, yoB, lastName, nationality){
+
+                lastName === undefined ? lastName = "Smith": lastName = lastName;
+                nationality === undefined ? nationality = "British" : nationality = nationality;
+
+                this.firstName = firstName;
+                this.yoB = yoB;
+                this.lastName = lastName;
+                this.nationality = nationality;
+            }
+
+            var john = new SmithPerson('John', 1990);
+
+            //ES6
+            function SmithPerson(firstName, yoB, lastName ='Smith', nationality = 'american'){
+                ...
+            }
+
+# Maps
+
+* Usually we use objects as hashmaps, ie we map string keys to values
+* Maps is a new key-value data structure, where we can use any primitive value (not only strings, like for objects) as keys, or even functions or objects
+
+            const question = new Map();
+
+            //set value
+            question.set('question', 'question text');
+            question.set(1, 'answer 1');
+            question.set(2, 'answer 2');
+            question.set('correct', 2)
+            question.set(true, 'message');
+            question.set(false, 'message');
+
+            //get value
+            question.get(true);
+            question.get(1);
+
+            //get size/length of Map
+            question.size
+
+            //remove element
+            question.delete(2);
+
+            //check if has element
+            question.has(4)
+
+            //clear everything
+            question.clear()
+
+* Maps are iterable (not the case with objects)
+
+            question.forEach((value, key) => ...)
+
+            for (let key of question){ ... }
+
+            for (let [key, value] of question.entries()) {
+                if(typeof(key) === 'number){
+                    ...
+                }
+             }
+
+             const ans = parseInt(prompt(message));
+
+             question.get(ans === question.get('correct'));
+
+# Classes
+
+* Syntaxic sugar to the way we define prototypal inheritance
+
+            //ES5
+            var Person5 = function(name, yoB, job){
+                this.name = name,
+                this.yoB = yoB,
+                this.job=job
+            }
+
+            Person5.prototype.calculateAge = function(){
+                var age = new Date().getFullYear() - this.yoB;
+            }
+
+            var john5 = new Person5('John', 1990, 'teacher'),
+
+            //ES6 => no commas or separation
+            class Person6{
+                constructor (name, yoB, job){
+                    this.name = name,
+                    this.yoB = yoB,
+                    this.job=job
+                }
+
+                calculateAge() {...}
+            }
+
+            const john6 = new Person6('John', 1990, 'teacher');
+
+* We can also used static methods, that are simply attached to the class, not the class instances
+
+## Subclasses
+
+            //ES5
+            var Athlete5 = function (name, yoB, job, olympicGames, medals){
+                Person5.call(this, name, yoB, job);
+                this.olympicGames = olympicGames;
+                this.medals = medals;
+            }
+            Athlete5.prototype = Object.create(Person5.prototype);
+            Athlete5.prototype.wonMedal = function(){...}
+
+            var johnAthlete5 = new Athlete5('John', 1990,'swimmer', 3, 10);
+            johnAthlete.calculateAge();
+
+            //ES6
+            class Athlete6 extends Person6{
+                constructor(name,yoB,job,olympicGames, medals){
+                    super(name,yoB, job);
+                    this.olympicGames = olympicGames,
+                    this.medals = medals,
+                }
+
+                wonMedal(){
+                    ..
+                }
+            }
+
+            const johnAthlete6 = new Athlete6(..)
+            johnAthlete6.wonMedal();
+            johnAthlete6.calculateAge();
