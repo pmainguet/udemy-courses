@@ -812,7 +812,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
         }
         console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
 
-    * We can declare the variable outside of the block and initialize in the block, BUT ONLY FOR _LET_ NOT _CONST_
+  * We can declare the variable outside of the block and initialize in the block, BUT ONLY FOR _LET_ NOT _CONST_
 
             let firstName; => can be declared here and later value set
             const yoB = 1990; => declaration and initialisation must be done at the same time
@@ -821,7 +821,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             }
             console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
 
-    * we can declare the same variable in nested block of code and we won't have collision (not the case with var)
+  * we can declare the same variable in nested block of code and we won't have collision (not the case with var)
 
             let i = 23;
             for (let i = 0;i<5;i++){
@@ -1007,7 +1007,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             }
 
             //ES6
-            for (const cur of boxesArr6) {
+            for (let cur of boxesArr6) {
                 ..
             }
 
@@ -1213,3 +1213,15 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             const johnAthlete6 = new Athlete6(..)
             johnAthlete6.wonMedal();
             johnAthlete6.calculateAge();
+
+## Use a transpiler via command line (simple version)
+
+* install babel
+
+            npm install --save-dev babel-cli babel-preset-es2015 babel-polyfill
+
+* transpile first via command line
+
+            ./node_modules/.bin/babel --presets es2015 script.js --out-file script-transpiled.js
+
+* include polyfill for special features that do not exist in ES2015 (like Maps): include the content of polyfill.js of the node_module babel-polyfill into the html (polyfills are just code that implements the missing functions)
