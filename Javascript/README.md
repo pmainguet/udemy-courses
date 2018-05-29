@@ -725,7 +725,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 # <a name="i"></a> I - EXAMPLE OF CODE STRUCTURES
 
-## Pig Game
+## Pig Game
 
 * Simple project with DOM manipulation and few calculations/storage
 * Code structure
@@ -733,7 +733,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
   * addEventListener pour lancement config (startup function)
   * addEventListener pour "on click" event with callbacks
 
-## Advanced-JS
+## Advanced-JS
 
 * Console uniquement avec multiple instance d'un même objet (Question)
 * Code structure
