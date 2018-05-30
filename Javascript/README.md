@@ -1373,4 +1373,25 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## Making AJAX calls with Fetch and Promises
 
+* Solution to fix CORS problems when the CORS policy is not implemented in the requested API:
+
+  * In production, proxy/channel the request through their own server where the same-origin policy doesn't exist and then send the data to the browser
+  * Use crossorigin.me proxy, by adding "http://crossorigin.me/" before the target url
+  * You need to process the result with json method in order to get the proper result
+
+        fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+
 ## Making AJAX calls with Fetch and Async/Await
+
+        async function getWeatherAW(woeid) {
+            const response = await fetch(url + woeid);
+            const data = await response.json();
+            const today = result.consolidated_weather[0];
+            return `Temperatures in ${result.title} stay between ${today.min_temp} and ${today.max_temp}.`;
+        }
+        getWeatherAW(2487956).then(result => console.log(result));
