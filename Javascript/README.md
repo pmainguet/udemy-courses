@@ -11,6 +11,7 @@
 * [H - HOW-TO / RECIPES](#h)
 * [I - EXAMPLES OF CODE STRUCTURE](#i)
 * [J - ES6](#j)
+* [K - ASYNCHRONOUS JAVASCRIPT](#k)
 
 Source: https://www.udemy.com/the-complete-javascript-course
 
@@ -151,8 +152,8 @@ Source: https://www.udemy.com/the-complete-javascript-course
 ## Browser Runtime
 
 * User Interface - User clicks the Do Stuff button. Simple enough.
-* Web APIs - The click event propagates thru the DOM’s Web API triggering click handlers during the capture and bubble phases on parent and child elements. Web APIs are a multi-threaded area of the browser that allows many events to trigger at once. They become accessible to JavaScript code thru the familiar window object on page load. Examples beyond the DOM’s document are AJAX’sXMLHttpRequest, and timers setTimeout() function.
-* Event Queue - Next the event’s callback is pushed into one of many event queues (also called task queues). Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, rendering, and more.
+* Web APIs Environment - The click event propagates thru the DOM’s Web API triggering click handlers during the capture and bubble phases on parent and child elements. Web APIs are a multi-threaded area of the browser that allows many events to trigger at once. They become accessible to JavaScript code thru the familiar window object on page load. Examples beyond the DOM’s document are AJAX’sXMLHttpRequest, and timers setTimeout() function.
+* Event/Message Queue - Next the event’s callback is pushed into one of many event queues (also called task queues). Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, rendering, and more.
 * Event loop - Then a single event loop chooses which callback to push onto the JavaScript call stack.
 * Finally the event callback enters the JavaScript’s runtime within the browser.
 
@@ -171,6 +172,8 @@ Source: https://www.udemy.com/the-complete-javascript-course
   * event loop: the JavaScript engine follows a very simple rule: there’s a process that constantly checks whether the call stack is empty, and whenever it’s empty, it checks if the event queue has any functions waiting to be invoked. If it does, then the first function in the queue gets invoked and moved over into the call stack. If the event queue is empty, then this monitoring process just keeps on running indefinitely. And voila — what I just described is the infamous Event Loop!
 
 ![js concurrency model](https://developer.mozilla.org/files/4617/default.svg "js concurrency model")
+
+NOTA: see also [K - Asynchronous Javscript](#k)
 
 ### Characteristics of JS call stack
 
@@ -1225,3 +1228,149 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             ./node_modules/.bin/babel --presets es2015 script.js --out-file script-transpiled.js
 
 * include polyfill for special features that do not exist in ES2015 (like Maps): include the content of polyfill.js of the node_module babel-polyfill into the html (polyfills are just code that implements the missing functions)
+
+# <a name="k"></a> Asynchronous Javascript
+
+* Synchronous: each statements are processed after the other, line by line, in a single thread in the JS engine
+* Asynchronous:
+
+  * we do not wait for a long function to return and resume processing the rest of the code
+  * instead we use callbacks to defer actions into the future: we let that function do its job in the background, pass in callbacks that run once the function has finished its work and move on immediatly => non-blocking
+  * example setTimeout => doesn't make the code pose but return the callback function after the delay we choose
+
+        const image = document.getElementById('img').src;
+
+        processLargeImage(image, () => {
+            console.log('Image Processed')
+        })
+
+* How it works: https://www.udemy.com/the-complete-javascript-course/learn/v4/t/lecture/9939770?start=230
+  * setTimeout() is part of the Web APIs, that live outside the JS Engine, like DOM manipulation functions, HTTP requests for AJAX, geolocation, local storage ...
+  * When the setTimeout() function is called, an Execution Context is created on top of the Execution Stack, the timer is created with the callback function in the Web APIs environment (in the background), where it seats until it finishes its work.
+  * In the meantime, the setTimeout function return, its Execution Context is removed from the Execution Stack and the rest of the code is executed.
+  * When the timer reaches zero in the Web APIs environement, the callback function moves to the Message Queue, where it waits to be executed as soon as the Execution Stack is empty. It's similar to what happens with DOM elements
+  * The Event Loop that constantly monitor the Message Queue and the Execution Stack and push the first elements in the Message Queue on the Execution Stack as soon as the stack is empty.
+  * If there are more than one message to be processed, the Event Loop would continue to push them onto the stack until all of them were processed.
+
+## From Callbacks Hell - ES5
+
+        function getRecipe() {
+            //use to simulate fetching of data
+            setTimeout(() => {
+                const recipeId = [523, 569, 58, 25];
+                console.log(recipeId);
+
+                setTimeout((id) => {
+                    const recipe = {
+                        title: 'Fresh',
+                        publisher: 'Jonas',
+                    }
+                    console.log(`${id}: ${recipe.title}`)
+
+                    setTimeout(publisher => {
+                        const recipe = {
+                            title: 'Pizza',
+                            publisher: 'Jonas'
+                        }
+                        console.log(`${publisher}: ${recipe.title}`)
+
+                    }, 1500, recipe.publisher);
+
+                }, 1000, recipeId[2]);
+
+            }, 1500)
+        }
+        getRecipe();
+
+## to Promises: nicely separate nested callbacks - ES6
+
+* A promise is an object that ...
+  * Keeps track about whether a certain event has happened already or not
+  * Determines what happens after the event has happened
+  * Implements the concept of a future value that we're expecting
+* A promise can have different states
+  * Pending: before the event has happened
+  * Settled / Resolved: afeter the event has happened
+  * Fulfilled: if Resolved is available, the promise is fulfilled
+  * Rejected: if there was an error
+* We can produce and consume promises:
+
+  * Produce: we create a new promise and send a result using that promise
+
+              const getIds = new Promise((resolve, reject) => {
+                  ...
+                  resolve(return value);          => the way to return results from our promise (mark the promise as fulfilled)
+                  ...
+                  reject(message)                 => the way to return an error (mark the promise as rejected)
+                  ...
+              });
+
+  * Consume: we can use callback functions for fulfillment and for rejection of our promise => .then and .catch
+
+              getIds.then(result of the resolve => {...}).catch(error => { ... });
+
+* Promises chain
+
+              const getIds = new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                      const recipeId = [523, 569, 58, 25];
+                      resolve(recipeId);
+                  }, 1500);
+              });
+
+              const getRecipe = recId => {
+                  return new Promise((resolve, reject) => {
+                      setTimeout((ID) => {
+                          const recipe = {
+                              title: 'Fresh',
+                              publisher: 'Jonas',
+                          }
+                          resolve(recipe.publisher);
+                      }, 1500, recId);
+                  });
+              }
+
+              const getPublisher = publisher => {
+                  return new Promise((resolve, reject) => {
+                      setTimeout(pub => {
+                              const recipe = {
+                                  title: 'Pizza',
+                                  publisher: 'Jonas'
+                              }
+                              resolve(`${pub}: ${recipe.title}`)
+                          },
+                          1500, publisher);
+                  });
+              }
+
+              => Chain of promises
+              getIds.then(IDs => {
+                      return getRecipe(IDs[2]);
+                  }).then(publisher => {
+                      return getPublisher(publisher)
+                  }).then(publisher => console.log(publisher))
+                  .catch(error => console.log(error));
+
+## From Promises to Async/Await - ES8
+
+* Promises consumption are still confusing and ES8 introduces Async/await to simplify
+* We still produce promises the same way as before
+
+                async function getRecipeAW() {          => run asynchronously in the background
+                    const IDs = await getIds;
+                    const publisher = await getRecipe(IDs[2]);
+                    const related = await getPublisher(publisher);
+                    return related;
+                }
+                getRecipeAW().then(result =>{
+                    console.log(result)
+                });
+
+## AJAX and API
+
+* AJAX = Asynchronous Javascript And XML: allows us to asynchronously communicate to remote servers by sending an HTTP Request and receiving a response
+* API = Application Programming Interface: piece of software that allows communication between two applications
+
+## Making AJAX calls with Fetch and Promises
+
+## Making AJAX calls with Fetch and Async/Await
