@@ -1,66 +1,69 @@
 # TABLE OF CONTENTS
 
-* [0 - GENERAL WORKFLOW FOR JS APP CREATION](#0)
-* [A- JAVASCRIPT BASICS](#a)
-* [B - JAVASCRIPT EXECUTION](#b)
-* [C - EVENTS](#c)
-* [D - DOM - Document Object Model](#d)
-* [E - PRIMITIVE & OBJECTS](#e)
-* [F - FUNCTIONS](#f)
-* [G - MODULES](#g)
-* [H - HOW-TO / RECIPES](#h)
-* [I - EXAMPLES OF CODE STRUCTURE](#i)
-* [J - ES6](#j)
-* [K - ASYNCHRONOUS JAVASCRIPT](#k)
+- [0 - GENERAL WORKFLOW FOR JS APP CREATION](#0)
+- [A- JAVASCRIPT BASICS](#a)
+- [B - JAVASCRIPT EXECUTION](#b)
+- [C - EVENTS](#c)
+- [D - DOM - Document Object Model](#d)
+- [E - PRIMITIVE & OBJECTS](#e)
+- [F - FUNCTIONS](#f)
+- [G - MODULES](#g)
+- [H - ES6](#h)
+- [I - ASYNCHRONOUS JAVASCRIPT](#i)
+- [J - MODERN JAVASCRIPT PROJECT](#j)
+- [K - PERSIST DATA](#k)
+- [L - EXAMPLES OF CODE STRUCTURE](#l)
+- [M - HOW-TO / RECIPES](#m)
 
 Source: https://www.udemy.com/the-complete-javascript-course
+AirBnB JS Style Guidelines: https://github.com/airbnb/javascript
 
 # <a name="0"></a> 0 - GENERAL WORKFLOW FOR JS APP CREATION
 
-* Think
-  * List user interactions (actions/events and result to have)
-  * Make a list of all TASKS that our code need to do
-  * Look at the list of TASKS and separate them in logical units (separation of concerns)
-  * Define general layout
-  * Decompose app in reusable component
-* Base Code
-  * Code base html / CSS / basic app.js + Add the app.js file at the bottom of the HTML file
-  * Structure code in modules, for example:
-    * one related to UI updating, the UI module
-    * one related to DATA manipulation, the DATA module
-    * one related to general CONTROL (such as event handlers) and linking modules, the CONTROLLER module (make difference between data structure manipulation and UI update)
-    * Create the Controller side of the app
-      * each module with module pattern and separation of concerns (with an AppController that link all module together)
-      * Good practice: for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
-* Implement actions:
+- Think
+  - List user interactions (actions/events and result to have)
+  - Make a list of all TASKS that our code need to do
+  - Look at the list of TASKS and separate them in logical units (separation of concerns)
+  - Define general layout
+  - Decompose app in reusable component
+- Base Code
+  - Basic setup: code base + NPM/Webpack/Babel (see [L - MODERN JAVASCRIPT PROJECT](#l))
+  - Structure code in modules, for example with MVC Architecture or within the same file via module pattern, ie each module implemented via Module Pattern or ES6 Modules and separation of concerns (with an AppController that link all module together):
+    - one related to UI updating, the UI module
+    - one related to DATA manipulation, the DATA module
+    - one related to general CONTROL (such as event handlers) and linking modules, the CONTROLLER module (make difference between data structure manipulation and UI update)
+  - For each functionnality of the app:
+    - Start with model: Define Data Models (atomic item and data collections) through the use of objects
+    - test model in controller and then build controller with refactored function for better reusability
+    - create view and implement in controller
+- Good pratices
 
-  * Refactor controller to only have function and create an init function as a public method of the Appcontroller
-  * Define Data Models (atomic item and data collections) through the use of objects
-  * Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
+  - Write function as "Each function has its specific task" + DRY principle (Don't Repeat Yourself)
+  - for querySelector strings, create a variable that store all selectors, so a change in UI can be simply translated in JS code
 
-  See [I - EXAMPLES OF CODE STRUCTURE](#i) pour des exemples de structure de code
+  See [L - EXAMPLES OF CODE STRUCTURE](#l) pour des exemples de structure de code
 
 # <a name="a"></a> A- JAVASCRIPT BASICS
 
-* JS is a LIGHTWEIGHT CROSS PLATFORM OBJECT ORIENTED language
-* Analogy:
-  * HTML = nouns (paragraph)
-  * CSS = adjectives (red)
-  * JS = verbs (hide)
-* Only 5 primitive data types (primitive means not object): number (float even for int), string, boolean, undefined (does not have a value yet), null (non existent)
-* JS has dynamic typing (type of variable defined on the fly)
-* Variable mutation: changing the value of a variable.
-* Type coercion: when there are several variable to "ouptut together" (like in a concatenate), dynamic typing auto convert all variables to the same data type.
+- JS is a LIGHTWEIGHT CROSS PLATFORM OBJECT ORIENTED language
+- Analogy:
+  - HTML = nouns (paragraph)
+  - CSS = adjectives (red)
+  - JS = verbs (hide)
+- Only 5 primitive data types (primitive means not object): number (float even for int), string, boolean, undefined (does not have a value yet), null (non existent)
+- JS has dynamic typing (type of variable defined on the fly)
+- Variable mutation: changing the value of a variable.
+- Type coercion: when there are several variable to "ouptut together" (like in a concatenate), dynamic typing auto convert all variables to the same data type.
 
 ## Useful JS Functions
 
-* prompt() => display input box (to be associated to variable in order to manipulate input)
+- prompt() => display input box (to be associated to variable in order to manipulate input)
 
              var truc = prompt('message')
 
-* alert() => display message
-* Math.random() => to generate random number between 0 and 1.
-* Ternary operator
+- alert() => display message
+- Math.random() => to generate random number between 0 and 1.
+- Ternary operator
 
         actionPlayer === 0 ? activePlayer = 1 : activePlayer = 0;
 
@@ -76,8 +79,8 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
     [] === new Array()
 
-* Arrays are ORDERED set of values.
-* Plain arrays (Array object) have specific methods like map, length, reduce, filter:
+- Arrays are ORDERED set of values.
+- Plain arrays (Array object) have specific methods like map, length, reduce, filter:
 
                 .push(var) => adds an element at the end of an array (mutate array)
                 .unshift(var) => adds an element at the beginning of an array
@@ -87,22 +90,22 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 ### ES6
 
-* SETS objects are collection of values, you can iterate its elements in insertion order. A value in a Set is unique. A Set can be converted to and from Arrays.
+- SETS objects are collection of values, you can iterate its elements in insertion order. A value in a Set is unique. A Set can be converted to and from Arrays.
 
 ## Objects (Keyed Collection - association between key and value)
 
-* Collection of properties ie attributes and methods
-* objects are associative arrays / hashes in javascript. They don't have access to Array methods.
-* no particular orders of properties
-* Creation of object:
-  * object literal: var john = {} (executes faster)
-  * var john = new Object(); useful if need to use a constructor (new Person(hair,age) for example)
-* access to properties: john.name or john['name']
-* var: it is better to use const and let as var can add to global scope the variable.
+- Collection of properties ie attributes and methods
+- objects are associative arrays / hashes in javascript. They don't have access to Array methods.
+- no particular orders of properties
+- Creation of object:
+  - object literal: var john = {} (executes faster)
+  - var john = new Object(); useful if need to use a constructor (new Person(hair,age) for example)
+- access to properties: john.name or john['name']
+- var: it is better to use const and let as var can add to global scope the variable.
 
 ### ES6
 
-* MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects (see at [J - ES6](#j))
+- MAPS objects are also Keyed Collection (introduced in ES6). They map values to values, and have advantages for simple maps over objects (see at [J - ES6](#j))
 
 ## Loops
 
@@ -146,51 +149,51 @@ Source: https://www.udemy.com/the-complete-javascript-course
 
 # <a name="b"></a> B - JAVASCRIPT EXECUTION
 
-* JS is usually hosted in the browser where it runs (but NodeJS allow to use server side)
-* Each browser has its own Javascript Engine (V8 for Chrome, SpiderMonkey, JavascriptCore, ...)
+- JS is usually hosted in the browser where it runs (but NodeJS allow to use server side)
+- Each browser has its own Javascript Engine (V8 for Chrome, SpiderMonkey, JavascriptCore, ...)
 
 ## Browser Runtime
 
-* User Interface - User clicks the Do Stuff button. Simple enough.
-* Web APIs Environment - The click event propagates thru the DOM’s Web API triggering click handlers during the capture and bubble phases on parent and child elements. Web APIs are a multi-threaded area of the browser that allows many events to trigger at once. They become accessible to JavaScript code thru the familiar window object on page load. Examples beyond the DOM’s document are AJAX’sXMLHttpRequest, and timers setTimeout() function.
-* Event/Message Queue - Next the event’s callback is pushed into one of many event queues (also called task queues). Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, rendering, and more.
-* Event loop - Then a single event loop chooses which callback to push onto the JavaScript call stack.
-* Finally the event callback enters the JavaScript’s runtime within the browser.
+- User Interface - User clicks the Do Stuff button. Simple enough.
+- Web APIs Environment - The click event propagates thru the DOM’s Web API triggering click handlers during the capture and bubble phases on parent and child elements. Web APIs are a multi-threaded area of the browser that allows many events to trigger at once. They become accessible to JavaScript code thru the familiar window object on page load. Examples beyond the DOM’s document are AJAX’sXMLHttpRequest, and timers setTimeout() function.
+- Event/Message Queue - Next the event’s callback is pushed into one of many event queues (also called task queues). Just as there are multiple Web APIs, browsers have event queues for things like network requests, DOM events, rendering, and more.
+- Event loop - Then a single event loop chooses which callback to push onto the JavaScript call stack.
+- Finally the event callback enters the JavaScript’s runtime within the browser.
 
 ## Javascript Runtime
 
-* The JavaScript engine has many components such as a parser for script loading, heap for object memory allocation, garbage collection system, interpreter, and more. Like other code event handlers execute on it’s call stack.
-* code is executed by Javascript Engine:
-  * A parser check if the code is OK
-  * Then create Abstract Syntax Tree
-  * It is converted to Machine code
-  * Then the code is run
-* Javascript Concurrency Model
-  * single call stack - execution stack: Function calls form a stack of frames, or execution contexts
-  * heap: Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
-  * queue: A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message. At some point during the event loop (of the browser), the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use. The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
-  * event loop: the JavaScript engine follows a very simple rule: there’s a process that constantly checks whether the call stack is empty, and whenever it’s empty, it checks if the event queue has any functions waiting to be invoked. If it does, then the first function in the queue gets invoked and moved over into the call stack. If the event queue is empty, then this monitoring process just keeps on running indefinitely. And voila — what I just described is the infamous Event Loop!
+- The JavaScript engine has many components such as a parser for script loading, heap for object memory allocation, garbage collection system, interpreter, and more. Like other code event handlers execute on it’s call stack.
+- code is executed by Javascript Engine:
+  - A parser check if the code is OK
+  - Then create Abstract Syntax Tree
+  - It is converted to Machine code
+  - Then the code is run
+- Javascript Concurrency Model
+  - single call stack - execution stack: Function calls form a stack of frames, or execution contexts
+  - heap: Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+  - queue: A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message. At some point during the event loop (of the browser), the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use. The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
+  - event loop: the JavaScript engine follows a very simple rule: there’s a process that constantly checks whether the call stack is empty, and whenever it’s empty, it checks if the event queue has any functions waiting to be invoked. If it does, then the first function in the queue gets invoked and moved over into the call stack. If the event queue is empty, then this monitoring process just keeps on running indefinitely. And voila — what I just described is the infamous Event Loop!
 
 ![js concurrency model](https://developer.mozilla.org/files/4617/default.svg "js concurrency model")
 
-NOTA: see also [K - Asynchronous Javscript](#k)
+NOTA: see also [I - Asynchronous Javscript](#i)
 
 ### Characteristics of JS call stack
 
-* Single threaded - Threads are basic units of CPU utilization. As lower level OS constructs they consist of a thread ID, program counter, register set, and stack. While the JavaScript engine itself is multi-threaded it’s call stack is single threaded allowing only one piece of code to execute at a time.
-* Synchronous - JavaScript call stack carries out tasks to completion instead of task switching and the same holds for events. This isn’t a requirement by the ECMAScript or WC3 specs. But there are some exceptions like window.alert() interrupts the current executing task.
-* Non-blocking - Blocking occurs when the application state is suspended as a thread runs. Browsers are non-blocking, still accepting events like mouse clicks even though they may not execute immediately.
+- Single threaded - Threads are basic units of CPU utilization. As lower level OS constructs they consist of a thread ID, program counter, register set, and stack. While the JavaScript engine itself is multi-threaded it’s call stack is single threaded allowing only one piece of code to execute at a time.
+- Synchronous - JavaScript call stack carries out tasks to completion instead of task switching and the same holds for events. This isn’t a requirement by the ECMAScript or WC3 specs. But there are some exceptions like window.alert() interrupts the current executing task.
+- Non-blocking - Blocking occurs when the application state is suspended as a thread runs. Browsers are non-blocking, still accepting events like mouse clicks even though they may not execute immediately.
 
 ## Execution context and execution stack
 
-* Execution context: a container that stores variables and where code is executed.
-* Default context = global context
-* in the default context, every code that is not a function is executed
-* global context is associated with the GLOBAL OBJECT = window object
+- Execution context: a container that stores variables and where code is executed.
+- Default context = global context
+- in the default context, every code that is not a function is executed
+- global context is associated with the GLOBAL OBJECT = window object
 
         window.lastName === lastName
 
-* a new function gets its own execution context when it is executed.
+- a new function gets its own execution context when it is executed.
 
         var name ='John';
         function first(){
@@ -203,7 +206,7 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
         first();
 
-  * Execution stack:
+  - Execution stack:
 
             second() execution context
             -----------------------------
@@ -211,8 +214,8 @@ NOTA: see also [K - Asynchronous Javscript](#k)
             -----------------------------
             Global execution context: John, first, second
 
-* an execution context is removed from the top of the execution stack when the function returns
-* Content of Execuction Context Object
+- an execution context is removed from the top of the execution stack when the function returns
+- Content of Execuction Context Object
 
             EXECUTION CONTEXT OBJECT (generated when new function)
              --- VARIABLE OBJECT (function parameters, function declaration) ---
@@ -229,48 +232,48 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 ### Creation of Variable Object
 
-* argument object is created, containing all the arguments that were passed into the function.
-* Hoisting: functions and variables are available before the execution phase starts
-  * Code is scanned for function declarations: for each function, a property is created in the VO, POINTING to the function.
-  * Code is scanned for variable declarations: for each variable a property is created in the VO and set to undefined.
-* FUNCTIONS are already DEFINED before the execution phase starts.
-* VARIABLES are setup to UNDEFINED and will only be defined in the execution phase.
-* If function expressions instead of function declarations, calling functions before expression results in error
-* If function declarations, you can call function before
-* The biggest takeaway of hoisting is using function declarations that allows to use functions before it is declared in the code.
+- argument object is created, containing all the arguments that were passed into the function.
+- Hoisting: functions and variables are available before the execution phase starts
+  - Code is scanned for function declarations: for each function, a property is created in the VO, POINTING to the function.
+  - Code is scanned for variable declarations: for each variable a property is created in the VO and set to undefined.
+- FUNCTIONS are already DEFINED before the execution phase starts.
+- VARIABLES are setup to UNDEFINED and will only be defined in the execution phase.
+- If function expressions instead of function declarations, calling functions before expression results in error
+- If function declarations, you can call function before
+- The biggest takeaway of hoisting is using function declarations that allows to use functions before it is declared in the code.
 
 ### Creation of scoping chain
 
-* scoping answers the question "where we can access a certain variable ?"
-* each new function creates a scope: the space/environment in which the variables it defines are accessible. in other languages, for/if/while blocks can create scope but NOT in JS
-* Lexical scoping: a function that is lexically within another function gets access to the scope of the outer/parent function
-* the global scope never has access to function scope
-* execution stack != scope chain
-  * execution stack: order in which functions are called. Execution context object stores the scope chain of each function in the variable object but do not have an effect on the scope chain itself.
-  * scope chain: order in which function are written lexically
+- scoping answers the question "where we can access a certain variable ?"
+- each new function creates a scope: the space/environment in which the variables it defines are accessible. in other languages, for/if/while blocks can create scope but NOT in JS
+- Lexical scoping: a function that is lexically within another function gets access to the scope of the outer/parent function
+- the global scope never has access to function scope
+- execution stack != scope chain
+  - execution stack: order in which functions are called. Execution context object stores the scope chain of each function in the variable object but do not have an effect on the scope chain itself.
+  - scope chain: order in which function are written lexically
 
 ### Determine value of "this" variable
 
-* REGULAR FUNCTION CALL: the "this" keyword points at the global object ("window" in browser)
-* METHOD CALL: the "this" variable points to the object that is calling the method
-* The "this" keyword is not assigned a value until a function where it is defined is actually called.
-* Warning: If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
+- REGULAR FUNCTION CALL: the "this" keyword points at the global object ("window" in browser)
+- METHOD CALL: the "this" variable points to the object that is calling the method
+- The "this" keyword is not assigned a value until a function where it is defined is actually called.
+- Warning: If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
 
 # <a name="c"></a> C - EVENTS
 
-* event = notification that is set to notify the code that something happened
-* event listener = a function that performs an action based on a certain event
-* message queue = this is where all the events happening in the browser are put and sit there waiting to be processed
+- event = notification that is set to notify the code that something happened
+- event listener = a function that performs an action based on a certain event
+- message queue = this is where all the events happening in the browser are put and sit there waiting to be processed
 
-* An event can only be processed/handled by an event listener if the execution stack is empty (all functions have returned)
+- An event can only be processed/handled by an event listener if the execution stack is empty (all functions have returned)
 
-* Process
+- Process
 
-  * Execution Stack Contexts are generated and then cleaned up.
-  * When the Execution Stack is empty, Message Queue start to process events that has been logged.
-  * If an event listener has been binded to an element waiting for the event to happen, the callback function of this listener is called and has its own execution context, put in the Execution Stack
-  * Then is processed
-  * Same thing happened for remaining events
+  - Execution Stack Contexts are generated and then cleaned up.
+  - When the Execution Stack is empty, Message Queue start to process events that has been logged.
+  - If an event listener has been binded to an element waiting for the event to happen, the callback function of this listener is called and has its own execution context, put in the Execution Stack
+  - Then is processed
+  - Same thing happened for remaining events
 
         VANILLA JAVASCRIPT
 
@@ -284,23 +287,34 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
         $(element).on('click',callback function)
 
-    * better to use JQuery bacause handle browser compatibility issue
+    - better to use JQuery bacause handle browser compatibility issue
 
 ## Event Delegation
 
-* Event Bubbling: when an event is triggered on an element (example: clicking on a button), the exact same element is triggered on all of its parent elements.
-* Target Element: the first element where the event first happened.
-* The target element is stored as a property in the event object, so every parent elements knows about the target element.
-* Event delegation: as we know where the event first happen (target element in event object), we can attach an event handler to a parent element and wait for the event to bubble up. Event delegation is to not setup the event handler on the target element but on one of its parents.
-* Use cases:
-  * When we have an element with lots of child elements that we are interested in.
-  * When we want an event handler attached to an element that is not yet in the DOM when our page is loaded.
+- Event Bubbling: when an event is triggered on an element (example: clicking on a button), the exact same element is triggered on all of its parent elements.
+- Target Element: the first element where the event first happened.
+- The target element is stored as a property in the event object, so every parent elements knows about the target element.
+- Event delegation: as we know where the event first happen (target element in event object), we can attach an event handler to a parent element and wait for the event to bubble up. Event delegation is to not setup the event handler on the target element but on one of its parents.
+- Use cases:
+  - When we have an element with lots of child elements that we are interested in.
+  - When we want an event handler attached to an element that is not yet in the DOM when our page is loaded.
+
+### How to specify that we click on a button when we click on the text or icon, within the button
+
+- We use the _.closest_ method
+
+            e.target.closest('button')
+            e.target.closest('.btn-inline')
+
+### Another way of implementing event delegation: _.matches_
+
+            e.target.matches('.btn-decrease, .btn-decrease *')  => similar to .closest, select elements and all childrend
 
 # <a name="d"></a> D - DOM - Document Object Model
 
-* Structure representation of an HTML document used to connect HTML to JS. For each HTML box, there is an object in the DOM that we can access and manipulate.
+- Structure representation of an HTML document used to connect HTML to JS. For each HTML box, there is an object in the DOM that we can access and manipulate.
 
-* DOM Manipulation
+- DOM Manipulation
 
         VANILLA JAVASCRIPT
 
@@ -318,9 +332,9 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
         $('#name')
 
-* It is usually better to use jQuery (or its DOM manipulation library Sizzle), as it is quicker to write, is optimized and crossbrowser compatible.
+- It is usually better to use jQuery (or its DOM manipulation library Sizzle), as it is quicker to write, is optimized and crossbrowser compatible.
 
-* Class Manipulation
+- Class Manipulation
 
         VANILLA JAVASCRIPT
 
@@ -336,7 +350,7 @@ NOTA: see also [K - Asynchronous Javscript](#k)
                   .css('property name')         => display attribute value
                   .css('property name',value)   => set value of attribute
 
-* On load function
+- On load function
 
         VANILLA JAVASCRIPT
 
@@ -354,39 +368,39 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 # <a name="e"></a> E - PRIMITIVE & OBJECTS
 
-* (Almost) everything in JS is an object
+- (Almost) everything in JS is an object
 
-  * Primitive: number, strings, booleans, undefined, null
-  * Objects: arrays, functions, objects,date, wrappers for nb, string and boolean
+  - Primitive: number, strings, booleans, undefined, null
+  - Objects: arrays, functions, objects,date, wrappers for nb, string and boolean
 
-* Variable containing Primitive actually hold that data inside of the variable itself (new space in memory used)
-* Variable containing Objects do not actually contains the object, but a ref to the place in memory.
-* when we make var obj2 = obj1, no copy is actually created but both obj1 et obj2 point to the same object in memory.
-* in function the same happens, function create a new ref to objects passed as parameters and create a new copy for primitive passed as parameters.
-* To copy an object instead if ref, use Object.assign()
-* Nota: as soon as we use a string or a number, JS puts a wrapper around the strip and convert it to an object with methods such as .split()
+- Variable containing Primitive actually hold that data inside of the variable itself (new space in memory used)
+- Variable containing Objects do not actually contains the object, but a ref to the place in memory.
+- when we make var obj2 = obj1, no copy is actually created but both obj1 et obj2 point to the same object in memory.
+- in function the same happens, function create a new ref to objects passed as parameters and create a new copy for primitive passed as parameters.
+- To copy an object instead if ref, use Object.assign()
+- Nota: as soon as we use a string or a number, JS puts a wrapper around the strip and convert it to an object with methods such as .split()
 
 ## Object Creations
 
-* Inheritance:
+- Inheritance:
 
-  * In JS, a CONSTRUCTOR with a PROTOTYPE property is similar to class in other languages, it is used to build instances.
-  * JS is a prototype based language, ie it used prototype for inheritance, ie inheritance is made possible through the prototype property that every object has.
-  * Prototype property: it is where we put methods and properties we want children object to inherit
-  * Every JS object has a prototype property which makes inheritance possible and every object that we create is an instance of the Object constructor (down the prototype chain)
-  * The prototype of an object is the prototype property of its parent
-  * an object can call every of its own methods or properties as well as those of its chain of parents => prototupe chain for method lookup
-  * The CONSTRUCTOR's prototype property is NOT the prototype of the constructor itself, it's the prototype of ALL instances that are created through it.
+  - In JS, a CONSTRUCTOR with a PROTOTYPE property is similar to class in other languages, it is used to build instances.
+  - JS is a prototype based language, ie it used prototype for inheritance, ie inheritance is made possible through the prototype property that every object has.
+  - Prototype property: it is where we put methods and properties we want children object to inherit
+  - Every JS object has a prototype property which makes inheritance possible and every object that we create is an instance of the Object constructor (down the prototype chain)
+  - The prototype of an object is the prototype property of its parent
+  - an object can call every of its own methods or properties as well as those of its chain of parents => prototupe chain for method lookup
+  - The CONSTRUCTOR's prototype property is NOT the prototype of the constructor itself, it's the prototype of ALL instances that are created through it.
 
-* 2 ways of creating objects:
-  * Through a function constructor (ie Functional Pattern)
-  * Through Object.create
-* Reasons to choose one or the other:
-  * Object.create make object inherit directly from the object passed in the first argument whereas function constructor pattern make the newly create object inherit from the constructor's prototype property.
-  * Object.create allow to implement a complex inheritance structure in an easier way because it allows us to directly specify which object should be a prototype.
-  * Function constructor is however the most used pattern for object creation in JS.
-  * To put all variables and methods in **proto** or to use Object.create is more memory efficient, but in this case properties and methods are not OwnProperties
-  * Object.create is a good choice for subclassing
+- 2 ways of creating objects:
+  - Through a function constructor (ie Functional Pattern)
+  - Through Object.create
+- Reasons to choose one or the other:
+  - Object.create make object inherit directly from the object passed in the first argument whereas function constructor pattern make the newly create object inherit from the constructor's prototype property.
+  - Object.create allow to implement a complex inheritance structure in an easier way because it allows us to directly specify which object should be a prototype.
+  - Function constructor is however the most used pattern for object creation in JS.
+  - To put all variables and methods in **proto** or to use Object.create is more memory efficient, but in this case properties and methods are not OwnProperties
+  - Object.create is a good choice for subclassing
 
 ### Create objects through Function constructors
 
@@ -398,12 +412,12 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
             var john = new Person('John', 1990, 'teacher');     => instanciation of a Person object
 
-* How does it work ?
+- How does it work ?
   1.  A brand new EMPTY object is created.
   2.  the constructor function is then called
-      * Creation of a new execution context (with a "this" variable)
-      * the "this" should point to the global object (function call and not method call) but through the "new" operator, "this" points to the empty object that has been initially created
-* If you want child object to inherite a property or a method, we should put it in the prototype of the parent object (ie the CONSTRUCTOR)
+      - Creation of a new execution context (with a "this" variable)
+      - the "this" should point to the global object (function call and not method call) but through the "new" operator, "this" points to the empty object that has been initially created
+- If you want child object to inherite a property or a method, we should put it in the prototype of the parent object (ie the CONSTRUCTOR)
 
           var Person = function (...){
                           this.... = ...
@@ -411,19 +425,19 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
           Person.prototype.calculateAge(...) = fucntion() {...}
 
-* It is best to put a method on a prototype for inheritance purpose instead of the constructor object itself as instances would have all the code, hence repetition and big size in memory. By using inheritance, you can access a method but you don't have to store it multiple times in memory for each instance.
-* In console, we can have access to the Prototype Chain through **proto** properties of oebjects
-* Some useful functions:
+- It is best to put a method on a prototype for inheritance purpose instead of the constructor object itself as instances would have all the code, hence repetition and big size in memory. By using inheritance, you can access a method but you don't have to store it multiple times in memory for each instance.
+- In console, we can have access to the Prototype Chain through **proto** properties of oebjects
+- Some useful functions:
 
         john.hasOwnProperty('job')  => check if property belong to the Person instance, not its parents
         john instanceOf Person      => check if object is an instance of Person
 
 ### Create objects through Object.create
 
-* Process
+- Process
 
-  * Create an object that will act as a prototype
-  * Create a new object based on that prototype
+  - Create an object that will act as a prototype
+  - Create a new object based on that prototype
 
         var personProto = {
             calculateAge: ...
@@ -436,9 +450,9 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 # <a name="f"></a> F - FUNCTIONS
 
-* a call to a function with parenthesis is called immediatly when code is rendered.
-* if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
-* Differences between function expression & declaration: Function declarations load before any code is executed / Function expressions load only when the interpreter reaches that line of code (see above)
+- a call to a function with parenthesis is called immediatly when code is rendered.
+- if we use a function expression and then the name of the variable it can be passed as callback function (same is true if we pass a function name without parenthesis in case of function declaration)
+- Differences between function expression & declaration: Function declarations load before any code is executed / Function expressions load only when the interpreter reaches that line of code (see above)
 
         function test1(){...}
 
@@ -452,13 +466,13 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 ## First Class Functions
 
-* When we say that a language has first-class function, it means that the language treats functions as values:
+- When we say that a language has first-class function, it means that the language treats functions as values:
 
-  * a function is an instance of the Object type
-  * It behaves like any other object.
-  * we can store a function in a variable
-  * we can pass a function as an argment to another function.
-  * we can return a function from a function
+  - a function is an instance of the Object type
+  - It behaves like any other object.
+  - we can store a function in a variable
+  - we can pass a function as an argment to another function.
+  - we can return a function from a function
 
             function arrayCalc(arr,fn){
                 //loop and apply fn on each elt of arr => similar to map methods of Array
@@ -476,7 +490,7 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 ## High Order Functions
 
-* Higher order function are function that work on other function, which means that they take one or more function as an argument and can also return a function.
+- Higher order function are function that work on other function, which means that they take one or more function as an argument and can also return a function.
 
             Function returning a function
 
@@ -492,8 +506,8 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 ## IIFE - Immediatly Invoked Function Expressions (Self Invocation Pattern)
 
-* Self invocation is when a function executes immediatly upon its definition.
-* We use self invocation when we don't want to create a function name to reduce risk of definition collision (functions with same name in same scope) and want to execute right away on declaration, so that we have private variables (not accessible from outside the scope of the function)
+- Self invocation is when a function executes immediatly upon its definition.
+- We use self invocation when we don't want to create a function name to reduce risk of definition collision (functions with same name in same scope) and want to execute right away on declaration, so that we have private variables (not accessible from outside the scope of the function)
 
                                         |       Better to use
             function game(){            |
@@ -502,15 +516,15 @@ NOTA: see also [K - Asynchronous Javscript](#k)
             }                           |       })(var);
             game();                     |
 
-* We can only call an IIFE once
-* Collision avoidance:
-  * var/functions declared in the same scope with the same name
-  * the only way to scope code in JS is by wrapping it in a function
-  * IIFE allows to create this scope and launching function without having to declare a name and hence reducing risk of collisions.
+- We can only call an IIFE once
+- Collision avoidance:
+  - var/functions declared in the same scope with the same name
+  - the only way to scope code in JS is by wrapping it in a function
+  - IIFE allows to create this scope and launching function without having to declare a name and hence reducing risk of collisions.
 
 ## Closure - for private variable definition
 
-* an inner function has always access to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
+- an inner function has always access to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
 
         function retirement(retirementAge){                 => outer function
             var a = ...
@@ -523,9 +537,9 @@ NOTA: see also [K - Asynchronous Javscript](#k)
         var retirementUS = retirement(66);
         retirementUS(1990);                                 => has still access to 66 and a
 
-* How does it work: The scope chain always stays intact even after a function has returned ie closing in on its variable object, and its execution context has disappeared from execution stack ie not accessible anymore.
-* We use a closure so a variable passed to the outer function became a private variable of the inner function and thus cannot be changed down the code outside of the function.
-* As a closure allow you to associate data (lexical environment of function execution) with the function that generates this data, you can use a closure whenever you can use an object with only a single method
+- How does it work: The scope chain always stays intact even after a function has returned ie closing in on its variable object, and its execution context has disappeared from execution stack ie not accessible anymore.
+- We use a closure so a variable passed to the outer function became a private variable of the inner function and thus cannot be changed down the code outside of the function.
+- As a closure allow you to associate data (lexical environment of function execution) with the function that generates this data, you can use a closure whenever you can use an object with only a single method
 
         function test(var){                             |           function test2(var){
             //Do stg                                    |               return function(){
@@ -539,16 +553,16 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
 ## Bind / Call / Apply - set "this" variable manually
 
-* Special methods for function objects, that allow to set "this" variable manually
-* To have access to a method of an object you can use inheritance or METHOD BORROWING
+- Special methods for FUNCTION objects, that allow to set "this" variable manually
+- To have access to a method of an object you can use inheritance or METHOD BORROWING
 
-  1.  Throught CALL or APPLY function methods
+  1.  Throught CALL or APPLY function methods: allows to call a method from an object
 
-      * Call
+      - Call
 
             john.method.call(emily, parameters of method) => this of john's method now points to emily
 
-      * Apply (similar to call but for parameters as array)
+      - Apply (similar to call but for parameters as array)
 
             john.method.call(emily, array of parameters) => john's method needs to accept arrays
 
@@ -563,22 +577,32 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
             mike.calculateAge=john.calculateAge
 
-  3.  Bind - CARRYING: creation of a function based on another function with some preset arguments
+  3.  Bind
 
-            var johnFriendly = john.presentation.bind(john, 'friendly')
-            johnFriendly('morning')
+      - Function borrowing: return a new function based on another function
+
+                  healthyfoods.displayFirstFood.bind(junkfoods)
+
+      - CURRYING: return a new function based on another function with some preset arguments (but not all of them for example)
+
+                  var johnFriendly = john.presentation.bind(john, 'friendly')
+                  johnFriendly('morning')
+
+      - When you nest functions in an object, it disassociates the inner function from the surrounding object, you use .bind(this) on the function call to reassociate it
+
+NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-apply-bind/
 
 # <a name="g"></a> G - MODULES
 
-* Important aspect of any robust application's architecture
-* Keep the units of code for a project both cleanly separated and organized
-* Encapsulate some data into privacy and expose other data publicly
+- Important aspect of any robust application's architecture
+- Keep the units of code for a project both cleanly separated and organized
+- Encapsulate some data into privacy and expose other data publicly
 
 ## Implementing the Module Pattern
 
-* One of the most popular design pattern in Javascript
-* Data Encapsulation allow us to hide the implementation details of a specific module, ie to hide certain variables and method while exposing a public interface (API)
-* Module pattern only use closures and IIFE: we define the module as a IIFE with private method and variables and we return an object that return all variables and function we want to be public.
+- One of the most popular design pattern in Javascript
+- Data Encapsulation allow us to hide the implementation details of a specific module, ie to hide certain variables and method while exposing a public interface (API)
+- Module pattern only use closures and IIFE: we define the module as a IIFE with private method and variables and we return an object that return all variables and function we want to be public.
 
             var budgetController = (function () {
 
@@ -595,211 +619,39 @@ NOTA: see also [K - Asynchronous Javscript](#k)
 
             })();
 
-* Separation of concerns: each part of an application should only be interested in doing one thing independently
-* To link modules into our app we need an AppController and pass it other modules as arguments
-
-            document.addEventListener('keypress', function (event) {
-                    if (event.keyCode === 13 || event.which === 13) {
-                        ...
-                    }
-            });
-
-# <a name="h"></a> H - HOW-TO / RECIPES
-
-## Handle simple input submission
-
-### With form submission
-
-            document
-                .getElementById("budgetForm")
-                .addEventListener("submit", function(e) {
-                    e.preventDefault();
-
-                    // get input data
-                    // add item to budgetController
-                    // add item to UI
-                    // calculate budget
-                    // display budget to UI
-                });
-
-        This one listener handles both the .add__btn button click and pressing enter either .add__description or .add_value.
-
-### With click / keypress event
-
-            document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
-
-            document.addEventListener('keypress', function (event) {
-                if (event.keyCode === 13 || event.which === 13) {
-                    ctrlAddItem();
-                }
-            });
-
-## Manipulating DOM
-
-For a list of DOM manipulation, see http://youmightnotneedjquery.com
-
-### Add big chunck of HTML data
-
-* define html placeholder as a string with %...% variable
-
-            var htmlIncome = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
-
-* use replace function
-
-            var newHtml = html.replace('%id%', obj.id).replace('%description%', obj.description)
-
-* use insertAdjacentHTML method
-
-            document.querySelector('.class').insertAdjacentHTML('beforeend', newHTML);
-
-### Change inner content of DIV block
-
-            document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
-
-### Remove an element from the DOM
-
-            var el = document.getElementById(selectorId)
-            el.parentNode.removeChild(el);
-
-## Inputs
-
-### Clear inputs
-
-            document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue).clearFields
-
-### Convert field inputs to numbers
-
-            parseFloat(string);
-
-### Prevent False Inputs
-
-* in general controller, add following test
-
-            if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
-                ...
-            }
-
-## Arrays
-
-### Convert a list to an array
-
-* Trick the slice method to return an array even if we feed him a list
-* use call on slice function, stored in Array.prototype
-
-            if fields is a list
-
-            Array.prototype.slice.call(fields);
-
-### Remove one element from an array
-
-            array.splice(id,1);
-
-### Get Index of element from value (in an array)
-
-            index = array.indexOf(value);
-
-## Strings
-
-### Format Number
-
-            formatNumber: function (type, number) {
-                var numSplit, int, dec, type;
-                number = Math.abs(num);
-                number = number.toFixed(2);
-
-                numSplit = num.split('.');
-                int = numSplit[0];
-                if (int.length > 3) {
-                    int = int.sustr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
-                }
-
-                dec = numSplit[1];
-
-                return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
-            }
-
-## Events
-
-### Events on keypress
-
-* Add an Event Listener to the global document
-
-        document.addEventListener
-
-# <a name="i"></a> I - EXAMPLE OF CODE STRUCTURES
-
-## Pig Game
-
-* Simple project with DOM manipulation and few calculations/storage
-* Code structure
-  * Function declaration
-  * addEventListener pour lancement config (startup function)
-  * addEventListener pour "on click" event with callbacks
-
-## Advanced-JS
-
-* Console uniquement avec multiple instance d'un même objet (Question)
-* Code structure
-  * IIFE pour lancement immédiat
-  * Définition des objets Question et de leur prototype
-  * création d'une série de questions stored in array
-  * setup du score via closure
-  * nextQuestion loop
-
-## Budgety
-
-* Application plus complexe nécessitant la manipulation de deux types d'objet (Expense, Income) ayant des méthodes différentes, et une manipulation de multiples éléments du DOM
-* Code structure
-  * Implémentation du Module Pattern pour structure le code
-    * 3 modules (controllers): data, UI, main
-    * injection des deux premiers modules dans le main pour les lier
-    * le main servant de "tour de controle" pour l'application en utilisant les fonctions des API de data et UI
-  * structure dataController (joue le rôle de Collection, si on peut dire)
-    * Définition des objets Income / Expense et du prototype de Expense
-    * définition de l'objet data de l'app
-    * définition des fonctions privées
-    * définition de l'API: addItem, removeItem, calculateBudget, calculatePercentage, getPercentages, getBudget
-  * structure uiController:
-    * définition DOMStrings
-    * définition template HTML
-    * définition des fonctions privées
-    * définition de l'API: getDOMStrings, getInput, addListItem, removeListItem, displayBudget, displayPercentage, clearFields, updateColor
-  * structure mainController:
-    * définition de la function de setup des EventListeners
-    * updateBudget => lien entre calculateBudget de dataController et displayBudget de UIController
-    * add/removeItem => idem
-    * return init function => setup des Event Listeners => cette fonction est la seule appellée en dehors de tout module
+- Separation of concerns: each part of an application should only be interested in doing one thing independently
+- To link modules into our app we need an AppController and pass it other modules as arguments
 
 # <a name="j"></a>J - ES6
 
-* ES5: fully supported (vanilla in the following)
-* ES6/ES2015: fully supported except IE11. Use Babel to transcript to old browsers. For compatibility see https://kangax.github.io/compat-table/es6
-* ES2016+: not fully supported
+- ES5: fully supported (vanilla in the following)
+- ES6/ES2015: fully supported except IE11. Use Babel to transcript to old browsers. For compatibility see https://kangax.github.io/compat-table/es6
+- ES2016+: not fully supported
 
-* New ES6 features:
-  * let / const (instead of var)
-  * Blocks and IIFEs
-  * Strings
-  * Arrow functions
-  * Destructuring
-  * Arrays
-  * Spread operator
-  * Rest and Default Parameters
-  * Maps
-  * Classes and subclasses
-  * Babel transpiler
+- New ES6 features:
+  - let / const (instead of var)
+  - Blocks and IIFEs
+  - Strings
+  - Arrow functions
+  - Destructuring
+  - Arrays
+  - Spread operator
+  - Rest and Default Parameters
+  - Maps
+  - Classes and subclasses
+  - Babel transpiler
 
 ## Variable declarations with let & const
 
-* in ES6 we don't use _var_ anymore but _let_ or _const_ depending of the mutation we want to make on this variable
+- in ES6 we don't use _var_ anymore but _let_ or _const_ depending of the mutation we want to make on this variable
 
-  * _const_ is used for variable we don't want to change (changing a const variable results in an error)
-  * _let_ is the old _var_, used for variable we want to change/mutate later
+  - _const_ is used for variable we don't want to change (changing a const variable results in an error)
+  - _let_ is the old _var_, used for variable we want to change/mutate later
 
-* Change of variable scope:
+- Change of variable scope:
 
-  * in ES5, variable declared with _var_ are **function**-scoped
-  * in ES6, variable declared with _const_ and _let_ are **block**-scoped
+  - in ES5, variable declared with _var_ are **function**-scoped
+  - in ES6, variable declared with _const_ and _let_ are **block**-scoped
 
         //ES5
         if (passedTest) {
@@ -815,7 +667,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
         }
         console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
 
-  * We can declare the variable outside of the block and initialize in the block, BUT ONLY FOR _LET_ NOT _CONST_
+  - We can declare the variable outside of the block and initialize in the block, BUT ONLY FOR _LET_ NOT _CONST_
 
             let firstName; => can be declared here and later value set
             const yoB = 1990; => declaration and initialisation must be done at the same time
@@ -824,7 +676,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             }
             console.log(firstName + ' is born in ' + yoB); // block scoped => result in error as firstName and yoB are declared in another block
 
-  * we can declare the same variable in nested block of code and we won't have collision (not the case with var)
+  - we can declare the same variable in nested block of code and we won't have collision (not the case with var)
 
             let i = 23;
             for (let i = 0;i<5;i++){
@@ -834,15 +686,15 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             => result 0,1,2,3,4,23
 
-* Cannot use variable before it is declared:
-  * in ES5, hoisting means that before code is executed, variable are created and set to undefined
-  * in ES6, using a variable before it is declared results in an error
+- Cannot use variable before it is declared:
+  - in ES5, hoisting means that before code is executed, variable are created and set to undefined
+  - in ES6, using a variable before it is declared results in an error
 
 ## New way to create IIFEs / ensure Data Privacy with Blocks
 
-* In ES5 we used IIFEs to have data privacy
-* In ES6 we simply used blocks as the variable are not accessible outside of it
-* A Block of code is whenever we use curly braces: if statement, for loop, but also simply {...}
+- In ES5 we used IIFEs to have data privacy
+- In ES6 we simply used blocks as the variable are not accessible outside of it
+- A Block of code is whenever we use curly braces: if statement, for loop, but also simply {...}
 
             //ES5
             (function () {
@@ -861,11 +713,11 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             console.log(a + b); => a and b not accessible, error
             console.log(c); => c is accessible, no error
 
-* You can convert IIFEs To curly braces block to convert ES5 code to ES6
+- You can convert IIFEs To curly braces block to convert ES5 code to ES6
 
 ## Strings
 
-* in ES6 there are Template Literals: backticks instead of quotation marks
+- in ES6 there are Template Literals: backticks instead of quotation marks
 
             // ES5
             console.log('This is ' + firstName + '...' + yoB + ' ' + calcAge(yoB));
@@ -873,14 +725,14 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             //ES6
             console.log(`This is ${firstName} ... ${yoB} ${calcAge(yoB)}`);
 
-* New string methods
-  * _string.startsWith('j')_; => if the string start with 'j'
-  * _string.endsWith('j')_; => if the string ends with 'j'
-  * _string.includesWith('j')_; => if the string includes with 'j' \*_string.repeat(5)_ => repeats string 5 times
+- New string methods
+  - _string.startsWith('j')_; => if the string start with 'j'
+  - _string.endsWith('j')_; => if the string ends with 'j'
+  - _string.includesWith('j')_; => if the string includes with 'j' \*_string.repeat(5)_ => repeats string 5 times
 
 ## Arrow Functions
 
-* Simple syntax for simple callback functions
+- Simple syntax for simple callback functions
 
             //ES5
             var ages5 = years.map(function (current, index, array) {
@@ -896,9 +748,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
                 return now;
             })
 
-* Lexical _this_ keyword: arrow functions does not have a _this_ keyword, they use the _this_ keyword of the function they are written in
+- Lexical _this_ keyword: arrow functions does not have a _this_ keyword, they use the _this_ keyword of the function they are written in
 
-  * In ES6, a best practice is to always use arrow functions when we want to preserve the _this_ keyword
+  - In ES6, a best practice is to always use arrow functions when we want to preserve the _this_ keyword
 
           //ES5
           var box5 = {
@@ -931,7 +783,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## Destructuring
 
-* Very convenient way to extract data from object or arrays, for example if we want to store all elts of an array into a single variable
+- Very convenient way to extract data from object or arrays, for example if we want to store all elts of an array into a single variable
 
             //ES5
             var john = ['John', 26];
@@ -960,9 +812,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             console.log(`${a} ${b}`);
 
-* Return multiple values from a function
+- Return multiple values from a function
 
-  * In ES5, if we wanted to return more than a value from a function we would use an object
+  - In ES5, if we wanted to return more than a value from a function we would use an object
 
             function calcAgeRetirement(year) {
                 const age = new Date().getFullYear() - year;
@@ -976,7 +828,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             var age = result.age;
             var retirement = result.retirement
 
-  * In ES6
+  - In ES6
 
             function calcAgeRetirement(year) {
                 const age = new Date().getFullYear() - year;
@@ -1002,7 +854,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ### Loop with break or continue
 
-* we can't break or continue in a forEach or a map loop, solution:
+- we can't break or continue in a forEach or a map loop, solution:
 
             //ES5
             for(var i =1;i<5;i++){
@@ -1018,19 +870,25 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             //ES5
             var ages = [12,45,89,85,11];
-            var full = ages.map(function(cur){
+            var full = ages.map(function(cur){      => returns a new array
                 return cur >= 18;
             });
             index = ages.indexOf(true);
             value = ages[index];
 
             //ES6
+
+            //Return the index of the element that satisfy a condition or has one of its attribute satisfying a condition
             index = ages.findIndex(cur => cur >= 18);
+            const index = this.items.findIndex(e => el.id === id);
+
+            //Return the element that satisfy a condition or has one of its attribute satisfying a condition
             value = ages.find(cur => cur >= 18);
+            elt = this.items.find(e => el.id === id);
 
 ## The Spread operator
 
-* convenient operator to expand elements of an array in places like arguments and function calls.
+- convenient operator to expand elements of an array in places like arguments and function calls.
 
             function (a,b,c,d){ ... }
 
@@ -1041,7 +899,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             //ES6
             const sum2 = addFourAges(...ages);
 
-* for joining/merging arrays
+- for joining/merging arrays
 
             //ES5
             array1.concat(array2)
@@ -1049,7 +907,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             //ES6
             [...array1, ...array2]
 
-* for joining/merging nodeList
+- for joining/merging nodeList
 
             const h = document.querySelector('h1');
             const boxes = document.querySelectorAll('.box');
@@ -1061,9 +919,9 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ### Rest Parameters
 
-* Allow to pass an arbitrary number of arguments into a function.
-* Same notation as spread operator but very different but are the exact opposite: the rest parameters receive a number of values and return an array ,wherea the spread operator takes an array and return the individual values.
-* The spread operator is used in a function call, whereas the rest parameter is used in a function declaration
+- Allow to pass an arbitrary number of arguments into a function.
+- Same notation as spread operator but very different but are the exact opposite: the rest parameters receive a number of values and return an array ,wherea the spread operator takes an array and return the individual values.
+- The spread operator is used in a function call, whereas the rest parameter is used in a function declaration
 
             //ES5
             function isFullAge5(limit){
@@ -1086,7 +944,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ### Default Parameters
 
-* used whenever we want one of the argument to have a preset value
+- used whenever we want one of the argument to have a preset value
 
             //ES5
             function SmithPerson(firstName, yoB, lastName, nationality){
@@ -1109,8 +967,8 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## Maps
 
-* Usually we use objects as hashmaps, ie we map string keys to values
-* Maps is a new key-value data structure, where we can use any primitive value (not only strings, like for objects) as keys, or even functions or objects
+- Usually we use objects as hashmaps, ie we map string keys to values
+- Maps is a new key-value data structure, where we can use any primitive value (not only strings, like for objects) as keys, or even functions or objects
 
             const question = new Map();
 
@@ -1138,7 +996,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             //clear everything
             question.clear()
 
-* Maps are iterable (not the case with objects)
+- Maps are iterable (not the case with objects)
 
             question.forEach((value, key) => ...)
 
@@ -1156,7 +1014,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## Classes
 
-* Syntaxic sugar to the way we define prototypal inheritance
+- Syntaxic sugar to the way we define prototypal inheritance (sse comparision with ES6 / PHP Classes implementation at https://www.taniarascia.com/object-oriented-pattern-javascript-php-classes/)
 
             //ES5
             var Person5 = function(name, yoB, job){
@@ -1184,7 +1042,7 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
             const john6 = new Person6('John', 1990, 'teacher');
 
-* We can also used static methods, that are simply attached to the class, not the class instances
+- We can also used static methods, that are simply attached to the class, not the class instances
 
 ### Subclasses
 
@@ -1219,24 +1077,24 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## Use a transpiler via command line (simple version)
 
-* install babel
+- install babel
 
             npm install --save-dev babel-cli babel-preset-es2015 babel-polyfill
 
-* transpile first via command line
+- transpile first via command line
 
             ./node_modules/.bin/babel --presets es2015 script.js --out-file script-transpiled.js
 
-* include polyfill for special features that do not exist in ES2015 (like Maps): include the content of polyfill.js of the node_module babel-polyfill into the html (polyfills are just code that implements the missing functions)
+- include polyfill for special features that do not exist in ES2015 (like Maps): include the content of polyfill.js of the node_module babel-polyfill into the html (polyfills are just code that implements the missing functions)
 
-# <a name="k"></a> Asynchronous Javascript
+# <a name="i"></a> Asynchronous Javascript
 
-* Synchronous: each statements are processed after the other, line by line, in a single thread in the JS engine
-* Asynchronous:
+- Synchronous: each statements are processed after the other, line by line, in a single thread in the JS engine
+- Asynchronous:
 
-  * we do not wait for a long function to return and resume processing the rest of the code
-  * instead we use callbacks to defer actions into the future: we let that function do its job in the background, pass in callbacks that run once the function has finished its work and move on immediatly => non-blocking
-  * example setTimeout => doesn't make the code pose but return the callback function after the delay we choose
+  - we do not wait for a long function to return and resume processing the rest of the code
+  - instead we use callbacks to defer actions into the future: we let that function do its job in the background, pass in callbacks that run once the function has finished its work and move on immediatly => non-blocking
+  - example setTimeout => doesn't make the code pose but return the callback function after the delay we choose
 
         const image = document.getElementById('img').src;
 
@@ -1244,13 +1102,13 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             console.log('Image Processed')
         })
 
-* How it works: https://www.udemy.com/the-complete-javascript-course/learn/v4/t/lecture/9939770?start=230
-  * setTimeout() is part of the Web APIs, that live outside the JS Engine, like DOM manipulation functions, HTTP requests for AJAX, geolocation, local storage ...
-  * When the setTimeout() function is called, an Execution Context is created on top of the Execution Stack, the timer is created with the callback function in the Web APIs environment (in the background), where it seats until it finishes its work.
-  * In the meantime, the setTimeout function return, its Execution Context is removed from the Execution Stack and the rest of the code is executed.
-  * When the timer reaches zero in the Web APIs environement, the callback function moves to the Message Queue, where it waits to be executed as soon as the Execution Stack is empty. It's similar to what happens with DOM elements
-  * The Event Loop that constantly monitor the Message Queue and the Execution Stack and push the first elements in the Message Queue on the Execution Stack as soon as the stack is empty.
-  * If there are more than one message to be processed, the Event Loop would continue to push them onto the stack until all of them were processed.
+- How it works: https://www.udemy.com/the-complete-javascript-course/learn/v4/t/lecture/9939770?start=230
+  - setTimeout() is part of the Web APIs, that live outside the JS Engine, like DOM manipulation functions, HTTP requests for AJAX, geolocation, local storage ...
+  - When the setTimeout() function is called, an Execution Context is created on top of the Execution Stack, the timer is created with the callback function in the Web APIs environment (in the background), where it seats until it finishes its work.
+  - In the meantime, the setTimeout function return, its Execution Context is removed from the Execution Stack and the rest of the code is executed.
+  - When the timer reaches zero in the Web APIs environement, the callback function moves to the Message Queue, where it waits to be executed as soon as the Execution Stack is empty. It's similar to what happens with DOM elements
+  - The Event Loop that constantly monitor the Message Queue and the Execution Stack and push the first elements in the Message Queue on the Execution Stack as soon as the stack is empty.
+  - If there are more than one message to be processed, the Event Loop would continue to push them onto the stack until all of them were processed.
 
 ## From Callbacks Hell - ES5
 
@@ -1284,18 +1142,18 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## to Promises: nicely separate nested callbacks - ES6
 
-* A promise is an object that ...
-  * Keeps track about whether a certain event has happened already or not
-  * Determines what happens after the event has happened
-  * Implements the concept of a future value that we're expecting
-* A promise can have different states
-  * Pending: before the event has happened
-  * Settled / Resolved: afeter the event has happened
-  * Fulfilled: if Resolved is available, the promise is fulfilled
-  * Rejected: if there was an error
-* We can produce and consume promises:
+- A promise is an object that ...
+  - Keeps track about whether a certain event has happened already or not
+  - Determines what happens after the event has happened
+  - Implements the concept of a future value that we're expecting
+- A promise can have different states
+  - Pending: before the event has happened
+  - Settled / Resolved: afeter the event has happened
+  - Fulfilled: if Resolved is available, the promise is fulfilled
+  - Rejected: if there was an error
+- We can produce and consume promises:
 
-  * Produce: we create a new promise and send a result using that promise
+  - Produce: we create a new promise and send a result using that promise
 
               const getIds = new Promise((resolve, reject) => {
                   ...
@@ -1305,11 +1163,11 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
                   ...
               });
 
-  * Consume: we can use callback functions for fulfillment and for rejection of our promise => .then and .catch
+  - Consume: we can use callback functions for fulfillment and for rejection of our promise => .then and .catch
 
               getIds.then(result of the resolve => {...}).catch(error => { ... });
 
-* Promises chain
+- Promises chain
 
               const getIds = new Promise((resolve, reject) => {
                   setTimeout(() => {
@@ -1353,8 +1211,8 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## From Promises to Async/Await - ES8
 
-* Promises consumption are still confusing and ES8 introduces Async/await to simplify
-* We still produce promises the same way as before
+- Promises consumption are still confusing and ES8 introduces Async/await to simplify
+- We still produce promises the same way as before
 
                 async function getRecipeAW() {          => run asynchronously in the background
                     const IDs = await getIds;
@@ -1368,16 +1226,16 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
 
 ## AJAX and API
 
-* AJAX = Asynchronous Javascript And XML: allows us to asynchronously communicate to remote servers by sending an HTTP Request and receiving a response
-* API = Application Programming Interface: piece of software that allows communication between two applications
+- AJAX = Asynchronous Javascript And XML: allows us to asynchronously communicate to remote servers by sending an HTTP Request and receiving a response
+- API = Application Programming Interface: piece of software that allows communication between two applications
 
 ## Making AJAX calls with Fetch and Promises
 
-* Solution to fix CORS problems when the CORS policy is not implemented in the requested API:
+- Solution to fix CORS problems when the CORS policy is not implemented in the requested API:
 
-  * In production, proxy/channel the request through their own server where the same-origin policy doesn't exist and then send the data to the browser
-  * Use crossorigin.me proxy, by adding "http://crossorigin.me/" before the target url
-  * You need to process the result with json method in order to get the proper result
+  - In production, proxy/channel the request through their own server where the same-origin policy doesn't exist and then send the data to the browser
+  - Use crossorigin.me proxy, by adding "https://cors-anywhere.herokuapp.com/" before the target url
+  - You need to process the result with json method in order to get the proper result
 
         fetch(url)
         .then(response => {
@@ -1395,3 +1253,414 @@ For a list of DOM manipulation, see http://youmightnotneedjquery.com
             return `Temperatures in ${result.title} stay between ${today.min_temp} and ${today.max_temp}.`;
         }
         getWeatherAW(2487956).then(result => console.log(result));
+
+## Using Axios to make simple HTTP Request
+
+        npm install axios --save
+
+        import axios from 'axios';
+
+        async getResults() {
+            const searchUrl = `${configApp.proxy+configApp.urlApi}/search?key=${configApp.apiKey}&q=${this.query}`;
+            try {
+                const res = await axios(searchUrl);
+                this.result = res.data.recipes;
+            } catch (error) {
+                alert(error);
+            }
+        }
+
+# <a name="j"></a>J - Modern Javascript Project
+
+- Javascript Ecosystem:
+  - 3rd-party packages through package manager: Nodejs & Npm
+  - code transpiler to ES5 for compatibility: Babel
+  - bundling ES6 modules from separate files into one: Webpack
+  - Automated development setup powered by Npm scripts
+- Webpack is primarly used for bundling files but can also codesplit, load many types of assets like SASS or images, optimizing size via treeshaking ...
+- Setup:
+
+  - Install Nodejs and NPM (globally)
+  - Create package.json for the project, via _npm init_
+  - Install Webpack, via _npm install --save-dev webpack webpack-cli_ (for dependencies like React you use --save, for library or tool you use --save-dev)
+  - Configure Webpack inside the project folder
+
+    - webpack.config.js in folder project:
+
+      - entry point => where is the main js file
+      - output => path and filename of the output file in dist folder
+      - loaders => load files and process them, like converting sass to css code, or convert ES6 files to ES5 syntax for ex
+      - plugins => allow to add functionalities like hot reload
+
+                const path = require('path');
+                    module.exports = {
+                        entry: './src/js/index.js',
+                        output: {
+                            path: path.resolve(__dirname, 'dist'),
+                            filename: 'js/bundle.js',
+                        },
+                        mode: 'development' => it is better to remove this line and set the mode in the package.json/script
+                    };
+
+  - Configure "script" in package.json
+
+                "scripts": {
+                    "dev": "webpack --mode development",
+                    "build": "webpack --mode production",
+                },
+
+  - Code and run _npm run dev_ to start bundling your code
+  - Install live-server via _npm install --save-dev live-server_
+  - Add Webpack dev server, to automatically reload page when we save our code:
+
+    - _npm install webpack-dev-server --save-dev_
+    - Add following line in _webpack.config.js_
+
+                devServer:{
+                    contentBase: './dist'
+                }
+
+    - Add following line in package.json/scripts
+    - the webpack dev server does not write file to disk but directly inject changes into html (contentBase of devServer should be the same as path in webpack.config.js)
+
+  - Automatically copy index.html from src to dist and inject bundle.js in file
+
+    - _npm install html-webpack-plugin --save-dev_ + add it to _webpack.config.js_
+
+                plugins: [
+                    new HtmlWebpackPlugin({
+                        filename: 'index.html',
+                        template: './src/index.html'
+                    })
+                ]
+
+  - Install and config Babel
+
+    - _npm install --save-dev babel-core babel-preset-env babel-loader_ ( to remove _npm uninstall babel --save-dev_)
+    - setup loaders in _webpack.config.js_
+
+                module:{
+                    rules: [
+                        {
+                            test: /\.js$/,
+                            exclude: /node_modules/,
+                            use: {
+                                loader: 'babel-loader'
+                            }
+                        }
+                    ]
+                }
+
+    - Create and configure Babel in .babelrc file
+
+                {
+                    //setup which package we want to use with babel and the browsers we want to target
+                    "presets": [
+                        ["env", {
+                            "targets": {
+                                "browsers": [
+                                    "last 5 versions",
+                                    "ie >=8"
+                                ]
+                            }
+                        }]
+                    ]
+                }
+
+  - Add polyfills to convert features that does not exist in ES5 and that cannot be simply converted by Babel (like Promises)
+    - _npm install babel-polyfill --save_
+    - add to entry points in webpack config
+
+## Model View Controller Architecture
+
+- decouples presentation logic (view) from the application logic (model), with the controller that controls the entire app
+- In the Forkify App
+  - Controller: index.js
+  - Model: One model per aspect of the app
+    - Search.js (AJAX calls to get recipe for a certain query from an API)
+    - Recipe.js
+    - List.js
+    - Like.js
+  - View: One view per aspect of the app
+    - searchView.js: where we get the search query string from our interface, and where we print the results of the search
+    - recipeView.js
+    - listView.js
+    - likesView.js
+
+## ES6 Modules
+
+- For models, use uppercase name: Search.js
+- Export module
+
+            export default 'Hello'                      => one element
+
+            export const add = (a,b) => a + b;          => several elements
+            export const multiply = (a,b) => a*b;
+            export const ID = 23;
+
+            export default class Search {
+                constructor (query){
+                    this.query = query;
+                }
+
+                async getResults(){
+                    ...
+                }
+            }
+
+* Import module
+
+            import string from '.models/Search'                                   => one element
+            import {add as a, multiply as m} from './views/searchView'            => several elements
+            import * as searchView from './views/searchView'                      => all elements
+
+## Application state
+
+- You want to centralize state of the app (current query, ...)
+- Set the global state in the controller and initially set it to {}
+- on controller function, populate state
+
+# <a name="k"></a> K - PERSIST DATA
+
+## localStorage
+
+- localStorage API allows to save key/value pairs in the browser
+
+        localStorage.setItem("key","value")
+        localStorage.getItem("key")
+        localStorage.removeItem("key")
+
+- you can only save strings and use string as key (no JS object except when using JSON.stringify)
+
+# <a name="l"></a> L - EXAMPLE OF CODE STRUCTURES
+
+## Pig Game
+
+- Simple project with DOM manipulation and few calculations/storage
+- Code structure
+  - Function declaration
+  - addEventListener pour lancement config (startup function)
+  - addEventListener pour "on click" event with callbacks
+
+## Advanced-JS
+
+- Console uniquement avec multiple instance d'un même objet (Question)
+- Code structure
+  - IIFE pour lancement immédiat
+  - Définition des objets Question et de leur prototype
+  - création d'une série de questions stored in array
+  - setup du score via closure
+  - nextQuestion loop
+
+## Budgety
+
+- Application plus complexe nécessitant la manipulation de deux types d'objet (Expense, Income) ayant des méthodes différentes, et une manipulation de multiples éléments du DOM
+- Code structure
+  - Implémentation du Module Pattern pour structure le code
+    - 3 modules (controllers): data, UI, main
+    - injection des deux premiers modules dans le main pour les lier
+    - le main servant de "tour de controle" pour l'application en utilisant les fonctions des API de data et UI
+  - structure dataController (joue le rôle de Collection, si on peut dire)
+    - Définition des objets Income / Expense et du prototype de Expense
+    - définition de l'objet data de l'app
+    - définition des fonctions privées
+    - définition de l'API: addItem, removeItem, calculateBudget, calculatePercentage, getPercentages, getBudget
+  - structure uiController:
+    - définition DOMStrings
+    - définition template HTML
+    - définition des fonctions privées
+    - définition de l'API: getDOMStrings, getInput, addListItem, removeListItem, displayBudget, displayPercentage, clearFields, updateColor
+  - structure mainController:
+    - définition de la function de setup des EventListeners
+    - updateBudget => lien entre calculateBudget de dataController et displayBudget de UIController
+    - add/removeItem => idem
+    - return init function => setup des Event Listeners => cette fonction est la seule appellée en dehors de tout module
+
+## Forkify
+
+- Application utilisant au maximum le formalisme ES6 avec implémentation d'un pattern Model View Controller, et l'usage de NodeJS/NPM pour la gestion des packets tiers, Webpack pour le code bundling et la mise en place d'un environnement de dev confortable et Babel pour la compatibilité avec anciens navigateurs.
+- Structure du code
+  - Dist: fichier pour production
+  - src: fichiers de dev
+    - models: fichiers des models => usage des classes ES6, un fichier modèle par fonctionnalité
+    - views: base.js pour les vues et modules partagés et un fichier de vue (export de function d'affichage et traitement UI) par fonctionnalité
+    - config.js
+    - index.js: controlleur central qui lit modèles et views => il n'y a pas d'appelle à la vue dans le modèle ou vice-versa, toute la "colle" se fait dans le controleur.
+  - fichier de config NPM (package.json), Babel (.babelrc) et Webpack (webpack.config.js)
+
+# <a name="m"></a> M - HOW-TO / RECIPES
+
+## Arrays
+
+### Convert a list to an array
+
+- Trick the slice method to return an array even if we feed him a list
+- use call on slice function, stored in Array.prototype
+
+            if fields is a list
+
+            Array.prototype.slice.call(fields);
+
+### Remove one element from an array
+
+            array.splice(id,1);
+
+### Get Index of element from value (in an array)
+
+            index = array.indexOf(value);
+
+## Strings
+
+### Format Number
+
+            formatNumber: function (type, number) {
+                var numSplit, int, dec, type;
+                number = Math.abs(num);
+                number = number.toFixed(2);
+
+                numSplit = num.split('.');
+                int = numSplit[0];
+                if (int.length > 3) {
+                    int = int.sustr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+                }
+
+                dec = numSplit[1];
+
+                return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+            }
+
+## Events
+
+### Events on keypress
+
+- Add an Event Listener to the global document
+
+        document.addEventListener('keypress', function (event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ...
+            }
+        });
+
+## Handle simple input submission
+
+### With form submission
+
+            document
+                .getElementById("budgetForm")
+                .addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    // get input data
+                    // add item to budgetController
+                    // add item to UI
+                    // calculate budget
+                    // display budget to UI
+                });
+
+        This one listener handles both the .add__btn button click and pressing enter either .add__description or .add_value.
+
+### With click / keypress event
+
+            document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
+
+            document.addEventListener('keypress', function (event) {
+                if (event.keyCode === 13 || event.which === 13) {
+                    ctrlAddItem();
+                }
+            });
+
+## Manipulating DOM
+
+For a list of DOM manipulation, see http://youmightnotneedjquery.com
+
+### Add big chunck of HTML data
+
+- define html placeholder as a string with %...% variable
+
+            var htmlIncome = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+
+- use replace function
+
+            var newHtml = html.replace('%id%', obj.id).replace('%description%', obj.description)
+
+- use insertAdjacentHTML method
+
+            document.querySelector('.class').insertAdjacentHTML('beforeend', newHTML);
+
+### Change inner content of DIV block
+
+            document.querySelector(DOMstrings.incomeValueContainer).textContent = value;
+
+### Remove an element from the DOM
+
+            var el = document.getElementById(selectorId)
+            el.parentNode.removeChild(el);
+
+            => Alternative
+            el.outerHTML = '';
+
+## Inputs
+
+### Clear inputs
+
+            document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue).clearFields
+
+### Convert field inputs to numbers
+
+            parseFloat(string);
+
+### Prevent False Inputs
+
+- in general controller, add following test
+
+            if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+                ...
+            }
+
+## Read data-xxx attributes
+
+        <div class="test" data-goto="2"></div>        =>      document.querySelector('.test').dataset.goto
+
+## Read hash in URL - hash change event
+
+        window.addEventListener('hashchange', controlRecipe)
+
+        const controlRecipe = async () => {
+            const id = window.location.hash;
+            ...
+        }
+
+## Calculate string calculation
+
+        count = eval("4+1/2");       =>      count = 4,5
+
+NOTE: Apparently, it not good practice to use eval() function, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
+
+## Create Unique Id for array of items
+
+### First solution
+
+        ID = (data.allItems[type].length > 0) ? data.allItems[type][data.allItems[type].length - 1].id + 1 : 0;
+
+### use uniqid package
+
+        npm install uniqid
+        uniqid()
+
+## Change attribute of DOM element
+
+        document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconString}`);
+
+# <a name="n"></a> N - GOOD PRACTICES FOR OPTIMIZATION
+
+Source: https://medium.com/dev-channel/the-cost-of-javascript-84009f51e99e
+
+Transmission size is critical for low end networks. Parse time is important for CPU bound devices. Keeping these low matters.
+
+- Minimize loading time
+
+![Good practices](https://cdn-images-1.medium.com/max/2000/1*8Spf9To8dzTG3Xy9s57oVA.png)
+
+- Minimize parse/compile time: Removing non-critical JavaScript from your pages can reduce transmission times, CPU-intensive parsing & compiling and potential memory overhead. This also helps get your pages interactive quicker.
+
+- Optimize execution by splitting JS functions in small chunks

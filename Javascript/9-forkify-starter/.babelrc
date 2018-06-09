@@ -1,0 +1,13 @@
+{
+    //setup which package we want to use with babel and the browsers we want to target
+    "presets": [
+        ["env", {
+            "targets": {
+                "browsers": [
+                    "last 5 versions",
+                    "ie >=8"
+                ]
+            }
+        }]
+    ]
+}
