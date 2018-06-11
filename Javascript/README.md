@@ -127,6 +127,12 @@ AirBnB JS Style Guidelines: https://github.com/airbnb/javascript
         ...
     }
 
+### ES6 (to be checked)
+
+    for ... in => look at individual objects inside the array
+
+    for ... of => look at the individual value
+
 ## Conditionnal statements
 
     if(... == ...){
@@ -258,6 +264,12 @@ NOTA: see also [I - Asynchronous Javscript](#i)
 - METHOD CALL: the "this" variable points to the object that is calling the method
 - The "this" keyword is not assigned a value until a function where it is defined is actually called.
 - Warning: If a function call is made - in which this is invoked - within a method call, "this" refers to global object "window"
+
+## Window, Screen, Document object (JS in browser)
+
+- Window is the main JavaScript object root, aka the global object in a browser, also can be treated as the root of the document object model. You can access it as window in most of the cases (in the browser);
+- window.screen is a small information object about physical screen dimensions.
+- window.document or just document is the main object of the visible (or better yet: rendered) document object model/DOM.
 
 # <a name="c"></a> C - EVENTS
 
@@ -781,6 +793,19 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
           }
           box6.clickMe();
 
+* Below, first sayHi function won't work, the second will
+
+        var user = {
+            name: 'Andrew',
+            sayHi: () => {
+                console.log(this.name)
+            };
+
+            sayHi () {
+                console.log(this.name)
+            }
+        }
+
 ## Destructuring
 
 - Very convenient way to extract data from object or arrays, for example if we want to store all elts of an array into a single variable
@@ -885,6 +910,13 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
             //Return the element that satisfy a condition or has one of its attribute satisfying a condition
             value = ages.find(cur => cur >= 18);
             elt = this.items.find(e => el.id === id);
+
+            //filter
+            ages = [1,2,3];
+            const result = ages.filter(elt => elt === 2);
+
+            => ages = [1,3];
+            => result = [2]
 
 ## The Spread operator
 
