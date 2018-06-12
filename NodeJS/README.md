@@ -297,13 +297,24 @@ For additional info, http://expressjs.com
 
         app.use(myLogger)
 
-## Adding Version Control
+## Adding Version Control & deploying your app
 
-## Setting up GitHub & SSH keys
+- Initialize repo
 
-## Deploying your Apps
+                git init
+                git add
+                git commit
+                git pull/push
 
-## Adding a new feature and deploying
+- Setting up GitHub & SSH Keys
+
+  - Check if keys in ~/.ssh
+  - Generating a key ssh-keygen -t rsa -b 4096 -C 'pierre@aupasdecourses.com'
+  - Tell ssh-agent where the key lives
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+  - Copy id_rsa.pub in GitHub
+  - run ssh -T git@github.com to check if everything work
 
 # <a name=""></a> XXX - TESTING YOUR APPLICATION
 
