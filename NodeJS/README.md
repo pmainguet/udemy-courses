@@ -315,6 +315,24 @@ For additional info, http://expressjs.com
     ssh-add ~/.ssh/id_rsa
   - Copy id_rsa.pub in GitHub
   - run ssh -T git@github.com to check if everything work
+  - Clone repository: NOTA: in order for SSH keys to work you have to use the git@github.com:pmainguet/udemy-courses.git url not the https version.
+
+## Deploying app on Heroku
+
+- Heroku is a web app for managing web applications that are hosted in the cloud
+- Install Heroku CLI Tool, install via command line (see instructions on website)
+- Login with _heroku login_
+- Setup SSH key _heroku keys:add_ and check with _ssh -v git@heroku.com_
+- add variable in order for Heroku to dynamically set port
+
+                const port = process.env.PORT || 3000;
+
+- Inside of _package.json_, add in "scripts" a new script called "start" (name is important)
+
+                "scripts":{
+                        ...
+                        "start": "node server.js"
+                }
 
 # <a name=""></a> XXX - TESTING YOUR APPLICATION
 
