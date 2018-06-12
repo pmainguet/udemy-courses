@@ -334,6 +334,11 @@ For additional info, http://expressjs.com
                         "start": "node server.js"
                 }
 
+- commit modification with git
+- use _heroku create_ and _git push heroku master_ commands to deploy app to Heroku
+- type _heroku open_
+- configure DNS to customize URL
+
 # <a name=""></a> XXX - TESTING YOUR APPLICATION
 
 # <a name=""></a> XXX - HOW-TO / RECIPES

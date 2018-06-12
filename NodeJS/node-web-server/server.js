@@ -24,9 +24,9 @@ app.use((request, response, next) => {
     });
 })
 
-app.use((req, res, next) => {
-    response.render('maintenance');
-});
+// app.use((req, res, next) => {
+//     res.render('maintenance');
+// });
 
 app.use(express.static(__dirname + '/public'));
 
