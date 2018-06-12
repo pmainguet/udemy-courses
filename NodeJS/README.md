@@ -3,6 +3,11 @@
 - [0 - SETUP NODE AND WHY NODE](#0)
 - [A - NODE JS FUNDAMENTALS](#a)
 
+NEW PROJECT
+
+- Create folder and initialize npm via _npm init_
+- Create app.js
+
 Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 
 # <a name="0"></a> 0 - SETUP NODE AND WHY NODE
@@ -131,6 +136,177 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 - use _nodemon --inspect-brk app.js_ in cli
 - in chrome, navigate to chrome:://inspect
 
+# <b name="b"></b> B - ASYNCHRONOUS & APIs
+
+- fetch is not available in nodejs (as it is a Web API of the browser), you can use the _request_ package, a simplified HTTP client
+
+* If problems with parsing response, check if you specified headers.accept
+
+             request({
+                url: query,
+                json: true
+                }, (error, response, body) => {
+                console.log(body);
+             });
+
+- HTTP Response are made up by
+  - Status Code: 200, everything OK, 404 Page not found ...
+  - Request:
+  - Headers: headers of a request specify what type of response we accept for example, headers of a response is set by the contacted API
+  - Body
+
+## Abstract callbacks
+
+- If you need to abstract your console.log for error messages and result
+
+        //call the function
+        geocode.geocodeAddress(argv.a, (errorMessage, result) => {
+        if (errorMessage) {
+                console.log(errorMessage);
+        } else {
+                console.log(JSON.stringify(result, undefined, 2));
+        }
+        });
+
+        //implement callbacks
+        const geocodeAddress = (address, callback) => {
+                ...
+                request({
+                        url: query,
+                        json: true
+                }, (error, response, body) => {
+                        if (error) {
+                                callback('Error with Google servers');
+                        } else {
+                        try {
+                                ...
+                                callback(undefined, [formattedAddress, lat, lon])
+                                ...
+                });
+        }
+
+# <a name=""></a> XXX - WEB SERVER AND EXPRESS
+
+For additional info, http://expressjs.com
+
+## Start server and bind it to a port
+
+                const express = require('express');
+                var app = express();
+                app.listen(3000, () => {
+                        console.log('Server is up on port 3000')
+                });
+
+- Then start via CLI and navigate to http://localhost:3000
+- Express automatically defines the Content-Type header of the server response application/json for JSON, text/html for HTML ...
+
+## Routing
+
+- https://expressjs.com/en/guide/routing.html
+
+                //Routing, define what a GET request to homepage returns
+                app.get('/', (request, response) => {
+                resquest.send('Hello Express');
+                });
+
+## Setup a static directory (so you don't have to define route for every files)
+
+- Add following line on top of other app.get command
+
+                app.use(express.static(__dirname + './public'));
+
+                then all files in public are accessible like http://localhost:3000/help.html
+
+## Rendering Templates with Data
+
+- Use templating engine Handlebars (http://handlebarsjs.com/) but it is possible to use others like Pug, EJS, Mustache
+
+        npm install hbs --save
+
+        const hbs = require('hbs');
+        app.set('view engine','hbs');
+
+- Use a _views_ folder (express look by default in this folder) and create template for page with \*.hbs extension
+
+        //In template
+        <body>
+        <h1>{{pageTitle}}</h1>
+        <p>{{content}}</p>
+        <footer>
+                Copyright PM {{currentYear}}
+        </footer>
+        </body>
+
+        //in server.js
+        app.get('/about', (req, res) => {
+        res.render('about.hbs', {
+                pageTitle: 'About',
+                currentYear: new Date().getFullYear(),
+                content: 'welcome to our About page'
+        })
+        })
+
+### Partials
+
+- Partials are part of a page that need to be implemented in many different pages
+- First register partials folder
+
+        hbs.registerPartials(\_\_dirname + '/views/partials');
+
+- if /views/partials/footer.js exists, you use the following to include in other .hbs file
+
+        {{> footer}}
+
+- Handlebars helpers: ways to register functions to run to dynamically create some output
+
+        //First register helper
+
+        hbs.registerHelper('getCurrentYear', ()=>{
+                return new Date().getFullYear();
+        })
+
+        hbs.registerHelper('screamIt', (text) => {
+        return text.toUpperCase();
+        })
+
+        //you can then use {{currentYear}} in templates and don't have to pass it via the .get
+
+        {{getCurrentYear}}
+
+        {{screamIt name}}
+
+## Express Middleware
+
+- Middleware functions are functions that have access to the request object (req), the response object (res), and the next function in the application’s request-response cycle.
+- The next function is a function in the Express router which, when invoked, executes the middleware succeeding the current middleware.
+- Middleware functions can perform the following tasks:
+
+  - Execute any code.
+  - Make changes to the request and the response objects.
+  - End the request-response cycle.
+  - Call the next middleware in the stack.
+
+- If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+- You register a middleware via _app.use_
+
+        var myLogger = function (req, res, next) {
+                console.log('LOGGED')
+                next()
+        }
+
+        app.use(myLogger)
+
+## Adding Version Control
+
+## Setting up GitHub & SSH keys
+
+## Deploying your Apps
+
+## Adding a new feature and deploying
+
+# <a name=""></a> XXX - TESTING YOUR APPLICATION
+
 # <a name=""></a> XXX - HOW-TO / RECIPES
 
 ## Write to file
@@ -151,6 +327,10 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 
         npm install --global nodemon
         nodemon app.js => similar to live-server for frontend JS
+
+- If you need to watch specific files
+
+        nodemon app.js -e js,hbs
 
 ## Get input from the terminal
 
@@ -180,7 +360,16 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
                 alias: 'b'
                 }
         })
+        .options({
+                address: {
+                demand: true,
+                alias: 'a',
+                describe: 'Address to fetch the weather for',
+                string: true
+                }
+        })
         .help()
+        .alias('help', 'h')
         .argv;
 
 ## Convert JSON to string and vice-versa
@@ -191,3 +380,12 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 ## List duplicates elements
 
         const duplicateNotes = notes.filter( note =>  note.title === title );
+
+## Get user input and encode/decode it
+
+        encodeURIComponent(query);
+        decodeURIComponent(query);
+
+## Pretty print JSON
+
+        JSON.stringify(results, undefined, 2)

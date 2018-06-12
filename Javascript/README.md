@@ -1126,6 +1126,24 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
 
   - we do not wait for a long function to return and resume processing the rest of the code
   - instead we use callbacks to defer actions into the future: we let that function do its job in the background, pass in callbacks that run once the function has finished its work and move on immediatly => non-blocking
+
+        //Implementation of callback functions
+
+        var getUser = (id, callback) => {
+            const user = {
+                id,
+                name: 'Andrew'
+            }
+
+            setTimeout(()=>{
+                callback(user);
+            })
+        }
+
+        getUser(31, user => {
+            console.log(user);
+        })
+
   - example setTimeout => doesn't make the code pose but return the callback function after the delay we choose
 
         const image = document.getElementById('img').src;
@@ -1183,6 +1201,7 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
   - Settled / Resolved: afeter the event has happened
   - Fulfilled: if Resolved is available, the promise is fulfilled
   - Rejected: if there was an error
+- Benefits: you don't have to worry if your callback is called twice, you have one function for success (resolve) and one for error handling (reject), you can chain promises without fearing the nested callback hell.
 - We can produce and consume promises:
 
   - Produce: we create a new promise and send a result using that promise
@@ -1275,6 +1294,8 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
         })
         .then(response => console.log(response))
         .catch(error => console.log(error));
+
+- In the case of NodeJS, the standard HTTP Client does not support natively Promises but you can wrap a Promise around the call to request and use resolve, reject function to make use of Promise.
 
 ## Making AJAX calls with Fetch and Async/Await
 
