@@ -341,6 +341,151 @@ For additional info, http://expressjs.com
 
 # <a name=""></a> XXX - TESTING YOUR APPLICATION
 
+- Install Mocha framework to test apps _npm i --save-dev mocha_
+- create next to the file you want to test a file with the same name but with \*.test.js extension, to add test case.
+- Configure "scripts" section of package.json
+
+                "scripts":{
+                        ...
+                        "test": "mocha **/*.test.js"
+                }
+
+- Watch and auto restart test on file change
+
+                nodemon --exec 'npm test'
+
+                //or in package.json
+                "scripts":{
+                        ...
+                        "test": "mocha **/*.test.js",
+                        "test-watch": "nodemon --exec 'npm test'"
+                }
+
+## Manually defines test cases
+
+                const utils = require('./utils');
+
+                it('should add two numbers', () => {
+                        const res = utils.add(33, 11);
+                        if (typeof (res) !== 'number') {
+                                throw new Error('does not return two numbers');
+                        }
+                });
+
+## Use an assertion library
+
+- Assertion libraries let us make assertions about values whether it's about their type, the value itself ...
+- We use Expect library: https://github.com/mjackson/expect (warning we use expect@1.20.2, changes have been made for 2.x versions, see GitHub)
+
+                const expect = require('expect');
+                expect(res).toBe(44).toBeA('number').toNotBe(12);
+
+- toBe and toNotBe do not work great for arrays and objects, use .toEqual or .toNotEqual in this case
+- toInclude and toExclude for array value check and object method check
+
+## Test asynchronous code
+
+- use the done(); function in test to let mocha now when an async call has returned
+
+                //utils.js
+                module.exports.asyncAdd = (a, b, callback) => {
+                        setTimeout(() => {
+                                callback(a + b);
+                        }, 1000);
+                }
+
+                //utils.test.js
+                it('should add two numbers async', (done) => {
+                        const res = utils.asyncAdd(33, 11, sum => {
+                                expect(sum).toBe(44).toBeA('number');
+                        });
+                        done();
+                });
+
+## Testing Express applications
+
+- We use library supertest https://github.com/visionmedia/supertest, after setting up an Express web server
+
+                const request = require('supertest');
+                const app = require('./server.js').app;
+
+                it('should return hello world', (done) => {
+                        request(app)
+                        .get('/')
+                        .expect('Content-Type', /html/)
+                        .expect(200)
+                        .end(done);
+                });
+
+- you can pipe in the expect library within supertest
+
+                const request = require('supertest');
+                const expect = require('expect')
+                const app = require('./server.js').app;
+
+                it('should return hello world', (done) => {
+                request(app)
+                        .get('/')
+                        .expect((res) => {
+                        expect(res.text).toBeA('string');
+                        })
+                        .expect('Content-Type', /html/)
+                        .expect(200)
+                        .end(done);
+                });
+
+## Organizing Test with describe()
+
+- describe is a Mocha function that let group tasks together to make it easier to scan their output.
+
+                describe('Utils', () => { <tests>});
+
+## Test spies (Expect utility)
+
+- When you have nested function and you want to only test the outer function, you can use Spies to swap out the real nested function for a testing utility. We also use Rewire library to swap out variables for tests
+
+                //in app.js
+                const db = require('./db.js')           => we don't care about the implementation of db
+                const handleSignup = (email, password) => {
+                        db.saveUser({
+                                email,
+                                password
+                        })
+                }
+
+                //in app.test.js
+                const expect = require('expect');
+                const rewire = require('rewire');
+
+                //we allow app.js to be rewired
+                const app = rewire('./app.js');
+
+                describe('handleSignup', () => {
+                        //we define the spy and "rewire" the db variable with the following mockup
+                        const db = {
+                                saveUser: expect.createSpy()
+                        };
+                        app.__set__('db', db);
+
+                        it('should call the spy correctly', () => {
+                                const spy = expect.createSpy();
+                                spy('Andrew');
+                                expect(spy).toHaveBeenCalledWith('Andrew');
+                        })
+
+                        //we define the test
+                        it('should call saveUser with user object', () => {
+                                const email = "test@test.com";
+                                const password = "123456";
+
+                                app.handleSignup(email, password);
+                                expect(db.saveUser).toHaveBeenCalledWith({
+                                        email,
+                                        password
+                                });
+                        })
+                });
+
 # <a name=""></a> XXX - HOW-TO / RECIPES
 
 ## Write to file
@@ -364,7 +509,7 @@ For additional info, http://expressjs.com
 
 - If you need to watch specific files
 
-        nodemon app.js -e js,hbs
+        nodemon app.js
 
 ## Get input from the terminal
 
