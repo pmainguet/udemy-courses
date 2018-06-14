@@ -486,6 +486,122 @@ For additional info, http://expressjs.com
                         })
                 });
 
+# <a name=""></a> XXX - MongoDB, Mongoose and REST APIs
+
+- MongoDB: NoSQL Database
+- Mongoose, library to help use MongoDB
+
+## Differences between SQL and NoSQL database
+
+- In a SQL database, the data is structured in a TABLE with ROW/RECORDS. SQL is SCHEMA-BASED via COLUMNS: each records have the same properties (columns)
+- In a NoSQL, the data is stored as a COLLECTION, an array-like structure with individual DOCUMENT. The documents do not need to share the same schema with the same properties. The properties of a document are called FIELDS.
+- Unlike with other database manager, you don't need to create a database before you start using it in MongoDB, but MongoDB won't create it until we start adding data to it.
+
+## MongoDB
+
+### Install on local machine
+
+- Download https://www.mongodb.com/dr/fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.6.5.tgz/download
+- Extract and rename folder to mongo in user folder
+- Create mongo-data folder next to the mongo folder, that gonna store the actual data
+- Go to mongo/bin
+- Start the database by typing _./mongod --dbpath ~/mongo-data_, last line should be "waiting for connections on port 27017"
+- In an other tab, type ./mongo, and we connect to the database, examples of commands below
+
+                db.Todos.insert({text: 'Film new node course'});
+                db.Todos.find();
+
+- You can use RoboMongo to have a graphical interface to interact with the database https://robomongo.org
+
+### Connecting to Mongo and Write data
+
+- We use mongodb native library to connect to the database within NodeJS: https://github.com/mongodb/node-mongodb-native
+
+                //CLI
+                npm install mongodb --save
+
+                //JS File
+                const MongoClient = require('mongodb').MongoClient;
+                MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
+                        if (err) {
+                                return console.log('Unable to connect to MongoDB server');
+                        }
+                        console.log('Connected to MongoDB server');
+
+                        const db = client.db('TodoApp');
+
+                        db.collection('Todos').insertOne({
+                                text: 'SOmething to do',
+                                completed: false
+                        }, (err, result) => {
+                                if (err) {
+                                return console.log('Unable to insert todo', err);
+                                }
+                                console.log(JSON.stringify(result.ops, undefined, 2));
+                        })
+
+                        client.close();
+                });
+
+### The ObjectId
+
+- The ObjectId is not an autoincrementing integer like for MySQL. IT is a randomly generated string that you don't need to check over if you have multiple databases.
+- It is a 12 bytes value:
+
+  - The four first bytes are the timestamp, so we don't need to use a created_at field as it is already encoded in the Id
+
+                result.ops[0]._id.getTimestamp();
+
+  - The next 3 bytes are a machine identifier
+  - The next 2 bytes are the process id
+  - The last 3 bytes are a counter like MySQL would do
+
+- Even if it is automatically created you can add the \_id field in your object during creation
+- You can import the ObjectID in order to use it whenever you want in your code
+
+                const {MongoClient, ObjectID} = require('mongo);
+                const obj = new ObjectID();
+
+### Fetching data
+
+                const {
+                MongoClient
+                } = require('mongodb');
+
+                MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
+                        if (err) {
+                                return console.log('Unable to connect to MongoDB server');
+                        }
+                        console.log('Connected to MongoDB server');
+
+                        const db = client.db('TodoApp');
+
+                        db.collection('Todos').find().toArray().then((result) => console.log(result));
+
+
+                        client.close();
+                });
+
+- Query with find()
+
+                //By Property
+                db.collection('Todos').find({
+                        completed: false
+                })
+
+                //By Id
+                db.collection('Todos').find({
+                        _id: new ObjectID('5b228ac822908970579b6b16')
+                })
+
+- You can find additional methods (like count) for what is returned by find() (a Cursor object) in the doc of mongodb-native
+
+### Delete Documents
+
+### Updating Data
+
+## The Mongoose ORM
+
 # <a name=""></a> XXX - HOW-TO / RECIPES
 
 ## Write to file

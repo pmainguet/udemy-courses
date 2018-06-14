@@ -862,6 +862,15 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
 
             const [age, retirement] = calcAgeRetirement(1990);
 
+- Another way to access object variable, useful when importing function from module
+
+            const user = {name: 'andrew', age:25};
+            const {name} = user;
+            console.log(name); // Return 'andrew'
+
+            const {MongoClient, ObjectID} = require('mongodb');
+            import {MongoClient, ObjectID} from 'mongodb';
+
 ## Arrays
 
 ### Convert list to array
