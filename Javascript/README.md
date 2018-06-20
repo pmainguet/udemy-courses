@@ -1269,6 +1269,8 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
                   }).then(publisher => console.log(publisher))
                   .catch(error => console.log(error));
 
+- Promises originaly appear in library such as Bluebird (http://bluebirdjs.com) and has been integrated in ES6 later on.
+
 ## From Promises to Async/Await - ES8
 
 - Promises consumption are still confusing and ES8 introduces Async/await to simplify

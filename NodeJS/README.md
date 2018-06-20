@@ -189,6 +189,15 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 
 For additional info, http://expressjs.com
 
+- We have to install body-parser library alongside express. It takes a string body (from the Response), turns it into a javascript objectand make it accessible in request.body.
+
+        const bodyParser = require('body-parser');
+        app.use(bodyParser.json());
+        ...
+        app.get(...,(req,res) =>
+                console.log(req.body);
+        );
+
 ## Start server and bind it to a port
 
                 const express = require('express');
@@ -338,6 +347,28 @@ For additional info, http://expressjs.com
 - use _heroku create_ and _git push heroku master_ commands to deploy app to Heroku
 - type _heroku open_
 - configure DNS to customize URL
+
+## Setting up ES6 support and MongoDB for Heroku
+
+- Setup ES6 support
+
+                //package.json
+                "engines":{
+                        "node":"10.2.1"
+                }
+
+- Setting up MongoDB:
+
+  - Go to dashboard.heroku.com, click in the app if you already deployed it
+  - Click on "Add-on", select "mLab MongoDB" and provision add on to the app,
+  - In the CLI, type \_heroku addons:create mongolab:sandbox\_
+  - Type _heroku config_ to get a list of all config var, and get _MONGODB_URI_
+  - in mongoose.js, add the following code
+
+                const MONGODB_URI = process.env.<name of the variable via heroku config> || 'mongodb://localhost:27017/TodoApp'
+
+  - push app to heroku, _git push heroku master_
+  - you can check logs from heroku via _heroku logs_
 
 # <a name=""></a> XXX - TESTING YOUR APPLICATION
 
@@ -565,7 +596,7 @@ For additional info, http://expressjs.com
 ### Fetching data
 
                 const {
-                MongoClient
+                        MongoClient
                 } = require('mongodb');
 
                 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
@@ -598,9 +629,677 @@ For additional info, http://expressjs.com
 
 ### Delete Documents
 
+                //deleteMany => delete all records matching criteria
+                db.collection('Todos').deleteMany({
+                        "text": "example of text"
+                }).then(res => console.log(res));
+
+                //deleteOne => delete one specific record
+                db.collection('Todos').deleteOne({
+                        _id: new ObjectID('5b229003b4979ddfdca8e86a')
+                }).then(res => console.log(res));
+
+                //findOneAndDelete => delete the first item matching the criteria
+                db.collection('Todos').findOneAndDelete({
+                "completed": false
+                }).then(res => console.log(res));
+
 ### Updating Data
 
+                db.collection('Users').findOneAndUpdate({
+                        _id: new ObjectID("5b228efc08a33c78228c4f97")
+                        }, {
+                                $set: {
+                                        "name": "Jean23"
+                                }
+                        }, {
+                        returnOriginal: false
+                }).then(res => console.log(res));
+
+- Update Operators in Mongo-DB
+  - _$set_ set the value of a field in a document
+  - _$unset_ removes the specified field from a document
+  - _$rename_ renames a field
+  - And many more: https://docs.mongodb.com/manual/reference/operator/update/
+
 ## The Mongoose ORM
+
+- ORM: Object Relational Mapping, allow to simplify operations with the DB, and add additional functionalities like validation. It provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.
+- With Mongoose, we don't have to micromanage the order things happen.
+- MongoDB can use callbacks but it is better to use Promises.
+- The connection to the database with Mongoose is similar compare to straight MongoDB library.
+
+### Setting up Mongoose & saving first items to db (POST)
+
+- http://mongoosejs.com
+- npm i mongoose --save
+- In a regular mongodb, a collection can have documents with different properties (schema), but mongoose like to keep it a little more organized. We have to create MODEL for everything we want to store in the DB, that will have certain attributes/properties
+
+                const mongoose = require('mongoose');
+
+                //Tell Mongoose which Promises library to use
+                mongoose.Promise = global.Promise;
+
+                //Connect to the database
+                mongoose.connect('mongodb://localhost:27017/TodoApp');
+
+                //Create model => the second argument is equivalent to new Schema({...})
+                const ToDo = mongoose.model('Todo', {
+                        text: {
+                                type: String
+                        },
+                        completed: {
+                                type: Boolean
+                        },
+                        completedAt: {
+                                type: Number
+                        }
+                });
+
+                //Create new Entity
+                const newTodo = new ToDo({
+                text: 'Cook dinner',
+                });
+
+                //Save entity to db
+                newTodo.save().then(doc => console.log('Save Todo: ', doc), e => console.log('Error: ', e));
+
+### Validators, Types and Defaults
+
+- Validators: http://mongoosejs.com/docs/validation.html
+- Types: http://mongoosejs.com/docs/schematypes.html
+- Defaults: http://mongoosejs.com/docs/api.html#schematype_SchemaType-default
+
+### Mongoose Find Queries and ID Validation (GET)
+
+                const id = "5b23e9619b5e7e7bbf9b6c2e";
+
+                if (!ObjectID.isValid(id)) {
+                        console.log('id is not valid')
+                }
+
+                //FIND - Find with id (no need for new ObjectId() as with plain MongoDB)
+                Todo.find({
+                        _id: id
+                }).then((res) => console.log(res)).catch(err => console.log('Error with request', err.message));
+
+                //FINDONE - Find the first item which match criteria
+                Todo.findOne({
+                        text
+                }).then((res) => console.log(res)).catch(err => console.log('Error with request', err.message));
+
+                //FINDBYID - Simplified version
+                Todo.findById(id).then((res) => {
+                        if (!res) {
+                                return console.log(`Error! There is nothing in the database matching id of ${id}`)
+                        }
+                        console.log(res)
+                }).catch(err => console.log('Error with request', err.message));
+
+## Delete document with Mongoose (DELETE)
+
+                //deleteMany - delete all documents that satisfy the criteria
+                Todo.deleteMany({
+                text: 'dfdfdsfdsfs'
+                }).then((res) => console.log(res));
+
+                //deleteOne - delete the first document that satisfy the criteria
+                Todo.deleteOne({
+                text: 'dfdfdsfdsfs'
+                }).then((res) => console.log(res));
+
+- Others are available
+
+                Todo.remove({...})
+                Todo.findOneAndRemove({...})
+                Todo.findByIdAndRemove()
+
+## Update document with Mongoose (PATCH)
+
+- Install lodash library
+- In order to select the property a user can setup we use the \_pick property to parse the body of the request
+
+                const body = _.pick(req.body, ['text', 'completed']);
+
+## Create a Test Database
+
+- First you need to set up the NODE_ENV variable. On top of the server.js file add (and make appropriate change in code)
+
+                const env = process.env.NODE_ENV || "development";
+
+                if (env === 'development') {
+                        process.env.PORT = 3000;
+                        process.env.MONGOLAB_OLIVE_URI = 'mongodb://localhost:27017/TodoApp';
+                } else if (env === 'test') {
+                        process.env.PORT = 3000;
+                        process.env.MONGOLAB_OLIVE_URI = 'mongodb://localhost:27017/TodoAppTest';
+                }
+
+- In package.json, change scripts
+
+                "scripts": {
+                        "test": "export NODE_ENV=test || SET \"NODE_ENV = test\" && mocha server/**/*.test.js",
+                        "test-watch": "nodemon --exec 'npm test'",
+                        "start": "node server/server.js"
+                },
+
+## Install and configure POSTMAN to work with API
+
+- Install via https://www.getpostman.com
+- You can define Postman Environments, to easily switch between dev and prod environment
+  - copy url and go to Manage Environment dropmenu on the top right
+  - Create Two environment with "url" key and the url for the considered environment (local or remote)
+  - In Postman Collection, select each saved request and change url with {{url}}
+  - To switch between Environment, use the dropdown menu at the top right
+- Use environment variable to set headers for example
+
+  - Switch to the "Test" tab and set some code that gonna run after the request
+
+                var token = postman.getResponseHeader('x-auth');
+                postman.setEnvironmentVariable('x-auth',token);
+
+  - Use {{token}} variable in headers
+  - You can also set a _lastid_ variable for GET /todos/:id request, in "Test" tab of POST /todos
+
+                const body = JSON.parse(responseBody);
+                postman.setEnvironmentVariable('todoId', body._id);
+
+# <a name=""></a> XXX - Creation of a REST API
+
+- First refactor code to separate db configuration, models and controller
+
+## Resources
+
+### Create Resource Creation Endpoint - POST /todos
+
+                app.post("/todos", (req, res) => {
+                        //Create Entity
+                        const Todo1 = new Todo({
+                          text: req.body.text,
+                          completed: req.body.completed
+                        });
+
+                        //Save to dB
+                        Todo1.save().then(doc => {
+                          res.send(doc);
+                        }, err => {
+                          res.status(400).send(err);
+                        });
+                });
+
+### Create List Resources Endpoint - GET /todos
+
+                app.get("/todos", (req, res) => {
+                  Todo.find().then(todos => {
+                    res.send({todos});
+                  }, err => {
+                    res.status(400).send(err);
+                  });
+                });
+
+### Create Get Individual Resource Endpoint - GET /todos/:id
+
+                app.get("/todos/:id", (req, res) => {
+                        const id = req.params.id;
+
+                if (!ObjectId.isValid(id)) return res.status(400).send();
+
+                Todo.findById(id).then(todo => {
+                        if (!todo) {
+                                return res.status(404).send();
+                        }
+                                res.send({todo});
+                }, err => res.status(400));
+                });
+
+### Create Delete Individual Resource Endpoint - DELETE /todos/:id
+
+                app.delete("/todos/:id", (req, res) => {
+                const id = req.params.id;
+
+                if (!ObjectId.isValid(id)) return res.status(400).send();
+
+                Todo.findByIdAndRemove(id).then(todo => {
+                        if (!todo) return res.status(404).send();
+                        res.status(200).send({todo});
+                }, err => res.status(400).send());
+                })
+
+### Create Update Individual Resource Endpoint - PATCH /todos/:id
+
+                app.patch('/todos/:id', (req, res) => {
+                const id = req.params.id;
+                const body = _.pick(req.body, ['text', 'completed']);
+
+                if (!ObjectId.isValid(id)) {
+                        return res.status(400).send();
+                }
+
+                if (_.isBoolean(body.completed) && body.completed) {
+                        body.completedAt = new Date().getTime();
+                } else {
+                        body.completed = false;
+                        body.completedAt = null;
+                }
+
+                Todo.findByIdAndUpdate(id, {$set: body},{new: true})
+                        .then(todo => {
+                                if (!todo) {
+                                        return res.status(404).send();
+                                }
+                                res.status(200).send({todo});
+                        }, err => res.status(400).send());
+                })
+
+## Manage users
+
+### Set up Users Model
+
+- Need to have a valid email, encrypt password (via bcrypt hash encryption), and have login tokens (encrypt string that gonna pass in each request to get resources)
+
+                //User model
+                {
+                        email: 'toto@test.com',
+                        password: 'fdkhgdfkjgdfgkpirowmlqù',
+                        tokens: [
+                                {
+                                        access:'auth',
+                                        token: 'rdfgàçrdisojsdgkjlkglklj'
+                                }
+                        ]
+                }
+
+- For email validation, we use moongoose custom validation (see http://mongoosejs.com/docs/validation.html) with the npm library _validator_ (https://www.npmjs.com/package/validator)
+
+                npm i -save validator
+
+                const User = mongoose.model('User', {
+                        email: {
+                                type: String,
+                                required: true,
+                                minlength: 1,
+                                trim: true,
+                                unique: true,
+                                validate: {
+                                validator: validator.isEmail,
+                                message: '{VALUE} is not a valid email'
+                                },
+                        },
+                        password: {
+                                type: String,
+                                required: true,
+                                minlength: 6,
+                        },
+                        tokens: [{
+                                access: {
+                                type: String,
+                                required: true,
+                                },
+                                token: {
+                                type: String,
+                                required: true,
+                                }
+                        }]
+                });
+
+- It is better for reusability to use Schema, and we can then add instance methods to the schema.
+
+                const UserSchema = mongoose.Schema({
+                        email: ...,
+                        password: ...,
+                        tokens: ...
+                }
+
+                UserSchema.methods.xxx
+
+### Hashing and JSON Web Tokens (JWT)
+
+- We use _cryptojs_ module to handle all operations with encryption in the playground, but we use _jsonwebtoken_ library in production (implements directly the JWT standard)
+- SHA256 is a one-way hashing algorithm
+
+                npm i crypto-js --save
+
+                const {
+                    SHA256
+                } = require('crypto-js');
+
+                const message = 'I am user number 3';
+                const hash = SHA256(message).toString();
+
+- What we are trying to do, is to encrypt data (containing for example the id of the user) in a way that allow to 1) spot manipulation of data (via hash verification) and 2) forbid manipulation of data and rehashing by salting the hash. Instead of sending the data below:
+
+                const data = {
+                        id: 4,
+                }
+
+we send a token, that contain the data property and the hash value of the data, including a salt
+
+                const salt= 'a random string';
+
+                const token = {
+                        data,
+                        hash: SHA256(JSON.stringify(data)+salt).toString()
+                }
+
+- To check if the data has been manipulated we just have to compare the hash
+
+                //Check if the data has been manipulated
+
+                ///We try to manipulate the data
+                token.data.id = 5;
+                token.hash = SHA256(JSON.stringify(token.data)).toString();
+
+                ///What we expect
+                const resultHash = SHA256(JSON.stringify(token.data) + salt).toString();
+
+                if (resultHash === token.hash) {
+                console.log('data was not manipulated');
+                } else {
+                console.log('data has been manipulated');
+                }
+
+- A standard way to hash the data has been put in place: JWT
+
+                npm i jsonwebtoken --save
+
+- We have 2 functions, one to create the token and the other to verify it
+
+                //we return it to the client, and store it inside the tokens array of the User model
+                const token = jwt.sign(data, 'somesecretstring');
+
+                //return eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTUyOTM0NTY4OH0.kLFWi9leXnT7UkK1KBxPbKODm8ZZl7eJdUkDsorphRc
+
+                //We can check the generated token in jwt.io
+
+                ///HEADER - algo and type of token => everything before the first '.'
+                {
+                        "alg": "HS256",
+                        "typ": "JWT"
+                }
+
+                ///PAYLOAD - DATA => everything between the '.'s
+                {
+                        "id": 10,
+                        "iat": 1529345688
+                }
+
+                ///VERIFY SIGNATURE - HASH => everything after the second '.'
+                HMACSHA256(
+                        base64UrlEncode(header) + "." +
+                        base64UrlEncode(payload),
+                        your-256-bit-secret
+                )
+
+                const decoded = jwt.verify(token, 'somesecretstring');
+
+                // return the payload if secret correct, otherwiser error
+
+### Generating Auth Tokens and Setting Headers
+
+- We are going to define INSTANCE methods within UserSchema.methods and MODEL methods within UserSchema.statics
+
+- We create an INSTANCE methods within the UserSchema (see above), that create the token and save it to the instance property _tokens_
+
+                UserSchema.methods.generateAuthToken = function () {
+                        const user = this;
+                        const access = 'auth';
+                        const secret = 'somerandomstring';
+                        const token = jwt.sign({
+                                _id: user._id.toHexString(),
+                                access
+                        }, secret).toString();
+
+                        user.tokens.concat([{
+                                access,
+                                token
+                        }]);
+
+                        user.save().then(()=>{
+                                return token;
+                        });
+                }
+
+- We implement the generation of token within the POST /users
+
+                app.post('/users', (req, res) => {
+                        ...
+                        User1.save().then(() => {
+                                return user.generateAuthToken()         => we return the generated token
+                        }).then((token) => {
+                                res.header('x-auth', token).send(user); => we set the custom 'x-auth' header with the token and send the user back
+                        }).catch(err => res.status(400).send())
+                });
+
+NOTA: whenever you use 'x-...' header, it is a custom header that you use within your app but is not a standard http header
+
+- We limit the data that we send back to the user. We should never send back the password and the tokens. We override a method in this case, within the User Schema methods
+
+                UserSchema.methods.toJSON = function () {
+                        const user = this;
+                        const userObj = user.toObject();
+                        return _.pick(userObj, ['_id', 'email']);
+                }
+
+- We get the token within the 'x-auth' header that we gonna use for further request
+
+### Turning routes to private and use Auth middleware
+
+- Private route means that we gonna do the following actions
+
+  - get the token from 'x-auth' header
+  - validate the token via jwt.verify function
+  - we find the user associate with this token
+  - request the resource if the token is valid and the user is allowed to perform the requested action
+
+- First example, 'by hand'
+
+                //Custom route
+                app.get('/users/me', (req, res) => {
+                        const token = req.header('x-auth');
+                        User.findByToken(token).then(user => {
+                                if (!user) {
+                                        return Promise.reject();
+                                }
+                                res.send(user);
+                        }).catch(err => res.status(401).send());
+                });
+
+                //Inside User Model
+                UserSchema.statics.findByToken = function (token) {
+                        const User = this;
+                        let decoded;
+
+                        try {
+                                decoded = jwt.verify(token, secret);
+                        } catch (e) {
+                                // return new Promise((resolve, reject) => {
+                                //     reject();
+                                // })
+                                return Promise.reject();
+                        }
+
+                        return this.findOne({
+                                '_id': decoded._id,
+                                'tokens.token': token,
+                                'tokens.access': 'auth'
+                        })
+                }
+
+- To easily does that for every route, we create an Express middleware
+
+                //within middleware/authenticate.js
+                const authenticate = (req, res, next) => {
+                        const token = req.header('x-auth');
+                        User.findByToken(token).then(user => {
+                                if (!user) {
+                                return Promise.reject();
+                                }
+                                req.user = user;
+                                req.token = token;
+                                next();
+                        }).catch(err => res.status(401).send());
+                }
+
+                //We then call it like that
+                app.get('/users/me', authenticate, (req, res) => {
+                        res.send(req.user);
+                });
+
+### Hashing password
+
+- Process
+
+  - Validate plain password within the user model
+  - Hash it via bcrypt, and use mongoose middleware to implement in the user model, before a document is saved (see http://mongoosejs.com/docs/middleware.html)
+
+                npm i bcryptjs --save
+
+                //in user model
+                UserSchema.pre('save', function (next) {                                => mongoose middleware (pre-hook)
+                        const user = this;
+
+                        //only hash when password is modified
+                        if (user.isModified('password')) {
+                                bcrypt.genSalt(10)                                      => generate salt length 10
+                                .then(salt => bcrypt.hash(user.password, salt))         => hash password
+                                .then(hash => {
+                                        user.password = hash;                           => set password equals to hash
+                                        next()
+                                })
+                                .catch(err => console.log(err))
+                        } else {
+                                next();
+                        }
+                })
+
+                bcrypt.genSalt(10)                                      => generate the salt (length = 10)
+                .then(salt => bcrypt.hash('string to hash', salt))      => hash
+                .then(hash => {
+                        return bcrypt.compare('string to hash', hash)   => return true in this case
+                })
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+
+- Save it to the database
+
+### Seed test database with users
+
+- refactor BeforeEach call within a seed.js file, and add support for seeding users inside
+
+### Logging in
+
+- Create new model function in User model findByCredentials
+
+                UserSchema.statics.findByCredentials = function (email, password) {
+                const User = this;
+
+                return User.findOne({
+                        email
+                        })
+                        .then(user => {
+                        if (!user) {
+                                return Promise.reject();
+                        }
+                        return new Promise((resolve, reject) => {
+                                bcrypt.compare(password, user.password, (err, res) => {
+                                if (res) {
+                                        resolve(user);
+                                } else {
+                                        reject();
+                                }
+                                });
+                        });
+                        });
+                }
+
+- Implement route
+
+                app.post("/users/login", (req, res) => {
+                const body = _.pick(req.body, ['email', 'password']);
+
+                //Check if user exists
+                User.findByCredentials(body.email, body.password)
+                        .then(user => {
+                        return user.generateAuthToken()
+                        }).then(token => {
+                        res.header('x-auth', token).send(user);
+                        })
+                        .catch(err => res.status(400).send({}))
+                });
+
+### Logging out
+
+- Create a removeToken instance function in user model
+
+                UserSchema.methods.removeToken = function (token) {
+                        const user = this;
+
+                        return user.update({
+                                $pull: {
+                                tokens: {
+                                        token
+                                }
+                                }
+                        });
+                }
+
+* Implement route
+
+                app.delete('/users/me/token', authenticate, (req, res) => {
+                        req.user.removeToken(req.token).then(() => {
+                                res.status(200).send()
+                        }).catch(e => res.status(400).send())
+                })
+
+## Make all routes private
+
+- Tweak todo model to add id of user that created the todo
+
+                _creator: {
+                        required: true,
+                        type: moongoose.Schema.Types.ObjectId,
+                }
+
+- Use authenticate middleware for each route that need to be made private and tweak function and test functions
+
+                app.get("/todos", authenticate, (req, res) => {
+                        Todo.find({
+                                _creator: req.user._id
+                        }).then(todos => res.send({
+                                todos
+                        }), err => res.status(400).send());
+                });
+
+## Improve App Configuration
+
+- Change how you configure process.env variables
+
+        //Config.js
+        const env = process.env.NODE_ENV || "development";
+
+        if (env === 'development' || env === 'test') {
+                const config = require('./config.json');
+                const envConfig = config[env];
+                Object.keys(envConfig).forEach(key => process.env[key] = envConfig[key]);
+        }
+
+        //Config.json => to be ignored in .gitignore
+        {
+                "test": {
+                        "PORT": 3000,
+                        "MONGOLAB_OLIVE_URI": "mongodb://localhost:27017/TodoApp",
+                        "JWT_SECRET": "fdsfdsf1dsf476ds843ee"
+                },
+                "development": {
+                        "PORT": 3000,
+                        "MONGOLAB_OLIVE_URI": "mongodb://localhost:27017/TodoAppTest",
+                        "JWT_SECRET": "somesecrdfdsfdsfdsfds2165ds7f65ds4132setstring"
+                }
+        }
+
+- Set the JWT_SECRET variable in heroku
+
+        heroku config:set JWT_SECRET=<secret>
 
 # <a name=""></a> XXX - HOW-TO / RECIPES
 
@@ -684,3 +1383,21 @@ For additional info, http://expressjs.com
 ## Pretty print JSON
 
         JSON.stringify(results, undefined, 2)
+
+## Check if a Document ID is valid
+
+        const {
+                ObjectID
+        } = require('mongodb');
+        const id = "5b23e9619b5e7e7bbf9b6c2e";
+
+        if (!ObjectID.isValid(id)) {
+        return console.log('id is not valid')
+        }
+
+## get the id string from the objectId
+
+        {
+                _id: new ObjectID()
+        }
+        const testId = todos[0]._id.toHexString();
