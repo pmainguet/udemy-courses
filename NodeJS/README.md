@@ -1301,6 +1301,190 @@ NOTA: whenever you use 'x-...' header, it is a custom header that you use within
 
         heroku config:set JWT_SECRET=<secret>
 
+# <a name=""></a> XXX - Creation of Web Socket API
+
+## Create new web app with Path module
+
+- Create basic express app with a server and public folder
+- Use _path_ node module to easily handles path to public and server folder. It allows to join path segments.
+
+                console.log(__dirname + '/../public');
+                console.log(path.join(__dirname, '..', 'public'));
+
+- Serve up the public folder
+
+                app.use(express.static(path.join(__dirname, '../public')));
+
+## Add Socket.io to the app
+
+- The server will be able to accept connections and will be setting up the client to make the connection, in order to have a persistent connection to send data back and forth.
+
+                npm i socket.io --save
+
+- Currently we use Express to make our web server. Behind the scenes, Express is actually using a build in node module called HTTP to create the server. We are going to use HTTP ourselves, configure Express to work with HTTP, then and only then, will we be able to add a socket.io support.
+
+                const http = require('http');
+                const socketIO = require('socket.io');
+                ...
+                var app = express();
+                var server = http.createServer(app);
+                var io = socketIO(server);
+
+                server.listen(port, () => {
+                        ...
+                });
+
+- the io variable is used to communicate between the server and the client. We have access to several features:
+  - We have access to a route that accepts incoming connections. We can use an integrated library to interact to the server: http://localhost:3000/socket.io/socket.io.js
+- We now are able to accept connection, but on the client side we are not connecting to the client. To have a live connection you need to have the following on the client side:
+
+                //index.html
+                <script src='/socket.io/socket.io.js'></script>
+                <script>
+                        const socket = io();
+                </script>
+
+- Communication between client and server can be anything at all. It comes in the form of an event. Events can be emitted from either the client of the server and either the client or the serve can listen for events. A couple of default events are built-in:
+
+  - Register an event listener on the server side with 'connection' event
+
+                io.on('connection', (socket)=>{
+                        console.log('User is connected');
+                });
+
+NOTE: Web sockets are a persistent technology meaning the client and server both keep the communication channel open for as long as both of them want to. If the server shuts down, the client doesn't have a choice, and vice-versa. When the connection drops the client is still goint to try to reconnect when we restart the server.
+
+- Register an event listener on the client side with 'connect' event
+
+              <script>
+                      const socket = io();
+                      socket.on('connect', (socket) => {
+                              console.log('I am connected');
+                      })
+              </script>
+
+- Register an event listener on the server and the client side with 'disconnect' event
+
+                //server.js
+                io.on('connection', (socket) => {
+                        console.log('User is connected');
+                        socket.on('disconnect', () => {
+                                console.log('User is disconnected');
+                        });
+                });
+
+                //index.html
+                <script>
+                        const socket = io();
+                        socket.on('connect', () => {
+                                console.log('I am connected');
+                        });
+                        socket.on('disconnect', () => {
+                                console.log('I am disconnected');
+                        });
+                </script>
+
+WARNING: By using arrow function in js on client side, you can experience crashes in browsers others than Chrome.
+
+## Emitting and listening to custom events
+
+- Emitting from server to client
+
+                //emitting (server)
+                io.on('connection', (socket) => {
+                        console.log('User is connected');
+                        socket.on('disconnect', () => {
+                                console.log('User is disconnected');
+                        });
+                        socket.emit('newEmail', {
+                                from:'test@gmail.com',
+                                text: 'Hey! What's up?!',
+                                createAt: 123
+                        });
+                });
+
+                //listening (client)
+                socket.on('newEmail', function (email) {
+                        console.log('New email', email);
+                });
+
+- Emitting from client to server
+
+                //emitting (client)
+                socket.on('connect', function () {
+                        socket.emit('createEmail', {
+                                to: 'test@test.com',
+                                from: 'robert@redford.com',
+                                text: 'I am fine',
+                                createAt: 234
+                        })
+                });
+
+                //listening (server)
+                io.on('connection', (socket) => {
+                        ...
+                        socket.on('createEmail', (email) => {
+                                console.log('Creation of email', email)
+                        })
+                        ...
+                });
+
+## Broadcasting events
+
+- Send event to a single user => use _socket.emit_
+
+- Broadcasting event to every connected user (including the emitter) => use _io.emit_
+
+                socket.on('createMessage', (message) => {
+                        io.emit('newMessage', {
+                                from: message.from,
+                                text: message.text,
+                                createdAt: new Date().getTime()
+                        })
+                })
+
+- Broadcast event to every connected user but one => use _socket.broadcast.emit_
+
+                socket.on('createMessage', (message) => {
+                        socket.broadcast.emit('newMessage', {
+                                from: message.from,
+                                text: message.text,
+                                createdAt: new Date().getTime()
+                        })
+                })
+
+## Message Generator and Tests
+
+## Events acknowledgments
+
+## Message Form and JQuery
+
+## Geolocation
+
+## Styling the chat page
+
+## Timestamps and formatting with Moment
+
+## Printing Message Timestamps
+
+## Moustache.js
+
+## Autoscrolling
+
+## Adding a join page
+
+## Passing Room data
+
+## Socket.io Rooms
+
+## Storing Users with ES6 Classes
+
+## Wiring up User List
+
+## Sending Messages to Room Only
+
+# <a name=""></a> XXX - ASYNC / AWAIT
+
 # <a name=""></a> XXX - HOW-TO / RECIPES
 
 ## Write to file
