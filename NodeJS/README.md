@@ -1453,15 +1453,32 @@ WARNING: By using arrow function in js on client side, you can experience crashe
                         })
                 })
 
-## Message Generator and Tests
-
 ## Events acknowledgments
 
-## Message Form and JQuery
+- Event acknowledgments is a way to acknowledge we got a request and have the option to send some data back (in case there the data is invalid for example). This reverse dataflow is going to be done via a callback.
+
+                //client -> emitter
+                socket.emit(
+                        'createMessage',
+                        {
+                                from: 'Andrew',
+                                text: 'I am fine',
+                        },
+                        function (res) {
+                                console.log('Got it', res.text)
+                        }
+                );
+
+                //server -> listener
+                io.on('connection', (socket) => {
+                        socket.on('createMessage', (message, callback) => {
+                        callback({
+                                text: 'Message has been created'
+                                message
+                        });
+                })
 
 ## Geolocation
-
-## Styling the chat page
 
 ## Timestamps and formatting with Moment
 
