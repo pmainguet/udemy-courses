@@ -1480,11 +1480,49 @@ WARNING: By using arrow function in js on client side, you can experience crashe
 
 ## Geolocation
 
+                elements.geolocButton.on('click', function (e) {
+                        if (!navigator.geolocation) {
+                                return alert('You cannot use geolocation with your browser!');
+                        }
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                                const url = `https://maps.google.com?q=${position.coords.latitude},${position.coords.longitude}`;
+                                socket.emit('createGeoLocMessage', {
+                                from: 'Andrew',
+                                link: `<a href="${url}" class ="user__link">Current Position</a>`,
+                                }, function (res) {
+                                console.log(res)
+                                });
+                        });
+                });
+
 ## Timestamps and formatting with Moment
 
-## Printing Message Timestamps
+- Timestamp is in millisecond, relative to January, 1st 1970 00:00:00
+- To work with time in javascript, use Moment library:
 
-## Moustache.js
+## Templating Engine - Mustache.js
+
+- Mustache is a logic-less template syntax. It can be used for HTML, config files, source code - anything. It works by expanding tags in a template using values provided in a hash or object.
+- We call it "logic-less" because there are no if statements, else clauses, or for loops. Instead there are only tags. Some tags are replaced with a value, some nothing, and others a series of values.
+
+                //html file
+                <script id="message-template" type="text/template">
+                        <li class="messages__item">{{text}}</li>
+                </script>
+
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js'></script>
+
+                //client js
+                socket.on('newMessage', function (res) {
+                        const text = `${res.from} ${moment(res.createdAt).format('h:mm a')} - ${res.text}`;
+                        const template = $('#message-template').html();
+                        const html = Mustache.render(template, {
+                                text
+                        });
+                        elements.messagesList.append(html);
+                });
+
+- you use double curly braces {{ ... }} to output text, triple to output html {{{ ... }}}
 
 ## Autoscrolling
 
