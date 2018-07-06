@@ -1526,17 +1526,80 @@ WARNING: By using arrow function in js on client side, you can experience crashe
 
 ## Autoscrolling
 
-## Adding a join page
+                function scrollToBottom() {
+                        const messages = elements.messagesList;
+                        const newMessage = messages.children('li:last-child');
 
-## Passing Room data
+                        const clientHeight = messages.prop('clientHeight');
+                        const scrollTop = messages.prop('scrollTop');
+                        const scrollHeight = messages.prop('scrollHeight');
+                        const newMessageHeight = newMessage.innerHeight();
+                        const lastMessageHeight = newMessage.prev().innerHeight();
+
+                        if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+                                messages.scrollTop(scrollHeight);
+                        }
+                }
+
+## Adding a join page and Passing Room Data
+
+- You just have to add a form with the name of the page you want to redirect to and data will be automatically add to the URL (default method of form submission is GET). You can then get it in the chat page, via window.location object with it search parameter. You use a deparam function to get an object out of the search string.
+
+                //Join Page
+                <body class="centered-form">
+                        <div class="centered-form__form">
+                                <form action="/chat.html">
+                                <div class="form-field">
+                                        <h3>Join a Chat
+                                        <h3>
+                                </div>
+                                <div class="form-field">
+                                        <label>Display name</label>
+                                        <input type="text" name="name" autofocus/>
+                                </div>
+                                <div class="form-field">
+                                        <label>Room name</label>
+                                        <input type="text" name="room" />
+                                </div>
+                                <div class="form-field">
+                                        <button>Join</button>
+                                </div>
+                                </form>
+                        </div>
+                </body>
+
+                //
+
+- Add a join event to check params data
+
+                //Client
+                socket.on('join', (params, callback) => {
+                        if (!isRealString(params.name) || !isRealString(params.room)) {
+                        return callback('Please provide a correct user and room names.')
+                        }
+                        return callback();
+                });
+
+                //Server
+                socket.on('connect', function () {
+                        const params = $.deparam(window.location.search);
+                        socket.emit('join', params, function (err) {
+                                if (err) {
+                                alert(err);
+                                window.location.href = '/';
+                                } else {
+                                console.log('No error');
+                                }
+                        })
+                        Notification(`Hello ${params.name}, you are now connected to the chat`, 'success');
+                });
 
 ## Socket.io Rooms
 
-## Storing Users with ES6 Classes
-
-## Wiring up User List
-
-## Sending Messages to Room Only
+                socket.join('name of the room);                         => join a room
+                socket.leave('name of the room')                        => leave the room
+                io.to('name of the room').emit()                        => emit to all user connected to the room
+                socket.broadcast.to('name of the room').emit()          => emit to all user connected to the room, except current user
 
 # <a name=""></a> XXX - ASYNC / AWAIT
 
