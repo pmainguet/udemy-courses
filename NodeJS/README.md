@@ -2,11 +2,13 @@
 
 - [0 - SETUP NODE AND WHY NODE](#0)
 - [A - NODE JS FUNDAMENTALS](#a)
-
-NEW PROJECT
-
-- Create folder and initialize npm via _npm init_
-- Create app.js
+- [B - ASYNCHRONOUS & APIs](#b)
+- [C - WEB SERVER AND EXPRESS](#c)
+- [D - TESTING YOUR APPLICATION](#d)
+- [E - MongoDB, Mongoose and REST APIs](#e)
+- [F - Creation of a REST API](#f)
+- [G - Creation of Web Socket API](#g)
+- [H - HOW-TO / RECIPES](#h)
 
 Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
 
@@ -185,7 +187,7 @@ Source: https://www.udemy.com/the-complete-nodejs-developer-course-2/
                 });
         }
 
-# <a name=""></a> XXX - WEB SERVER AND EXPRESS
+# <a name="c"></a> C - WEB SERVER AND EXPRESS
 
 For additional info, http://expressjs.com
 
@@ -370,7 +372,7 @@ For additional info, http://expressjs.com
   - push app to heroku, _git push heroku master_
   - you can check logs from heroku via _heroku logs_
 
-# <a name=""></a> XXX - TESTING YOUR APPLICATION
+# <a name="d"></a> D - TESTING YOUR APPLICATION
 
 - Install Mocha framework to test apps _npm i --save-dev mocha_
 - create next to the file you want to test a file with the same name but with \*.test.js extension, to add test case.
@@ -517,7 +519,7 @@ For additional info, http://expressjs.com
                         })
                 });
 
-# <a name=""></a> XXX - MongoDB, Mongoose and REST APIs
+# <a name="e"></a> E - MongoDB, Mongoose and REST APIs
 
 - MongoDB: NoSQL Database
 - Mongoose, library to help use MongoDB
@@ -804,7 +806,7 @@ For additional info, http://expressjs.com
                 const body = JSON.parse(responseBody);
                 postman.setEnvironmentVariable('todoId', body._id);
 
-# <a name=""></a> XXX - Creation of a REST API
+# <a name="f"></a> F - Creation of a REST API
 
 - First refactor code to separate db configuration, models and controller
 
@@ -1301,7 +1303,7 @@ NOTA: whenever you use 'x-...' header, it is a custom header that you use within
 
         heroku config:set JWT_SECRET=<secret>
 
-# <a name=""></a> XXX - Creation of Web Socket API
+# <a name="g"></a> G - Creation of Web Socket API
 
 ## Create new web app with Path module
 
@@ -1601,9 +1603,7 @@ WARNING: By using arrow function in js on client side, you can experience crashe
                 io.to('name of the room').emit()                        => emit to all user connected to the room
                 socket.broadcast.to('name of the room').emit()          => emit to all user connected to the room, except current user
 
-# <a name=""></a> XXX - ASYNC / AWAIT
-
-# <a name=""></a> XXX - HOW-TO / RECIPES
+# <a name="h"></a> H - HOW-TO / RECIPES
 
 ## Write to file
 
