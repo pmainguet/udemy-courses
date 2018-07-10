@@ -14,3 +14,4 @@
 - [Javascript Vanilla & ES6](Javascript/README.md)
 - [React & Redux](React-Redux/README.md)
 - [NodeJS](NodeJS/README.md)
+- [Functional Programming](Functional%20Programming%20JS/README.md)

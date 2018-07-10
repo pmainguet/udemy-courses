@@ -516,6 +516,22 @@ NOTA: see also [I - Asynchronous Javscript](#i)
             var teacherQuestion = interviewQuestion('teacher')
             teacherQuestion("John")
 
+- it is especially interesting when you want to decompose a function that takes multiple arguments into one that take only one parameter and return a function that takes the remaining
+
+            greet(greeting, name){
+                return `${greeting} ${name}
+            }
+
+            greet(greeting){
+                return function(name){
+                    return `${greeting} ${name}`
+                }
+            }
+
+            const names = ['robert','ernest','celia'];
+
+            names.map(greeting('hello'));
+
 ## IIFE - Immediatly Invoked Function Expressions (Self Invocation Pattern)
 
 - Self invocation is when a function executes immediatly upon its definition.
@@ -537,6 +553,7 @@ NOTA: see also [I - Asynchronous Javscript](#i)
 ## Closure - for private variable definition
 
 - an inner function has always access to the VARIABLES and the PARAMETERS of its outer function, EVEN AFTER THE OUTER FUNCTION HAS RETURNED.
+- another definition: closures are functions that can access and use variable that are not directly passed into the function
 
         function retirement(retirementAge){                 => outer function
             var a = ...
@@ -603,6 +620,22 @@ NOTA: see also [I - Asynchronous Javscript](#i)
       - When you nest functions in an object, it disassociates the inner function from the surrounding object, you use .bind(this) on the function call to reassociate it
 
 NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-apply-bind/
+
+## Definition of CURRYING
+
+- transforming a function that takes multiple arguments into a function that take a single argument, and returns a function that use the remaining parameters
+
+            //First function
+            greet(greeting, name){
+                return `${greeting} ${name}
+            }
+
+            //Transformation
+            greet(greeting){
+                return function(name){
+                    return `${greeting} ${name}`
+                }
+            }
 
 # <a name="g"></a> G - MODULES
 
@@ -956,6 +989,13 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
 
             Array.from(all).forEach(cur => ...)
 
+- Spread operator is used to add property to an existing object, and with the combination of Rest Syntax / Destructuring, to generally update an object, in an immutable way
+
+            const updatedMeal = {
+                ...meal,
+                calories: 600
+            }
+
 ## Function Parameters
 
 ### Rest Parameters
@@ -982,6 +1022,13 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
 
             isFullAge6(18, 1990,1992,1898);
             isFullAge6(19, 1990,1992,1898,1983);
+
+- Rest parameter is used to remove property to an existing object, and with the combination of Spread operator, to generally update an object, in an immutable way
+
+            const {
+                id,
+                ...mealWithoutId        => new object
+            } = updatedMeal
 
 ### Default Parameters
 
@@ -1386,6 +1433,12 @@ NOTA: For more details, please refer to http://www.scriptonitejs.com/js-call-app
 
     - Add following line in package.json/scripts
     - the webpack dev server does not write file to disk but directly inject changes into html (contentBase of devServer should be the same as path in webpack.config.js)
+
+                "scripts": {
+                    "dev": "webpack --mode development",
+                    "build": "webpack --mode production",
+                    "start": "webpack-dev-server --mode development --open"
+                },
 
   - Automatically copy index.html from src to dist and inject bundle.js in file
 
