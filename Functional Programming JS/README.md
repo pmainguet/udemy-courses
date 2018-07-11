@@ -328,7 +328,18 @@ It is usually pretty hard to maintain CSS. Tachyons is a css framework that does
 
 # <a name="f"></a> F - FUNCTIONAL APPS
 
+## Planning App
+
+- Wireframe (layout) + user interaction
+- Data Model structure
+- Function(s) to create layout from data (View function)
+- Function(s) to transform/updating data model based on user interactions (Update function)
+
 ## Simple Counter
+
+- Data model
+
+            let model = initModel;
 
 - Separate concern in different functions (generate view, update state) and link them inside a central "controller" and use a dispatch function to trigger data flow
 
@@ -399,3 +410,62 @@ It is usually pretty hard to maintain CSS. Tachyons is a css framework that does
                 rootNode = patch(rootNode, patches);
                 ...
             }
+
+## Calories counter
+
+- Data Model
+
+            let model = {
+                meals: [
+                    //{id: xxx, description: xxx, calories: xxx},
+                ],
+                showForm: false,
+                description: 'Dinner',
+                calories: 600,
+                editId: 3,
+                nextId:1
+            }
+
+- View Function(s)
+
+            view
+                title
+                formView
+                    fieldSet
+                    buttonSet
+                tableView
+                    tableHeader
+                    tableBody
+                        tableRow
+                            cell
+                    tableFooter
+
+- List of interactions (message type)
+
+        ADDMEAL         -> click add meal button
+        MEALINPUT       -> insert text in meal input
+        CALINPUT        -> insert text in calorie input
+        SAVEMEAL        -> save or update meal by clicking on save button
+        EDITMEAL        -> display form and populate inputs
+        DELETEMEAL      -> click trash icon
+
+- Update Function(s)
+
+        addMeal
+        mealInput
+        calorieInput
+        saveNewmeal
+        updateExistingmeal
+        editMeal
+        deleteMeal
+
+- Create separate module: Model.js Update.js View.js App.js
+- create initModel in Model.js
+- create basic view function in View
+- create app function that take all module in parameters and initialize the view
+- create the dispatch function within the app function for update purpose
+- create update function in Update.js
+  - Create Message Type
+  - Create New Message function (type and payload)
+  - in update function, create case for Message
+  - combine dispatch and New Message function within the View on events
