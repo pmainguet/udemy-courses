@@ -9,7 +9,7 @@ export function changeLeftMsg(leftValue, leftUnit) {
   return {
     type: MSGS.CHANGE_LEFT,
     payload: {
-      leftValue,
+      leftValue: R.pipe(parseInt, R.defaultTo(0))(leftValue),
       leftUnit
     }
   }
@@ -19,7 +19,7 @@ export function changeRightMsg(rightValue, rightUnit) {
   return {
     type: MSGS.CHANGE_RIGHT,
     payload: {
-      rightValue,
+      rightValue: R.pipe(parseInt, R.defaultTo(0))(rightValue),
       rightUnit
     }
   }
@@ -32,49 +32,37 @@ function update(msg, model) {
     leftUnit,
     rightUnit
   } = model;
-  switch (msg.type) {
+  const {
+    type,
+    payload
+  } = msg;
+  switch (type) {
     case MSGS.CHANGE_LEFT:
-      if (msg.payload.leftUnit === rightUnit) {
+      if (payload.leftUnit === rightUnit) {
         return { ...model,
-          leftValue: msg.payload.leftValue,
-          leftUnit: msg.payload.leftUnit,
-          rightValue: msg.payload.leftValue,
+          leftValue: payload.leftValue,
+          leftUnit: payload.leftUnit,
+          rightValue: payload.leftValue,
         }
       } else {
-        if (msg.payload.leftUnit === 'Celsius') {
-          return { ...model,
-            leftValue: msg.payload.leftValue,
-            leftUnit: msg.payload.leftUnit,
-            rightValue: convertCtoF(msg.payload.leftValue),
-          }
-        } else if (leftUnit === 'Fahrenheit') {
-          return { ...model,
-            leftValue: msg.payload.leftValue,
-            leftUnit: msg.payload.leftUnit,
-            rightValue: convertFtoC(msg.payload.leftValue),
-          }
+        return { ...model,
+          leftValue: payload.leftValue,
+          leftUnit: payload.leftUnit,
+          rightValue: convert(conversionType(payload.leftUnit, rightUnit), payload.leftValue),
         }
       }
     case MSGS.CHANGE_RIGHT:
-      if (leftUnit === msg.payload.rightUnit) {
+      if (leftUnit === payload.rightUnit) {
         return { ...model,
-          rightValue: msg.payload.rightValue,
-          rightUnit: msg.payload.rightUnit,
-          leftValue: msg.payload.rightValue
+          rightValue: payload.rightValue,
+          rightUnit: payload.rightUnit,
+          leftValue: payload.rightValue
         }
       } else {
-        if (leftUnit === 'Celsius') {
-          return { ...model,
-            rightValue: msg.payload.rightValue,
-            rightUnit: msg.payload.rightUnit,
-            leftValue: convertCtoF(msg.payload.rightValue),
-          }
-        } else if (leftUnit === 'Fahrenheit') {
-          return { ...model,
-            rightValue: msg.payload.rightValue,
-            rightUnit: msg.payload.rightUnit,
-            leftValue: convertFtoC(msg.payload.rightValue),
-          }
+        return { ...model,
+          rightValue: payload.rightValue,
+          rightUnit: payload.rightUnit,
+          leftValue: convert(conversionType(leftUnit, payload.rightUnit), payload.rightValue),
         }
       }
     default:
@@ -82,12 +70,29 @@ function update(msg, model) {
   }
 }
 
-function convertCtoF(value) {
-  return value * 9 / 5 + 32
+function format(number) {
+  return Math.round(parseFloat(number * 100)) / 100;
 }
 
-function convertFtoC(value) {
-  return (value - 32) * 5 / 9
+function conversionType(leftUnit, rightUnit) {
+  return `${leftUnit}to${rightUnit}`;
+}
+
+function convert(type, value) {
+  switch (type) {
+    case 'FahrenheittoCelsius':
+      return format(value * 9 / 5 + 32)
+    case 'CelsiustoFahrenheit':
+      return format((value - 32) * 5 / 9)
+    case 'CelsiustoKelvin':
+      return format(value - 273.15);
+    case 'KelvintoCelsius':
+      return format(value + 273.15);
+    case 'FahrenheittoKelvin':
+      return R.pipe(R.partial(convert, ['FahrenheittoCelsius']), R.partial(convert, ['CelsiustoKelvin']))(value);
+    case 'KelvintoFahrenheit':
+      return R.pipe(R.partial(convert, ['KelvintoCelsius']), R.partial(convert, ['CelsiustoFahrenheit']))(value);
+  }
 }
 
 export default update;

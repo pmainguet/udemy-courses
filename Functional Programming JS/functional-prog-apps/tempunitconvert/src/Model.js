@@ -1,7 +1,7 @@
 const initModel = {
-    leftValue: 0,
+    leftValue: 32,
     leftUnit: 'Celsius',
-    rightValue: 32,
+    rightValue: 0,
     rightUnit: 'Fahrenheit'
 };
 

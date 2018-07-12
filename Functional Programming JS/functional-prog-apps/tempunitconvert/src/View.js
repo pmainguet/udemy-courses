@@ -19,6 +19,7 @@ import {
   changeRightMsg,
 } from './Update';
 
+const UNITS = ['Celsius', 'Fahrenheit', 'Kelvin'];
 
 function view(dispatch, model) {
   const {
@@ -27,6 +28,7 @@ function view(dispatch, model) {
     rightValue,
     rightUnit
   } = model;
+
   return div({
     className: 'mw6 center'
   }, [
@@ -34,15 +36,15 @@ function view(dispatch, model) {
       className: 'f2 pv2 bb'
     }, 'Temperature Unit Converter'),
     div({
-      className: 'cf ph2-ns'
+      className: 'flex items-center justify-center ph2-ns'
     }, [
-      fieldSet('bn fl w-100 w-third-ns pa2', leftValue, leftUnit, ['Celsius', 'Fahrenheit'], e => dispatch(callback(changeLeftMsg, e))),
+      fieldSet('bn fl w-100 w-third-ns pa2', leftValue, leftUnit, e => dispatch(callback(changeLeftMsg, e))),
       div({
-        className: 'fl w-100 w-third-ns pa2'
+        className: 'fl w-100 w-third-ns pa2 tc'
       }, '='),
-      fieldSet('bn fl w-100 w-third-ns pa2', rightValue, rightUnit, ['Celsius', 'Fahrenheit'], e => dispatch(callback(changeRightMsg, e)))
-    ]),
-    pre(JSON.stringify(model, null, 2)),
+      fieldSet('bn fl w-100 w-third-ns pa2', rightValue, rightUnit, e => dispatch(callback(changeRightMsg, e)))
+    ])
+    // pre(JSON.stringify(model, null, 2)),
   ]);
 }
 
@@ -63,7 +65,8 @@ function fieldSet(className, inputValue, unitValue, options, onchange) {
 
 function fieldInput(value, oninput) {
   return input({
-    className: 'fl w-100 mv2 pv2',
+    className: 'tc fl w-100 mv2 pa2 input-reset ba',
+    type: 'text',
     oninput,
     value
   })
@@ -71,12 +74,12 @@ function fieldInput(value, oninput) {
 
 function fieldSelect(options, optionSelected, onclick) {
   return select({
-    className: 'fl w-100 mv2 pv2',
+    className: 'tc fl w-100 pa2 ba input-reset br1 bg-white ba b--black',
     onclick
   }, R.map(e => option({
     value: e,
     selected: optionSelected === e
-  }, e), options))
+  }, e), UNITS))
 }
 
 export default view;
