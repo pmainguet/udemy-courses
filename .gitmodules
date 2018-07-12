@@ -1,0 +1,3 @@
+[submodule "counter"]
+	path = "Functional Programming JS/functional-prog-apps/counter"
+	url = git@github.com:pmainguet/functional-counter-js.git
