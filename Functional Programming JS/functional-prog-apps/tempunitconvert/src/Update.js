@@ -1,132 +1,93 @@
 import * as R from 'ramda';
 
-export const MSGS = {
-  LEFT_VALUE_INPUT: 'LEFT_VALUE_INPUT',
-  RIGHT_VALUE_INPUT: 'RIGHT_VALUE_INPUT',
-  LEFT_UNIT_CHANGED: 'LEFT_UNIT_CHANGED',
-  RIGHT_UNIT_CHANGED: 'RIGHT_UNIT_CHANGED',
-};
-
-export function leftValueInputMsg(leftValue) {
-  return {
-    type: MSGS.LEFT_VALUE_INPUT,
-    leftValue,
-  };
+const MSGS = {
+  CHANGE_LEFT: 'CHANGE__LEFT',
+  CHANGE_RIGHT: 'CHANGE__RIGHT',
 }
 
-export function rightValueInputMsg(rightValue) {
+export function changeLeftMsg(leftValue, leftUnit) {
   return {
-    type: MSGS.RIGHT_VALUE_INPUT,
-    rightValue,
-  };
-}
-
-export function leftUnitChangedMsg(leftUnit) {
-  return {
-    type: MSGS.LEFT_UNIT_CHANGED,
-    leftUnit,
-  };
-}
-
-export function rightUnitChangedMsg(rightUnit) {
-  return {
-    type: MSGS.RIGHT_UNIT_CHANGED,
-    rightUnit,
-  };
-}
-
-const toInt = R.pipe(parseInt, R.defaultTo(0));
-
-function update (msg, model) {
-  switch (msg.type) {
-    case MSGS.LEFT_VALUE_INPUT: {
-      if (msg.leftValue === '')
-        return { ...model, sourceLeft: true, leftValue: '', rightValue: '' };
-      const leftValue = toInt(msg.leftValue);
-      return convert({ ...model, sourceLeft: true, leftValue });
-    }
-    case MSGS.RIGHT_VALUE_INPUT: {
-      if (msg.rightValue === '')
-        return { ...model, sourceLeft: false, leftValue: '', rightValue: '' };
-      const rightValue = toInt(msg.rightValue);
-      return convert({ ...model, sourceLeft: false, rightValue });
-    }
-    case MSGS.LEFT_UNIT_CHANGED: {
-      const { leftUnit } = msg;
-      return convert({ ...model, leftUnit });
-    }
-    case MSGS.RIGHT_UNIT_CHANGED: {
-      const { rightUnit } = msg;
-      return convert({ ...model, rightUnit });
+    type: MSGS.CHANGE_LEFT,
+    payload: {
+      leftValue,
+      leftUnit
     }
   }
-  return model;
 }
 
-
-function round(number) {
-  return Math.round(number * 10) / 10;
+export function changeRightMsg(rightValue, rightUnit) {
+  return {
+    type: MSGS.CHANGE_RIGHT,
+    payload: {
+      rightValue,
+      rightUnit
+    }
+  }
 }
 
-function convert(model) {
-  const { leftValue, leftUnit, rightValue, rightUnit } = model;
-  
-  const [fromUnit, fromTemp, toUnit ] = 
-    model.sourceLeft
-    ? [leftUnit, leftValue, rightUnit]
-    : [rightUnit, rightValue, leftUnit];
-    
-  const otherValue = R.pipe(
-    convertFromToTemp, 
-    round,
-  )(fromUnit, toUnit, fromTemp);
-
-  return model.sourceLeft
-    ? { ...model, rightValue: otherValue }
-    : { ...model, leftValue: otherValue };
+function update(msg, model) {
+  const {
+    leftValue,
+    rightValue,
+    leftUnit,
+    rightUnit
+  } = model;
+  switch (msg.type) {
+    case MSGS.CHANGE_LEFT:
+      if (msg.payload.leftUnit === rightUnit) {
+        return { ...model,
+          leftValue: msg.payload.leftValue,
+          leftUnit: msg.payload.leftUnit,
+          rightValue: msg.payload.leftValue,
+        }
+      } else {
+        if (msg.payload.leftUnit === 'Celsius') {
+          return { ...model,
+            leftValue: msg.payload.leftValue,
+            leftUnit: msg.payload.leftUnit,
+            rightValue: convertCtoF(msg.payload.leftValue),
+          }
+        } else if (leftUnit === 'Fahrenheit') {
+          return { ...model,
+            leftValue: msg.payload.leftValue,
+            leftUnit: msg.payload.leftUnit,
+            rightValue: convertFtoC(msg.payload.leftValue),
+          }
+        }
+      }
+    case MSGS.CHANGE_RIGHT:
+      if (leftUnit === msg.payload.rightUnit) {
+        return { ...model,
+          rightValue: msg.payload.rightValue,
+          rightUnit: msg.payload.rightUnit,
+          leftValue: msg.payload.rightValue
+        }
+      } else {
+        if (leftUnit === 'Celsius') {
+          return { ...model,
+            rightValue: msg.payload.rightValue,
+            rightUnit: msg.payload.rightUnit,
+            leftValue: convertCtoF(msg.payload.rightValue),
+          }
+        } else if (leftUnit === 'Fahrenheit') {
+          return { ...model,
+            rightValue: msg.payload.rightValue,
+            rightUnit: msg.payload.rightUnit,
+            leftValue: convertFtoC(msg.payload.rightValue),
+          }
+        }
+      }
+    default:
+      return model;
+  }
 }
 
-function convertFromToTemp(fromUnit, toUnit, temp) {
-  const convertFn = R.pathOr(
-    R.identity, 
-    [fromUnit, toUnit], 
-    UnitConversions);
-    
-  return convertFn(temp);
+function convertCtoF(value) {
+  return value * 9 / 5 + 32
 }
 
-function FtoC(temp) {
-  return 5 / 9 * (temp - 32);
+function convertFtoC(value) {
+  return (value - 32) * 5 / 9
 }
-
-function CtoF(temp) {
-  return 9 / 5 * temp + 32;
-}
-
-function KtoC(temp) {
-  return temp - 273.15;
-}
-
-function CtoK(temp) {
-  return temp + 273.15;
-}
-
-const FtoK = R.pipe(FtoC, CtoK);
-const KtoF = R.pipe(KtoC, CtoF);
-
-const UnitConversions = {
-  Celsius: {
-    Fahrenheit: CtoF,
-    Kelvin: CtoK,
-  },
-  Fahrenheit: {
-    Celsius: FtoC,
-    Kelvin: FtoK,
-  },
-  Kelvin: {
-    Celsius: KtoC,
-    Fahrenheit: KtoF,
-  },
-};
 
 export default update;
