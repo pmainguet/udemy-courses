@@ -1,87 +1,77 @@
 import * as R from 'ramda';
 import hh from 'hyperscript-helpers';
-import { h } from 'virtual-dom';
+import {
+  h
+} from 'virtual-dom';
 
-import { 
-  billAmountInputMsg,
-  tipPercentInputMsg 
-} from './Update';
-
-const { 
-  div, 
-  h1, 
-  label, 
-  input, 
-  pre 
+const {
+  div,
+  h1,
+  pre,
+  input,
+  label,
+  p
 } = hh(h);
 
-const round = places =>
-  R.pipe(
-    num => num * Math.pow(10, places),
-    Math.round,
-    num => num * Math.pow(10, -1 * places),
-  );
-
-const formatMoney = R.curry(
-  (symbol, places, number) => {
-    return R.pipe(
-      R.defaultTo(0),
-      round(places),
-      num => num.toFixed(places),
-      R.concat(symbol),
-    )(number);
-  }
-);
-
-function calcTipAndTotal(billAmount, tipPercent) {
-  const bill = parseFloat(billAmount);
-  const tip = bill * parseFloat(tipPercent) / 100 || 0;
-  return [tip, bill + tip];
-}
-
-function inputSet(name, value, oninput) {
-  return div({ className: 'w-40' }, [
-    label({ className: 'db fw6 lh-copy f5' }, name),
-    input({
-      className: 'border-box pa2 ba mb2 tr w-100',
-      type: 'text',
-      value,
-      oninput,
-    }),
-  ]);
-}
-
-function calculatedAmounts(tip, total) {
-  return div({ className: 'w-40 b bt mt2 pt2' }, [
-    calculatedAmount('Tip:', tip),
-    calculatedAmount('Total:', total),
-  ]);
-}
-
-function calculatedAmount(description, amount) {
-  return div({ className: 'flex w-100' }, [
-    div({ className: 'w-50 pv1 pr2' }, description),
-    div({ className: 'w-50 tr pv1 pr2' }, amount),
-  ]);
-}
+import {
+  billChangeMsg,
+  tipChangeMsg
+} from './Update';
 
 function view(dispatch, model) {
-  const { billAmount, tipPercent } = model;
-
-  const [tip, total] = calcTipAndTotal(billAmount, tipPercent);
-
-  const toMoney = formatMoney('$', 2);
-
-  return div({ className: 'mw6 center' }, [
-    h1({ className: 'f2 pv2 bb' }, 'Tip Calculator'),
-    inputSet('Bill Amount', billAmount, e =>
-      dispatch(billAmountInputMsg(e.target.value)),
-    ),
-    inputSet('Tip %', tipPercent, e =>
-      dispatch(tipPercentInputMsg(e.target.value)),
-    ),
-    calculatedAmounts(toMoney(tip), toMoney(total)),
+  const {
+    billAmount,
+    tipPercent,
+    tipAmount,
+    totalAmount
+  } = model;
+  return div({
+    className: 'mw6 center'
+  }, [
+    h1({
+      className: 'f2 pv2 bb'
+    }, 'Tip Calculator'),
+    inputView('Bill Amount', billAmount, e => dispatch(billChangeMsg(e.target.value))),
+    inputView('Tip Percent', tipPercent, e => dispatch(tipChangeMsg(e.target.value))),
+    resultView(tipAmount, totalAmount)
+    //pre(JSON.stringify(model, null, 2)),
   ]);
+}
+
+function inputView(labelValue, value, oninput) {
+  return div({
+    className: 'bn w-100 flex'
+  }, [
+    label({
+      className: 'w-40 pa2 mv2',
+    }, labelValue),
+    input({
+      className: 'w-60 pa2 mv2',
+      type: 'text',
+      value,
+      oninput
+    })
+  ])
+}
+
+function textView(labelValue, value) {
+  return div({
+    className: 'bn w-100 flex'
+  }, [
+    p({
+      className: 'w-40 pa2 mv2'
+    }, labelValue),
+    p({
+      className: 'w-60 pa2 mv2'
+    }, value)
+  ]);
+}
+
+function resultView(tipAmount, totalAmount) {
+  return div([
+    textView('Tip Amount:', `${tipAmount} €`),
+    textView('Total Amount:', `${totalAmount} €`)
+  ])
 }
 
 export default view;

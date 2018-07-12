@@ -1,7 +1,7 @@
 {
-  "name": "tempunitofmeasure",
+  "name": "caloriecounter",
   "version": "1.0.0",
-  "description": "Temperature Unit Of Measure Convert",
+  "description": "Calorie Counter App",
   "scripts": {
     "start": "webpack-dev-server --open"
   },

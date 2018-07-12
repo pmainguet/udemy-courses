@@ -1,6 +1,8 @@
 const initModel = {
-  billAmount: '',
-  tipPercent: '',
+    billAmount: '',
+    tipPercent: '',
+    tipAmount: '',
+    totalAmount: '',
 };
 
 export default initModel;
