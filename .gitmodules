@@ -1,3 +1,6 @@
 [submodule "counter"]
 	path = "Functional Programming JS/functional-prog-apps/counter"
 	url = git@github.com:pmainguet/functional-counter-js.git
+[submodule "nonpersistentcrud"]
+	path = "Functional Programming JS/functional-prog-apps/caloriecounter"
+	url = git@github.com:pmainguet/functional-non-persistent-crud.git
