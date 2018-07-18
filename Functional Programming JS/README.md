@@ -277,7 +277,7 @@ Source: https://www.udemy.com/functional-programming-for-beginners-with-javascri
 
 # <a name="d"></a> D - HTML and CSS
 
-## Tachyons CSS Library
+## Tachyons CSS Library
 
 It is usually pretty hard to maintain CSS. Tachyons is a css framework that does not have component classes, instead you combine simple CSS rules to get what you need.
 
@@ -311,7 +311,7 @@ It is usually pretty hard to maintain CSS. Tachyons is a css framework that does
 - Imperative => Structured => Procedural => OOP + Event Driven
 - Declarative => Functional
 
-## Declarative Programming
+## Declarative Programming
 
 - Declarative: Defines program logic but not detailed control flow - spreadsheets, SQL, regular expressions, CSS, SPARQL.
 
