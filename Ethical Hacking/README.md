@@ -1,5 +1,7 @@
 Ethical Hacking
 
+Link https://www.udemy.com/learn-ethical-hacking-from-scratch
+
 # Install Kali
 
 - Download Virtualbox
@@ -41,25 +43,50 @@ Ethical Hacking
     * as soon as packets pass through access point, individual MACs are changed into Access Point MAC (so it is not possible to straighforward trace an individual MAC address on internet)
     * It is important to change the MAC address to increase anonymity, impersonate other devices, and bypass filters
 * To change the MAC address:
-    * ifconfig > ether is the MAC address of the virtual interface > wlan0
-    * disable the interface: ifconfig wlan0 down > ifconfig wlan0 hw ether 00:11:22:33:44:55 > ifconfig wlan0 up
+            
+            ifconfig
+            ether is the MAC address of the virtual interface
+            wlan0
+    
+    * disable the interface:
+            
+            ifconfig wlan0 down
+            ifconfig wlan0 hw ether 00:11:22:33:44:55
+            ifconfig wlan0 up
+    
     * We only changing in memory so when the computer is restarted, MAC address come back to original
 
 ## Wireless Modes - Be able to get all packets even if we don't have the WEP key
 
 * By default, a device only receives packets that have its MAC address in the Destination MAC
 * But in wireless mode, we can capture them anyway: change the mode to MONITOR MODE
-** Managed: default mode, only capture packets that has its MAC address as destination MAC
-* iwconfig to check Mode > ifconfig wlan0 down > airmon-ng check kill (kill all processes that use the interface) > iwconfig wlan0 mode monitor > ifconfig wlan0 up
-* Another method: ifconfig wlan0 down > airmon-ng check kill > airmon-ng start wlan0 > iwconfig
+    * Managed: default mode, only capture packets that has its MAC address as destination MAC
+            
+            iwconfig to check Mode
+            ifconfig wlan0 down
+            airmon-ng check kill (kill all processes that use the interface)
+            iwconfig wlan0 mode monitor
+            ifconfig wlan0 up
+
+* Another method:
+
+        ifconfig wlan0 down
+        airmon-ng check kill
+        airmon-ng start wlan0
+        iwconfig
 
 # Preconnection Attacks (even before connecting to anything)
 
-* airodump-ng to gain info on the network we want to target
+* gain info on the network we want to target
+
+        airodump-ng
 
 ## Packet sniffing - using airodump-ng
 
-* airodump-ng wlan0 => discover all networks around me with detailed info
+* discover all networks around me with detailed info
+
+        airodump-ng wlan0
+
     * BSSID: MAC ADDRESS of the target network (the router)
     * PWR: the power of the network (higher number)
     * Beacons: frames sent by the network to broadcast its existence (even if it's hidden)
@@ -85,7 +112,10 @@ Ethical Hacking
 
 ## Sniff only a specific network
 
-* airodump-ng --bssid A4:3E:51:3A:DC:35 --channel 1 --write test wlan0 => tell airodump to only sniff one network on a specific channel and to write result in a file named test. It will show the info of the network as before + list of devices connected
+* Tell airodump to only sniff one network on a specific channel and to write result in a file named test. It will show the info of the network as before + list of devices connected
+
+        airodump-ng --bssid A4:3E:51:3A:DC:35 --channel 1 --write test wlan0
+
     * BSSID: MAC address of the network
     * STATION: MAC address of the device
     * PWR: Signal strength
@@ -100,7 +130,6 @@ Ethical Hacking
 
 * Disconnect any client from any network even if we don't have the encryption key
 * we pretend to be the client that we want to disconnect (by spoofing its MAC address) and we send a disconnect packet to the router, and then we impersonate the router and send a deauthentication packet to the client.
-
 
         aireplay-ng --deauth <big number so client keeps being disconnect for a long time> -a <BSSID of network> -c <BSSID of client> wlan0
 
@@ -171,7 +200,7 @@ Ethical Hacking
 
 ### Crack the actual WPA encryption - capture handshake
 
-* The only pacjets that can aid with the cracking process are the handshake packets, 4 packets sent when a client connects to the network
+* The only packets that can aid with the cracking process are the handshake packets, 4 packets sent when a client connects to the network
 
 1. Capture the handshake
 
