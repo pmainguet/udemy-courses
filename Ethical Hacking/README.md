@@ -14,6 +14,11 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 - Connect to Kali (root / toor)
 - Take a snapshot: Tools > Snapshots > Take > Name / Description // Convenient if you mess something up or if you need to downgrade a library for example
 
+# Virtual Machine to attack
+
+* Windows virtual machine
+* Metasploitable: vulnerable linux distro to test server attack, use the existing virtual disk downloaded (user and password msfadmin)
+
 # Network Hacking
 
 3 types:
@@ -67,6 +72,12 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
             airmon-ng check kill (kill all processes that use the interface)
             iwconfig wlan0 mode monitor
             ifconfig wlan0 up
+
+NOTE: in case you don't see any wireless or wifi connexions
+
+        service NetworkManager start
+
+NOTE 2: If networks don't show up but interface is detected, try to put USB mode to USB3 in Virtualbox settings
 
 * Another method:
 
@@ -241,3 +252,176 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 
 # Post-connection Attacks
 
+## Information Gathering on devices connected to the network
+
+* display all connected devices on the network where the machine is connected to (specify a range of ip to look for - from 10.0.2.1 to 10.0.2.254)
+
+        ifconfig => to get machine IP on the network
+        netdiscover -r 10.0.2.1/24
+
+* NOTE: you may have to disconnect NAT network in order to use netdiscover on wifi adapter
+
+* Use nmap / zenmap (graphical interface) to get more information on an IP range: open ports, running services, OS, Connected clients ...
+
+        nmap -v -sn 192.168.0.1/24
+
+* NOTE: if nothing shows (all hosts are down) try to run nmap with -Pn (option not to perform host discovery). If you see that all ports are filtered it means that firewall is filtering everything.
+
+## MITM (Man in the Middle) Attacks
+
+* intercept connexion between victim and resources (internet). Different methods exists:
+        * ARP SPOOFFING ATTACKS: redirect flow of packets so it flows through attacker computers
+        * FAKE ACCESS POINT (Honeypot)
+
+## ARP SPOOFING ATTACKS
+
+### ARP: Address Resolution Protocol
+        * Not very secure
+        * Simple protocol used to map IP address to a machine via its MAC address
+        * To communicate to as specific computer connected to a network
+                1. The emiter broadcast to all devices an ARP REQUEST asking "Who has 10.0.2.6 IP address ?"
+                2. The device with the target IP will send an ARP RESPONSE saying "I have xxx IP and my MAC address is xxx"
+                3. The emiter will have the MAC address of the device and use it to communicate with it
+        * Each computer have an IP table which links IP addresses on the same network to their MAC addresses
+        * To see an IP table type
+
+                        arp -a
+
+### Generalities
+
+* We send an ARP response to the router that said that I am the targeted device and another ARP response to the targeted computer saying that you are the router
+* This way we change the MAC address in the IP tables of the router and the targeted device in order to associate IPs with our MAC address
+* Anytime the victim send a request it goes through my computer than forward it to the router and vice versa for the response
+* IT IS POSSIBLE BECAUSE:
+        * Clients accept responses even if the did not send a request
+        * Clients trust response without any form of verification
+* For https website, usually mitmf is not able to inject JS. There is an advance method that necessitates to code (Python)
+
+### Use arpspoof to become Man In The Middle
+
+* Need to launch both ways so to spoof router and victim
+
+        arpspoof -i <interface> )t <clientIP / gateway IP> <gateway IP / client IP>
+
+* Need to enable port forwarding (routing) on attacker machine, by default deactivated (security feature of Linux)
+
+        echo 1 > /proc/sys/net/ipv4/ip_forward
+
+### Use MITMf
+
+* Framework to run MITM attacks
+* Can be used to:
+        * ARP spoof targets (redirect the flow of packets)
+        * Sniff data (urls, username, passwords)
+        * Bypass HTTPS
+        * Redirect domain requests (DNS spoofing)
+        * Inject code in loaded pages
+        * ...
+
+                mitmf --arp --spoof -i <interface> --target <clientIP> --gateway <gatewayIP>
+
+* The tool starts automatically a sniffer, that catches data that it is send by the devices. Try with vulnweb.com
+* NOTE: might need to deinstall and reinstall older version of Twisted library
+
+### Bypass HTTPS
+
+* Previous attack only work agains HTTP requests, because data in HTTP is sent as plain text. MITM can thus read and edit requests and responses
+* HTTPS encrypt HTTP using TLS (Transport Layer Security) or SSL (Secure Sockets Layer), very difficult to break
+* Easiest solution is to downgrade HTTPS to HTTP, ie present the HTTP version of a website instead of the HTTPS version.
+* Use SSLstrip, automatically loaded with mitmf
+* NOTE: you need to lauch arpspoof and port forwarding alongside mitmf in order to be able to downgrade traffic
+* Exception: website that use HSTS
+        * HTTP Strict Transport Security
+        * Used by Google, Facebook, Paypal ...
+        * Modern browsers are hard-coded to only load a list of HSTS websites over https => no practical method to bypass at the moment
+
+### DNS spoofing
+
+* DNS (Domain Name System) is a server that translates domain names to IP addresses
+* As a Man in The Middle we can run a DNS server on our computer and redirect a user to another website
+
+        //start apache server
+        service apache2 start
+        
+        //edit DNS
+        leafpad /etc/mitmf/mitmf.conf
+
+        //for example, this will redirect all *.live.com address to the current computer
+
+        [[[A]]]     # Queries for IPv4 address records
+		*.thesprawl.org=192.168.178.27
+		*.live.com=10.0.2.15
+
+        //launch mitmf with dns option
+
+        mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --dns
+
+### Capturing screen of target and inject keylogger
+
+        mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --screen
+
+### Injecting custom JS or HTML code
+
+        mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --inject
+
+* Code can be:
+        * stored in a file --js-file or --html-file
+        * stored online --js-url or --html-url
+        * supplied through command line --js-payload or --html-payload
+
+## Using mitmf against real network
+
+* use the same way as before
+* Check if Kali machine is only connected with one interface (disconnect ethernet interface)
+
+## Wireshark and use with mitmf
+
+* Wireshark is a network protocol analyser
+* Designed to help network admin to keep track of what is happening in their network
+* It logs packets that flow through the selected interface and analyse all packets
+* It the case of a MITM attack, it only sniff packet that go through the attacker computer, not the network or the targeted machine itself
+
+### Analyse packets
+
+* open file or click on interface to listen to packet
+* type "http" to filter http packets
+* to get form data, filter with http and look for POST request and then HTTP form info
+* Filter packet content via Edit > Find Packet > Packet Details > String
+* Filter cookies via http.cookie, then use the cookie info to log in
+
+## FAKE ACCESS POINT
+
+* Fake access point need to have to interface, the upstream one to connect to the internet (via eth0 for example) and the downsteam one that supports AP mode
+* You can set up manually the fake access point (advanced) or you can use the Mana-Toolkit
+        * it runs rogue access point attacks
+        * Can automatically configure and create fake AP
+        * Can automatically sniff data
+        * Can automatically bypass https
+* 3 main start scripts
+        * start-noupstream.sh => stars fake AP with no internet access
+        * start-nat-simple.sh => starts fake AP with internet access
+        * start-nat-full.sh => starts fake AP with internet access and automatically stars sniffing data, bypass https
+
+* broadcast interface needs to be in Managed mode and not connected to any network
+* install mana-toolkit and edit /etc/mana-toolkit/hostapd-mana.conf if needed (SSID, channel ...) 
+* edit the sh script leafpad /usr/share/mana-toolkit/run-mana/start-nat-simple.sh
+
+## Detecting ARP Poisoning/Spoofing attacks
+
+* First solution: Check ARP table on victim computer, not very handy
+* Second solution: Use Xarp => automatically monitor ARP tables
+* Third solution: Use Wireshark: Go to Preferences > ARP > Detect ARP request storms
+
+## Preventing ARP poisoning attacks
+
+* Change the type of ARP entry for the router from dynamic to static, which forbid ARP poisoning => manual
+
+# Gaining Access to any devices
+
+* 2 main approaches:
+        * Server side
+                * Do not require user interaction, all we need is a target IP
+                * Start with info gathering, find open ports, OS, installed services and work from there
+        * Client side
+                * Require user interaction, such as opening a file, a link
+                * Info gathering is key here, create a trojan, use social engineering to get the target to run it
