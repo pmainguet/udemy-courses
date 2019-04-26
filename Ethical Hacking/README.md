@@ -422,6 +422,34 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
         * Server side
                 * Do not require user interaction, all we need is a target IP
                 * Start with info gathering, find open ports, OS, installed services and work from there
+                * Very simple to get IP if target is on the same network (netdiscover or zenmap) otherwise a simple ping will give IP
+                * Tricky if target is a personal computer accessing network through router, client side attacks or reverse connection more effective
         * Client side
                 * Require user interaction, such as opening a file, a link
                 * Info gathering is key here, create a trojan, use social engineering to get the target to run it
+
+## Server Side Attacks
+
+* try default password (ssh iPad case)
+* Services might be misconfigured such as the r service, ports 512, 513, 514
+* Some might even contain a back door
+* Code execution vulnerabilities
+
+### Exploit misconfiguration
+
+* Use zenmap on target IP to get information on running programs and vulnerabilities => Google any programs to see if they have vulnerabilities or known exploits
+* Example: rsh-client to connect remotely via root with misconfigured authorization
+
+### Exploit backdoors
+
+* metasploit framework: exploit development and execution tool, can be used to carry out penetration testing (port scans, service ID, post exploitation tasks)
+
+                msfconsole - (runs metasploit console)
+                use [something] - something can be exploits, payloads, auxiliaries, options
+                show [something]
+                set [option] [value]
+                exploit - runs the current task
+
+### Exploit Code Execution Vulnerabilities
+
+
