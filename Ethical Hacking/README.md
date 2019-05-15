@@ -5,62 +5,67 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 # SUMMARY
 
 1. Setup lab: Kali, network interface, monitor mode
+
 2. Access Phase - Gaining access to WIFI network
-        1. WEP
-
-                * busy network
+    1. WEP
+        * busy network
                               
-                        airodump-ng (capture a large number of packets and related IVs that are sent with the data)
-                        aircrack-ng (analyze capture IVS)
+                airodump-ng (capture a large number of packets and related IVs that are sent with the data)
+                aircrack-ng (analyze capture IVS)
 
-                * idle network
-                        1. Force the router to generate new IVs via Fake Authentication
+        * idle network
+            1. Force the router to generate new IVs via Fake Authentication
 
-                                                aireplay-ng --fakeauth
+                aireplay-ng --fakeauth
 
-                        2. Use an ARP request replay attack to generate new IVs
+            2. Use an ARP request replay attack to generate new IVs
 
-                                                aireplay-ng --arpreplay
+                aireplay-ng --arpreplay
 
-        2. WPA (stronger encryption)
-                1. Use misconfigured WPS functionality
-                2. Crack encryption via handshake: capture handshake, wordlist attack that generate handshake from a list of word and compare each of them to real handshakes
+    2. WPA (stronger encryption)
+        1. Use misconfigured WPS functionality
 
-                                aircrack-ng
+        2. Crack encryption via handshake: capture handshake, wordlist attack that generate handshake from a list of word and compare each of them to real handshakes
+
+                aircrack-ng
 
 3. Exploit phase - Post-connection attacks
+    1. Info gathering: ifconfig / netdiscover / nmap
+    2. MITM attacks
+        1. ARP Spoofing / Poisoning: meddle with ARP tables to trick access point and target that they are the target/access point
+            1. use arpspoof
 
-        1. Info gathering: ifconfig / netdiscover / nmap
-        2. MITM attacks
-                1. ARP Spoofing / Poisoning: meddle with ARP tables to trick access point and target that they are the target/access point
-                        1. use arpspoof
-                        2. use MITMf (no longer maintained) that allows to ARP spoof, sniff data, bypass HTTPS, DNS spoofing, inject code, capture screen ...
-                        3. use bettercap (current solution) that allows to ARP spoof, sniff data, bypass HTTPS/HSTS, DNS spoofing, inject code, capture screen ...
-                2. Fake Access Point
-        3. Server-side attacks: need to be MITM + hack devices via vulnerabilities
-                1. exploit misconfiguration: zenmap to get info on running programs and ports
-                2. exploit backdoors
-                        1. metasploit (framework) to carry out penetration testing (port scans, ...)
+            2. use MITMf (no longer maintained) that allows to ARP spoof, sniff data, bypass HTTPS, DNS spoofing, inject code, capture screen ...
+            
+            3. use bettercap (current solution) that allows to ARP spoof, sniff data, bypass HTTPS/HSTS, DNS spoofing, inject code, capture screen ...
+        
+        2. Fake Access Point
+    3. Server-side attacks: need to be MITM + hack devices via vulnerabilities
+        1. exploit misconfiguration: zenmap to get info on running programs and ports
+
+        2. exploit backdoors
+            1. metasploit (framework) to carry out penetration testing (port scans, ...)
 
                                         msfconsole -> use -> set -> exploit
 
-                        2. Nexpose (framework)
-                3. exploit code execution vulnerabilities: same as before + payload
+            2. Nexpose (framework)
+        
+        3. exploit code execution vulnerabilities: same as before + payload
+        
         4. Client-side attacks
-                1 Via File
-                        * Create undetectable backdoor: use Veil-evasion to create backdoor with meterpreter and reverse connection payload. Check way to migrate to more stable process and run backdoor as a service to maintain connection even after restart
-                        * Backdoor file that user will want: Au2Exe to generate script and right-to-left trick to backdoor any type of file
-                        * Deliver backdoored file
-                                1. Backdoor on the fly with BDFPROXY and MITM attack -> not really a client side attack as we need to be MITM
-                                2. Social engineering to impersonate contact and trick user to get a file and download backdoor
-                                        * Maltego (Information Gathering Tool) to gather info
-                                        * Spoof email via sendemail and sendgrid SMTP service
-                2. Via URL: BeEF (Framework) launch attacks on a hooked target via URL
+            1. Via File
+                * Create undetectable backdoor: use Veil-evasion to create backdoor with meterpreter and reverse connection payload. Check way to migrate to more stable process and run backdoor as a service to maintain connection even after restart
+                * Backdoor file that user will want: Au2Exe to generate script and right-to-left trick to backdoor any type of file
+                * Deliver backdoored file
+                    1. Backdoor on the fly with BDFPROXY and MITM attack -> not really a client side attack as we need to be MITM
+                    2. Social engineering to impersonate contact and trick user to get a file and download backdoor
+                        * Maltego (Information Gathering Tool) to gather info
+                        * Spoof email via sendemail and sendgrid SMTP service
+            2. Via URL: BeEF (Framework) launch attacks on a hooked target via URL
 
 4. Post exploitation
-
-        1. meterpreter to control target
-        2. pivoting: using target to gain access to other devices => use Autoroute module from
+    1. meterpreter to control target
+    2. pivoting: using target to gain access to other devices => use Autoroute module from
 
 5. Website hacking                                        
 
@@ -96,8 +101,8 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 # Protection against attacks
 
 * MITM:
-        * detecting: Xarp / manually check ARP table (arp -a) / Wireshark
-        * preventing: change ARP entry for the router from dynamic to static
+    * detecting: Xarp / manually check ARP table (arp -a) / Wireshark
+    * preventing: change ARP entry for the router from dynamic to static
 * backdoor: only download from HTTPS + check file MD5 after download
 * detecting trojans: check properties of a file / run the file on a virtual machine and check resources / use hybrid-analysis.com sandbox service
 
