@@ -29,7 +29,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "faker": "^3.1.0",
     "js-image-generator": "^1.0.2",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.19",
     "react": "^0.14.3",
     "react-addons-css-transition-group": "^15.0.2",
     "react-dom": "^0.14.3",
